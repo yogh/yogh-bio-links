@@ -1,0 +1,47 @@
+.wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wp--style--block-gap, .5em);
+  align-items: center;
+}
+
+.yoghbiolinks {
+
+  .wp-block-button {
+
+    // stylelint-disable selector-class-pattern
+    .wp-block-button__link {
+      font-size: var(--button--font-size);
+      border: 0;
+      border-radius: var(--button--border-radius);
+      transition: transform .15s cubic-bezier(0, .2, .5, 3) 0s;
+
+      &:active,
+      &:focus,
+      &:hover,
+      &:visited {
+        color: #2a3235;
+      }
+
+      &:hover {
+        opacity: 1;
+        transform: scale(1.02);
+      }
+    }
+
+    &:not(.is-style-outline) .wp-block-button__link:not(:hover):not(:active):not(.has-background) {
+      color: var(--#{$variable-prefix}body-bg);
+      background-color: var(--#{$variable-prefix}body-color);
+    }
+
+    &:not(.is-style-outline) .wp-block-button__link {
+
+      &:hover,
+      &:active {
+        color: var(--#{$variable-prefix}body-bg) !important; // stylelint-disable-line declaration-no-important
+        background-color: var(--#{$variable-prefix}body-color) !important; // stylelint-disable-line declaration-no-important
+      }
+    }
+    // stylelint-enable selector-class-pattern
+  }
+}

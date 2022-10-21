@@ -1,0 +1,12 @@
+// HTML
+html {
+  font-size: initial;
+}
+
+// Body
+
+.yoghbiolinks-page {
+  padding-top: 4rem;
+  color: var(--#{$variable-prefix}body-color);
+  background-color: var(--#{$variable-prefix}body-bg);
+}

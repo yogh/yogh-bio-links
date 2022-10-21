@@ -1,5 +1,6 @@
+// stylelint-disable selector-no-qualifying-type, selector-class-pattern
 body.page-id-7 {
-    --wp--style--block-gap: 1rem;
+  --wp--style--block-gap: 1rem;
   --wp--preset--font-size--medium: 1rem;
   --wp--custom--typography--line-height--normal: 1.5;
 }
@@ -9,10 +10,10 @@ body.page-id-7 {
 }
 
 .page-id-7 h1 {
+  margin-bottom: 32px;
   font-family: var(--wp--preset--font-family--system-font);
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 32px;
 }
 
 .page-id-7 .wp-block-post-title + .wp-block-separator {
@@ -25,8 +26,8 @@ body.page-id-7 {
 }
 
 .page-id-7 .wp-block-button__link {
-  padding: calc(0.875em + 2px) calc(1.75em + 2px);
-  transition: transform 0.15s cubic-bezier(0, 0.2, 0.5, 3) 0s;
+  padding: calc(.875em + 2px) calc(1.75em + 2px);
+  transition: transform .15s cubic-bezier(0, .2, .5, 3) 0s;
 }
 
 .page-id-7 .wp-block-button__link:active,

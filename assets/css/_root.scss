@@ -1,0 +1,21 @@
+:root {
+  // Note: Custom variable values only support SassScript inside `#{}`.
+
+  // Root and body
+  --#{$variable-prefix}color-dark-gray: #{$body-bg};
+  --#{$variable-prefix}color-light-gray: #{$body-color};
+  --#{$variable-prefix}body-color: var(--#{$variable-prefix}color-light-gray);
+  --#{$variable-prefix}body-bg: var(--#{$variable-prefix}color-dark-gray);
+}
+
+body.yoghbiolinks-page { // stylelint-disable-line selector-no-qualifying-type
+  --wp--style--block-gap: 1rem;
+  --wp--preset--font-size--medium: 1rem;
+  --wp--custom--typography--line-height--normal: 1.5;
+  --global--font-size-base: 1rem;
+  --button--font-size: var(--global--font-size-base);
+  --button--font-weight: 400;
+  --button--padding-vertical: 1rem;
+  --button--padding-horizontal: calc(2 * var(--button--padding-vertical));
+  --button--border-radius: .875em;
+}

@@ -1,0 +1,123 @@
+# Copyright (C) 2022 Yogh
+# This file is distributed under the same license as the Yogh Bio Links plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Yogh Bio Links 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yogh-bio-links\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-10-19T23:56:22-03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: yogh-bio-links\n"
+
+#. Plugin Name of the plugin
+#: includes/customizer/class-yoghbl-customizer.php:61
+msgid "Yogh Bio Links"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://www.yogh.com.br/plugins/yogh-bio-links/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Creation of a page with links to the biography of social networks or others."
+msgstr ""
+
+#. Author of the plugin
+msgid "Yogh"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.yogh.com.br/"
+msgstr ""
+
+#: includes/admin/class-yoghbl-admin.php:45
+msgid "Yogh Bio Links Page"
+msgstr ""
+
+#: includes/class-yoghbl-install.php:172
+msgctxt "Page slug"
+msgid "biolinks"
+msgstr ""
+
+#: includes/class-yoghbl-install.php:173
+msgctxt "Page title"
+msgid "Bio Links"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer-control-slug.php:37
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:107
+msgid "Header"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:185
+msgid "Title"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:206
+msgid "Description"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:231
+msgid "Permalink"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:232
+msgid "URL Slug"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:279
+#: includes/customizer/class-yoghbl-customizer.php:299
+msgid "Links"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:324
+msgid "Colors"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:326
+msgid "Page Colors"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:354
+#: includes/customizer/class-yoghbl-customizer.php:419
+msgid "Background color"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:355
+msgid "Dark or bright color combination will be used to make easy for people to read."
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:379
+#: includes/customizer/class-yoghbl-customizer.php:442
+msgid "Text color"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:396
+msgid "Button Colors"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:458
+msgid "Footer"
+msgstr ""
+
+#. translators: %s: Plugin Name
+#: includes/customizer/class-yoghbl-customizer.php:477
+#: includes/yoghbl-template-functions.php:185
+msgid "Created with %s"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:488
+msgid "Credits text"
+msgstr ""
+
+#: includes/customizer/class-yoghbl-customizer.php:509
+msgid "Hide credits"
+msgstr ""

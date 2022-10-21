@@ -1,7 +1,7 @@
-=== Yogh Bio Link Generator ===
-Contributors: camaleaun
-Tags: comments, spam
-Requires at least: 4.5
+=== Yogh Bio Links ===
+Contributors: yogh, camaleaun
+Tags: links
+Requires at least: 5.8
 Tested up to: 6.0.2
 Requires PHP: 5.6
 Stable tag: 1.0.0

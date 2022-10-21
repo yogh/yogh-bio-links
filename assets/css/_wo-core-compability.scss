@@ -1,0 +1,5 @@
+/* WP Core compatibility */
+.wp-block-buttons > .wp-block-button.wp-block-button__width-100 { // stylelint-disable-line selector-class-pattern
+  flex-basis: 100%;
+  width: 100%;
+}

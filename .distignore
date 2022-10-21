@@ -40,3 +40,9 @@ node_modules
 *.sql
 *.tar.gz
 *.zip
+assets/css/mixins
+*.scss
+.cache
+.stylelintignore
+.stylelintrc
+includes/customizer/nav-menus
