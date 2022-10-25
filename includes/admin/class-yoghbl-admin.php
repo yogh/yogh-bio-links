@@ -83,17 +83,9 @@ class YoghBL_Admin {
 				}
 			}
 			if ( isset( $actions['edit'] ) ) {
-				$url = add_query_arg(
-					array(
-						'return' => urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ),
-						array( 'autofocus' => array( 'panel' => 'yoghbiolinks' ) ),
-					),
-					admin_url( 'customize.php' )
-				);
-
 				$actions['edit'] = sprintf(
 					'<a href="%s" aria-label="%s">%s</a>',
-					esc_url( $url ),
+					esc_url( yoghbl_edit_link() ),
 					esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $post->post_title ) ),
 					esc_html__( 'Edit' )
 				);

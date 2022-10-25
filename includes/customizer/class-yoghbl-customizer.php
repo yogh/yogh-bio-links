@@ -71,7 +71,7 @@ class YoghBL_Customizer {
 		);
 
 		$this->add_header_section( $wp_customize );
-		$this->add_links_section( $wp_customize );
+		$this->add_links_section_legacy( $wp_customize );
 		$this->add_colors_section( $wp_customize );
 		if ( 'yes' !== get_option( 'yoghbiolinks_only_color_bg', 'yes' ) ) {
 			$this->add_button_colors_section( $wp_customize );
@@ -98,6 +98,9 @@ class YoghBL_Customizer {
 				margin: 0px;
 				vertical-align: middle;
 				fill: currentcolor;
+			}
+			.js .customize-control-yoghbiolinks_link .menu-item-handle {
+				cursor: default;
 			}
 		</style>
 
@@ -315,11 +318,10 @@ class YoghBL_Customizer {
 	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
-	private function add_links_section_nav_menu( $wp_customize ) {
-		include_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/class-wp-customize-nav-menus.php';
+	private function add_links_section( $wp_customize ) {
+		include_once YOGHBL_ABSPATH . 'includes/customizer/links/class-yoghbl-customizer-links.php';
 
-		// require_once ABSPATH . WPINC . '/class-wp-customize-nav-menus.php';
-		$wp_customize->nav_menus = new WP_Customize_Nav_Menus( $wp_customize );
+		$wp_customize->yoghbiolinks_links = new YoghBL_Customizer_Links( $wp_customize );
 	}
 
 	/**
@@ -327,7 +329,19 @@ class YoghBL_Customizer {
 	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
-	private function add_links_section( $wp_customize ) {
+	private function add_links_section_nav_menu( $wp_customize ) {
+		include_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/class-wp-customize-nav-menus2.php';
+
+		// require_once ABSPATH . WPINC . '/class-wp-customize-nav-menus.php';
+		$wp_customize->nav_menus2 = new WP_Customize_Nav_Menus2( $wp_customize );
+	}
+
+	/**
+	 * Links section.
+	 *
+	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+	 */
+	private function add_links_section_legacy( $wp_customize ) {
 		$this->manager = $wp_customize;
 
 		$changeset = $this->manager->unsanitized_post_values();
@@ -361,7 +375,7 @@ class YoghBL_Customizer {
 			)
 		);
 
-		include_once YOGHBL_ABSPATH . 'includes/customizer/class-yoghbl-customizer-control-links.php';
+		include_once YOGHBL_ABSPATH . 'includes/customizer/links-legacy/class-yoghbl-customizer-control-links.php';
 
 		$wp_customize->add_setting(
 			'yoghbiolinks_links',
@@ -390,8 +404,8 @@ class YoghBL_Customizer {
 
 		$links = yoghbl_links();
 		if ( $links ) {
-			include_once YOGHBL_ABSPATH . 'includes/customizer/class-yoghbl-customizer-setting-link.php';
-			include_once YOGHBL_ABSPATH . 'includes/customizer/class-yoghbl-customizer-control-link.php';
+			include_once YOGHBL_ABSPATH . 'includes/customizer/links-legacy/class-yoghbl-customizer-setting-link.php';
+			include_once YOGHBL_ABSPATH . 'includes/customizer/links-legacy/class-yoghbl-customizer-control-link.php';
 		}
 		foreach ( array_values( $links ) as $i => $link ) {
 

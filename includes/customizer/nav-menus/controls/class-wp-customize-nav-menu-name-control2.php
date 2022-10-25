@@ -1,6 +1,6 @@
 <?php
 
-class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
+class WP_Customize_Nav_Menu_Name_Control2 extends WP_Customize_Control {
 
 	public $type = 'nav_menu_name';
 

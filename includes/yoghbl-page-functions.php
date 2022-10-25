@@ -39,3 +39,22 @@ function yoghbl_get_page_permalink( $page, $fallback = null ) {
 
 	return apply_filters( 'yoghbl_get_' . $page . '_page_permalink', $permalink );
 }
+
+function yoghbl_edit_link() {
+	return add_query_arg(
+		array(
+			'return' => urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ),
+			array( 'autofocus' => array( 'panel' => 'yoghbiolinks' ) ),
+		),
+		admin_url( 'customize.php' )
+	);
+}
+
+function yoghbl_get_edit_post_link_filter( $link, $post_id ) {
+	if ( yoghbl_get_page_id( 'biolinks' ) === $post_id ) {
+		$link = yoghbl_edit_link();
+	}
+
+	return $link;
+}
+add_filter( 'get_edit_post_link', 'yoghbl_get_edit_post_link_filter', 10, 2 );

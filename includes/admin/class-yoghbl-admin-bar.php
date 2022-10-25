@@ -49,13 +49,7 @@ class YoghBL_Admin_Bar {
 			}
 
 			$post_type_object = get_post_type_object( $current_object->post_type );
-			$edit_post_link   = add_query_arg(
-				array(
-					'return' => urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ),
-					array( 'autofocus' => array( 'panel' => 'yoghbiolinks' ) ),
-				),
-				admin_url( 'customize.php' )
-			);
+			$edit_post_link   = yoghbl_edit_link();
 			if ( $post_type_object
 				&& $edit_post_link
 				&& current_user_can( 'edit_post', $current_object->ID )

@@ -1,6 +1,6 @@
 <?php
 
-class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
+class WP_Customize_Nav_Menu_Item_Setting2 extends WP_Customize_Setting {
 
 	const ID_PATTERN = '/^nav_menu_item\[(?P<id>-?\d+)\]$/';
 

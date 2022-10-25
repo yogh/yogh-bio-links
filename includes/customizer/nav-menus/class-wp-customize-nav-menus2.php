@@ -1,6 +1,6 @@
 <?php
 
-final class WP_Customize_Nav_Menus {
+final class WP_Customize_Nav_Menus2 {
 
 	public $manager;
 
@@ -10,7 +10,7 @@ final class WP_Customize_Nav_Menus {
 		add_action( 'customize_register', array( $this, 'customize_register' ), 11 );
 
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_templates' ) );
+		// add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_templates' ) );
 	}
 
 	public function enqueue_scripts() {
@@ -29,7 +29,7 @@ final class WP_Customize_Nav_Menus {
 			true
 		);
 
-		$temp_nav_menu_setting = new WP_Customize_Nav_Menu_Setting( $this->manager, 'nav_menu[-1]' );
+		$temp_nav_menu_setting = new WP_Customize_Nav_Menu_Setting2( $this->manager, 'nav_menu[-1]' );
 
 		// Pass data to JS.
 		$settings = array(
@@ -63,10 +63,15 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	public function customize_register() {
-		require_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/controls/class-wp-customize-nav-menu-name-control.php';
-		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Name_Control' );
-		require_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/controls/class-wp-customize-nav-menu-item-control.php';
-		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Item_Control' );
+		require_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/sections/class-wp-customize-nav-menu-section2.php';
+		// require_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/controls/class-wp-customize-nav-menu-name-control2.php';
+		require_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/controls/class-wp-customize-nav-menu-item-control2.php';
+		require_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/settings/class-wp-customize-nav-menu-setting2.php';
+		require_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/settings/class-wp-customize-nav-menu-item-setting2.php';
+
+		// $this->manager->register_control_type( 'WP_Customize_Nav_Menu_Name_Control2' );
+		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Control2' );
+		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Item_Control2' );
 
 		$menus = wp_get_nav_menus();
 
@@ -75,23 +80,6 @@ final class WP_Customize_Nav_Menus {
 		$choices = array( '0' => __( '&mdash; Select &mdash;' ) );
 		foreach ( $menus as $menu ) {
 			$choices[ $menu->term_id ] = wp_html_excerpt( $menu->name, 40, '&hellip;' );
-		}
-
-		foreach ( $locations as $location => $description ) {
-			$setting_id = "nav_menu_locations[{$location}]";
-
-			$this->manager->add_control(
-				new WP_Customize_Nav_Menu_Location_Control(
-					$this->manager,
-					$setting_id,
-					array(
-						'label'       => $description,
-						'location_id' => $location,
-						'section'     => 'menu_locations',
-						'choices'     => $choices,
-					)
-				)
-			);
 		}
 
 		if ( ! function_exists( 'get_post_states' ) ) {
@@ -103,7 +91,7 @@ final class WP_Customize_Nav_Menus {
 
 			$section_id = 'yoghbiolinks_links';
 			$this->manager->add_section(
-				new WP_Customize_Nav_Menu_Section(
+				new WP_Customize_Nav_Menu_Section2(
 					$this->manager,
 					$section_id,
 					array(
@@ -116,7 +104,7 @@ final class WP_Customize_Nav_Menus {
 
 			$nav_menu_setting_id = 'nav_menu[' . $menu_id . ']';
 			$this->manager->add_setting(
-				new WP_Customize_Nav_Menu_Setting(
+				new WP_Customize_Nav_Menu_Setting2(
 					$this->manager,
 					$nav_menu_setting_id,
 					array(
@@ -128,9 +116,6 @@ final class WP_Customize_Nav_Menus {
 			// $menu_items = (array) yoghbl_links();
 			$menu_items = (array) wp_get_nav_menu_items( 5 );
 
-			if ( $menu_items ) {
-				require_once YOGHBL_ABSPATH . 'includes/customizer/nav-menus/settings/class-wp-customize-nav-menu-item-setting.php';
-			}
 			foreach ( array_values( $menu_items ) as $i => $item ) {
 
 				$menu_item_setting_id = 'nav_menu_item[' . $item->ID . ']';
@@ -139,7 +124,7 @@ final class WP_Customize_Nav_Menus {
 
 				$value['nav_menu_term_id'] = $menu_id;
 				$this->manager->add_setting(
-					new WP_Customize_Nav_Menu_Item_Setting(
+					new WP_Customize_Nav_Menu_Item_Setting2(
 						$this->manager,
 						$menu_item_setting_id,
 						array(
@@ -150,7 +135,7 @@ final class WP_Customize_Nav_Menus {
 				);
 
 				$this->manager->add_control(
-					new WP_Customize_Nav_Menu_Item_Control(
+					new WP_Customize_Nav_Menu_Item_Control2(
 						$this->manager,
 						$menu_item_setting_id,
 						array(
