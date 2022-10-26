@@ -2,41 +2,42 @@
  * @output wp-admin/js/customize-nav-menus.js
  */
 
-/* global _wpCustomizeNavMenusSettings, wpNavMenu, console */
+/* global _wpCustomizeNavMenus2Settings, wpNavMenu, console */
 ( function( api, wp, $ ) {
 	'use strict';
 
 	/**
 	 * Set up wpNavMenu for drag and drop.
 	 */
-	wpNavMenu.originalInit = wpNavMenu.init;
-	wpNavMenu.options.menuItemDepthPerLevel = 20;
-	wpNavMenu.options.sortableItems         = '> .customize-control-nav_menu_item';
-	wpNavMenu.options.targetTolerance       = 10;
-	wpNavMenu.init = function() {
-		this.jQueryExtensions();
-	};
+	// wpNavMenu.originalInit = wpNavMenu.init;
+	// wpNavMenu.options.menuItemDepthPerLevel = 20;
+	// wpNavMenu.options.sortableItems         = '> .customize-control-nav_menu_item';
+	// wpNavMenu.options.targetTolerance       = 10;
+	// wpNavMenu.init = function() {
+	// 	this.jQueryExtensions();
+	// };
 
 	/**
 	 * @namespace wp.customize.Menus
 	 */
-	api.Menus = api.Menus || {};
+	api.Menus2 = api.Menus2 || {};
 
 	// Link settings.
-	api.Menus.data = {
+	api.Menus2.data = {
 		itemTypes: [],
 		l10n: {},
 		settingTransport: 'refresh',
 		phpIntMax: 0,
 		defaultSettingValues: {
-			nav_menu: {},
-			nav_menu_item: {}
+			nav_menu2: {},
+			nav_menu_item2: {}
 		},
 		locationSlugMappedToName: {}
 	};
-	if ( 'undefined' !== typeof _wpCustomizeNavMenusSettings ) {
-		$.extend( api.Menus.data, _wpCustomizeNavMenusSettings );
+	if ( 'undefined' !== typeof _wpCustomizeNavMenus2Settings ) {
+		$.extend( api.Menus2.data, _wpCustomizeNavMenus2Settings );
 	}
+	console.log( api.Menus2.data );
 
 	/**
 	 * Newly-created Nav Menus and Nav Menu Items have negative integer IDs which
@@ -46,8 +47,8 @@
 	 *
 	 * @return {number}
 	 */
-	api.Menus.generatePlaceholderAutoIncrementId = function() {
-		return -Math.ceil( api.Menus.data.phpIntMax * Math.random() );
+	api.Menus2.generatePlaceholderAutoIncrementId = function() {
+		return -Math.ceil( api.Menus2.data.phpIntMax * Math.random() );
 	};
 
 	/**
@@ -58,11 +59,11 @@
 	 * @class    wp.customize.Menus.AvailableItemModel
 	 * @augments Backbone.Model
 	 */
-	api.Menus.AvailableItemModel = Backbone.Model.extend( $.extend(
+	api.Menus2.AvailableItemModel = Backbone.Model.extend( $.extend(
 		{
 			id: null // This is only used by Backbone.
 		},
-		api.Menus.data.defaultSettingValues.nav_menu_item
+		api.Menus2.data.defaultSettingValues.nav_menu_item2
 	) );
 
 	/**
@@ -73,8 +74,8 @@
 	 * @class    wp.customize.Menus.AvailableItemCollection
 	 * @augments Backbone.Collection
 	 */
-	api.Menus.AvailableItemCollection = Backbone.Collection.extend(/** @lends wp.customize.Menus.AvailableItemCollection.prototype */{
-		model: api.Menus.AvailableItemModel,
+	api.Menus2.AvailableItemCollection = Backbone.Collection.extend(/** @lends wp.customize.Menus.AvailableItemCollection.prototype */{
+		model: api.Menus2.AvailableItemModel,
 
 		sort_key: 'order',
 
@@ -87,7 +88,7 @@
 			this.sort();
 		}
 	});
-	api.Menus.availableMenuItems = new api.Menus.AvailableItemCollection( api.Menus.data.availableMenuItems );
+	api.Menus2.availableMenuItems = new api.Menus2.AvailableItemCollection( api.Menus2.data.availableMenuItems );
 
 	/**
 	 * Insert a new `auto-draft` post.
@@ -100,7 +101,7 @@
 	 * @param {string} params.post_title - Post title to use.
 	 * @return {jQuery.promise} Promise resolved with the added post.
 	 */
-	api.Menus.insertAutoDraftPost = function insertAutoDraftPost( params ) {
+	api.Menus2.insertAutoDraftPost = function insertAutoDraftPost( params ) {
 		var request, deferred = $.Deferred();
 
 		request = wp.ajax.post( 'customize-nav-menus-insert-auto-draft', {
@@ -150,7 +151,7 @@
 		return deferred.promise();
 	};
 
-	api.Menus.AvailableMenuItemsPanelView = wp.Backbone.View.extend(/** @lends wp.customize.Menus.AvailableMenuItemsPanelView.prototype */{
+	api.Menus2.AvailableMenuItemsPanelView = wp.Backbone.View.extend(/** @lends wp.customize.Menus.AvailableMenuItemsPanelView.prototype */{
 
 		el: '#available-menu-items',
 
@@ -190,10 +191,6 @@
 		 */
 		initialize: function() {
 			var self = this;
-
-			if ( ! api.panel.has( 'nav_menus' ) ) {
-				return;
-			}
 
 			this.$search = $( '#menu-items-search' );
 			this.$clearResults = this.$el.find( '.clear-results' );
@@ -305,7 +302,7 @@
 			} else if ( page > 1 ) {
 				$section.addClass( 'loading-more' );
 				$content.attr( 'aria-busy', 'true' );
-				wp.a11y.speak( api.Menus.data.l10n.itemsLoadingMore );
+				wp.a11y.speak( api.Menus2.data.l10n.itemsLoadingMore );
 			} else if ( '' === self.searchTerm ) {
 				$content.html( '' );
 				wp.a11y.speak( '' );
@@ -335,7 +332,7 @@
 				$content.attr( 'aria-busy', 'false' );
 				$section.addClass( 'open' );
 				self.loading = false;
-				items = new api.Menus.AvailableItemCollection( data.items );
+				items = new api.Menus2.AvailableItemCollection( data.items );
 				self.collection.add( items.models );
 				items.each( function( menuItem ) {
 					$content.append( itemTemplate( menuItem.attributes ) );
@@ -346,9 +343,9 @@
 					self.pages.search = self.pages.search + 1;
 				}
 				if ( items && page > 1 ) {
-					wp.a11y.speak( api.Menus.data.l10n.itemsFoundMore.replace( '%d', items.length ) );
+					wp.a11y.speak( api.Menus2.data.l10n.itemsFoundMore.replace( '%d', items.length ) );
 				} else if ( items && page === 1 ) {
-					wp.a11y.speak( api.Menus.data.l10n.itemsFound.replace( '%d', items.length ) );
+					wp.a11y.speak( api.Menus2.data.l10n.itemsFound.replace( '%d', items.length ) );
 				}
 			});
 
@@ -374,10 +371,10 @@
 			var self = this;
 
 			// Render the template for each item by type.
-			_.each( api.Menus.data.itemTypes, function( itemType ) {
+			_.each( api.Menus2.data.itemTypes, function( itemType ) {
 				self.pages[ itemType.type + ':' + itemType.object ] = 0;
 			} );
-			self.loadItems( api.Menus.data.itemTypes );
+			self.loadItems( api.Menus2.data.itemTypes );
 		},
 
 		/**
@@ -448,7 +445,7 @@
 					} else if ( ( 'post_type:page' === name ) && ( ! availableMenuItemContainers[ name ].hasClass( 'open' ) ) ) {
 						availableMenuItemContainers[ name ].find( '.accordion-section-title > button' ).trigger( 'click' );
 					}
-					typeItems = new api.Menus.AvailableItemCollection( typeItems ); // @todo Why is this collection created and then thrown away?
+					typeItems = new api.Menus2.AvailableItemCollection( typeItems ); // @todo Why is this collection created and then thrown away?
 					self.collection.add( typeItems.models );
 					typeInner = availableMenuItemContainers[ name ].find( '.available-menu-items-list' );
 					typeItems.each( function( menuItem ) {
@@ -579,7 +576,7 @@
 				'title': itemName.val(),
 				'url': url,
 				'type': 'custom',
-				'type_label': api.Menus.data.l10n.custom_label,
+				'type_label': api.Menus2.data.l10n.custom_label,
 				'object': 'custom'
 			};
 
@@ -655,13 +652,13 @@
 
 			panel.addingNew = true;
 			itemName.attr( 'disabled', 'disabled' );
-			promise = api.Menus.insertAutoDraftPost( {
+			promise = api.Menus2.insertAutoDraftPost( {
 				post_title: title,
 				post_type: itemObject
 			} );
 			promise.done( function( data ) {
 				var availableItem, $content, itemElement;
-				availableItem = new api.Menus.AvailableItemModel( {
+				availableItem = new api.Menus2.AvailableItemModel( {
 					'id': 'post-' + data.post_id, // Used for available menu item Backbone models.
 					'title': itemName.val(),
 					'type': itemType,
@@ -675,7 +672,7 @@
 				panel.currentMenuControl.addItemToMenu( availableItem.attributes );
 
 				// Add the new item to the list of available items.
-				api.Menus.availableMenuItemsPanel.collection.add( availableItem );
+				api.Menus2.availableMenuItemsPanel.collection.add( availableItem );
 				$content = container.find( '.available-menu-items-list' );
 				itemElement = $( wp.template( 'available-menu-item' )( availableItem.attributes ) );
 				itemElement.find( '.menu-item-handle:first' ).addClass( 'item-added' );
@@ -758,147 +755,15 @@
 	});
 
 	/**
-	 * wp.customize.Menus.MenusPanel
-	 *
-	 * Customizer panel for menus. This is used only for screen options management.
-	 * Note that 'menus' must match the WP_Customize_Menu_Panel::$type.
-	 *
-	 * @class    wp.customize.Menus.MenusPanel
-	 * @augments wp.customize.Panel
-	 */
-	api.Menus.MenusPanel = api.Panel.extend(/** @lends wp.customize.Menus.MenusPanel.prototype */{
-
-		attachEvents: function() {
-			api.Panel.prototype.attachEvents.call( this );
-
-			var panel = this,
-				panelMeta = panel.container.find( '.panel-meta' ),
-				help = panelMeta.find( '.customize-help-toggle' ),
-				content = panelMeta.find( '.customize-panel-description' ),
-				options = $( '#screen-options-wrap' ),
-				button = panelMeta.find( '.customize-screen-options-toggle' );
-			button.on( 'click keydown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-					return;
-				}
-				event.preventDefault();
-
-				// Hide description.
-				if ( content.not( ':hidden' ) ) {
-					content.slideUp( 'fast' );
-					help.attr( 'aria-expanded', 'false' );
-				}
-
-				if ( 'true' === button.attr( 'aria-expanded' ) ) {
-					button.attr( 'aria-expanded', 'false' );
-					panelMeta.removeClass( 'open' );
-					panelMeta.removeClass( 'active-menu-screen-options' );
-					options.slideUp( 'fast' );
-				} else {
-					button.attr( 'aria-expanded', 'true' );
-					panelMeta.addClass( 'open' );
-					panelMeta.addClass( 'active-menu-screen-options' );
-					options.slideDown( 'fast' );
-				}
-
-				return false;
-			} );
-
-			// Help toggle.
-			help.on( 'click keydown', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-					return;
-				}
-				event.preventDefault();
-
-				if ( 'true' === button.attr( 'aria-expanded' ) ) {
-					button.attr( 'aria-expanded', 'false' );
-					help.attr( 'aria-expanded', 'true' );
-					panelMeta.addClass( 'open' );
-					panelMeta.removeClass( 'active-menu-screen-options' );
-					options.slideUp( 'fast' );
-					content.slideDown( 'fast' );
-				}
-			} );
-		},
-
-		/**
-		 * Update field visibility when clicking on the field toggles.
-		 */
-		ready: function() {
-			var panel = this;
-			panel.container.find( '.hide-column-tog' ).on( 'click', function() {
-				panel.saveManageColumnsState();
-			});
-
-			// Inject additional heading into the menu locations section's head container.
-			api.section( 'menu_locations', function( section ) {
-				section.headContainer.prepend(
-					wp.template( 'nav-menu-locations-header' )( api.Menus.data )
-				);
-			} );
-		},
-
-		/**
-		 * Save hidden column states.
-		 *
-		 * @since 4.3.0
-		 * @private
-		 *
-		 * @return {void}
-		 */
-		saveManageColumnsState: _.debounce( function() {
-			var panel = this;
-			if ( panel._updateHiddenColumnsRequest ) {
-				panel._updateHiddenColumnsRequest.abort();
-			}
-
-			panel._updateHiddenColumnsRequest = wp.ajax.post( 'hidden-columns', {
-				hidden: panel.hidden(),
-				screenoptionnonce: $( '#screenoptionnonce' ).val(),
-				page: 'nav-menus'
-			} );
-			panel._updateHiddenColumnsRequest.always( function() {
-				panel._updateHiddenColumnsRequest = null;
-			} );
-		}, 2000 ),
-
-		/**
-		 * @deprecated Since 4.7.0 now that the nav_menu sections are responsible for toggling the classes on their own containers.
-		 */
-		checked: function() {},
-
-		/**
-		 * @deprecated Since 4.7.0 now that the nav_menu sections are responsible for toggling the classes on their own containers.
-		 */
-		unchecked: function() {},
-
-		/**
-		 * Get hidden fields.
-		 *
-		 * @since 4.3.0
-		 * @private
-		 *
-		 * @return {Array} Fields (columns) that are hidden.
-		 */
-		hidden: function() {
-			return $( '.hide-column-tog' ).not( ':checked' ).map( function() {
-				var id = this.id;
-				return id.substring( 0, id.length - 5 );
-			}).get().join( ',' );
-		}
-	} );
-
-	/**
 	 * wp.customize.Menus.MenuSection
 	 *
 	 * Customizer section for menus. This is used only for lazy-loading child controls.
-	 * Note that 'nav_menu' must match the WP_Customize_Menu_Section::$type.
+	 * Note that 'nav_menu2' must match the WP_Customize_Menu_Section::$type.
 	 *
 	 * @class    wp.customize.Menus.MenuSection
 	 * @augments wp.customize.Section
 	 */
-	api.Menus.MenuSection = api.Section.extend(/** @lends wp.customize.Menus.MenuSection.prototype */{
+	api.Menus2.MenuSection = api.Section.extend(/** @lends wp.customize.Menus.MenuSection.prototype */{
 
 		/**
 		 * Initialize.
@@ -998,28 +863,13 @@
 				menuAutoAddControl,
 				menuDeleteControl;
 
-			// Add the control for managing the menu name.
-			menuNameControlId = section.id + '[name]';
-			menuNameControl = api.control( menuNameControlId );
-			if ( ! menuNameControl ) {
-				menuNameControl = new api.controlConstructor.nav_menu_name( menuNameControlId, {
-					type: 'nav_menu_name',
-					label: api.Menus.data.l10n.menuNameLabel,
-					section: section.id,
-					priority: 0,
-					settings: {
-						'default': section.id
-					}
-				} );
-				api.control.add( menuNameControl );
-				menuNameControl.active.set( true );
-			}
-
 			// Add the menu control.
+			console.log( section.id );
 			menuControl = api.control( section.id );
 			if ( ! menuControl ) {
-				menuControl = new api.controlConstructor.nav_menu( section.id, {
-					type: 'nav_menu',
+				menuControl = new api.controlConstructor.nav_menu2( section.id, {
+					type: 'nav_menu2',
+					label: api.Menus2.data.l10n.menuNameLabel,
 					section: section.id,
 					priority: 998,
 					settings: {
@@ -1029,59 +879,6 @@
 				} );
 				api.control.add( menuControl );
 				menuControl.active.set( true );
-			}
-
-			// Add the menu locations control.
-			menuLocationsControlId = section.id + '[locations]';
-			menuLocationsControl = api.control( menuLocationsControlId );
-			if ( ! menuLocationsControl ) {
-				menuLocationsControl = new api.controlConstructor.nav_menu_locations( menuLocationsControlId, {
-					section: section.id,
-					priority: 999,
-					settings: {
-						'default': section.id
-					},
-					menu_id: section.params.menu_id
-				} );
-				api.control.add( menuLocationsControl.id, menuLocationsControl );
-				menuControl.active.set( true );
-			}
-
-			// Add the control for managing the menu auto_add.
-			menuAutoAddControlId = section.id + '[auto_add]';
-			menuAutoAddControl = api.control( menuAutoAddControlId );
-			if ( ! menuAutoAddControl ) {
-				menuAutoAddControl = new api.controlConstructor.nav_menu_auto_add( menuAutoAddControlId, {
-					type: 'nav_menu_auto_add',
-					label: '',
-					section: section.id,
-					priority: 1000,
-					settings: {
-						'default': section.id
-					}
-				} );
-				api.control.add( menuAutoAddControl );
-				menuAutoAddControl.active.set( true );
-			}
-
-			// Add the control for deleting the menu.
-			menuDeleteControlId = section.id + '[delete]';
-			menuDeleteControl = api.control( menuDeleteControlId );
-			if ( ! menuDeleteControl ) {
-				menuDeleteControl = new api.Control( menuDeleteControlId, {
-					section: section.id,
-					priority: 1001,
-					templateId: 'nav-menu-delete-button'
-				} );
-				api.control.add( menuDeleteControl.id, menuDeleteControl );
-				menuDeleteControl.active.set( true );
-				menuDeleteControl.deferred.embedded.done( function () {
-					menuDeleteControl.container.find( 'button' ).on( 'click', function() {
-						var menuId = section.params.menu_id;
-						var menuControl = api.Menus.getMenuControl( menuId );
-						menuControl.setting.set( false );
-					});
-				} );
 			}
 		},
 
@@ -1112,8 +909,8 @@
 			_.each( themeLocationSlugs, function( themeLocationSlug ) {
 				var $label, locationName;
 				$label = $( '<span class="menu-in-location"></span>' );
-				locationName = api.Menus.data.locationSlugMappedToName[ themeLocationSlug ];
-				$label.text( api.Menus.data.l10n.menuLocation.replace( '%s', locationName ) );
+				locationName = api.Menus2.data.locationSlugMappedToName[ themeLocationSlug ];
+				$label.text( api.Menus2.data.l10n.menuLocation.replace( '%s', locationName ) );
 				$title.append( $label );
 			});
 
@@ -1133,7 +930,7 @@
 				wpNavMenu.menuList.attr( 'id', 'menu-to-edit' ).addClass( 'menu' );
 
 				_.each( api.section( section.id ).controls(), function( control ) {
-					if ( 'nav_menu_item' === control.params.type ) {
+					if ( 'nav_menu_item2' === control.params.type ) {
 						control.actuallyEmbed();
 					}
 				} );
@@ -1149,7 +946,7 @@
 
 						// @todo Note that wp.customize.reflowPaneContents() is debounced,
 						// so this immediate change will show a slight flicker while priorities get updated.
-						// api.control( 'nav_menu[' + String( section.params.menu_id ) + ']' ).reflowMenuItems();
+						api.control( 'yoghbiolinks_links' ).reflowMenuItems();
 					}
 					if ( _.isFunction( completeCallback ) ) {
 						completeCallback();
@@ -1184,21 +981,21 @@
 	 * @param {string} [name=''] Nav menu name.
 	 * @return {wp.customize.Menus.MenuSection} Added nav menu.
 	 */
-	api.Menus.createNavMenu = function createNavMenu( name ) {
+	api.Menus2.createNavMenu = function createNavMenu( name ) {
 		var customizeId, placeholderId, setting;
-		placeholderId = api.Menus.generatePlaceholderAutoIncrementId();
+		placeholderId = api.Menus2.generatePlaceholderAutoIncrementId();
 
-		customizeId = 'nav_menu[' + String( placeholderId ) + ']';
+		customizeId = 'nav_menu2[' + String( placeholderId ) + ']';
 
 		// Register the menu control setting.
 		setting = api.create( customizeId, customizeId, {}, {
-			type: 'nav_menu',
-			transport: api.Menus.data.settingTransport,
+			type: 'nav_menu2',
+			transport: api.Menus2.data.settingTransport,
 			previewer: api.previewer
 		} );
 		setting.set( $.extend(
 			{},
-			api.Menus.data.defaultSettingValues.nav_menu,
+			api.Menus2.data.defaultSettingValues.nav_menu2,
 			{
 				name: name || ''
 			}
@@ -1209,10 +1006,10 @@
 		 * Note that this will automatically create the required controls
 		 * inside via the Section's ready method.
 		 */
-		return api.section.add( new api.Menus.MenuSection( customizeId, {
+		return api.section.add( new api.Menus2.MenuSection( customizeId, {
 			panel: 'nav_menus',
 			title: displayNavMenuName( name ),
-			customizeAction: api.Menus.data.l10n.customizingMenus,
+			customizeAction: api.Menus2.data.l10n.customizingMenus,
 			priority: 10,
 			menu_id: placeholderId
 		} ) );
@@ -1226,7 +1023,7 @@
 	 * @class    wp.customize.Menus.NewMenuSection
 	 * @augments wp.customize.Section
 	 */
-	api.Menus.NewMenuSection = api.Section.extend(/** @lends wp.customize.Menus.NewMenuSection.prototype */{
+	api.Menus2.NewMenuSection = api.Section.extend(/** @lends wp.customize.Menus.NewMenuSection.prototype */{
 
 		/**
 		 * Add behaviors for the accordion section.
@@ -1237,7 +1034,7 @@
 			var section = this,
 				container = section.container,
 				contentContainer = section.contentContainer,
-				navMenuSettingPattern = /^nav_menu\[/;
+				navMenuSettingPattern = /^nav_menu2\[/;
 
 			section.headContainer.find( '.accordion-section-title' ).replaceWith(
 				wp.template( 'nav-menu-create-menu-section-title' )
@@ -1351,8 +1148,8 @@
 			menuNameControl = api.control( menuNameControlId );
 			if ( ! menuNameControl ) {
 				menuNameControl = new api.controlConstructor.nav_menu_name( menuNameControlId, {
-					label: api.Menus.data.l10n.menuNameLabel,
-					description: api.Menus.data.l10n.newMenuNameDescription,
+					label: api.Menus2.data.l10n.menuNameLabel,
+					description: api.Menus2.data.l10n.newMenuNameDescription,
 					section: section.id,
 					priority: 0
 				} );
@@ -1404,7 +1201,7 @@
 				return;
 			}
 
-			menuSection = api.Menus.createNavMenu( name );
+			menuSection = api.Menus2.createNavMenu( name );
 
 			// Clear name field.
 			nameInput.val( '' );
@@ -1423,7 +1220,7 @@
 				}
 			} );
 
-			wp.a11y.speak( api.Menus.data.l10n.menuAdded );
+			wp.a11y.speak( api.Menus2.data.l10n.menuAdded );
 
 			// Focus on the new menu section.
 			menuSection.focus( {
@@ -1456,91 +1253,7 @@
 		}
 	});
 
-	/**
-	 * wp.customize.Menus.MenuLocationControl
-	 *
-	 * Customizer control for menu locations (rendered as a <select>).
-	 * Note that 'nav_menu_location' must match the WP_Customize_Nav_Menu_Location_Control::$type.
-	 *
-	 * @class    wp.customize.Menus.MenuLocationControl
-	 * @augments wp.customize.Control
-	 */
-	api.Menus.MenuLocationControl = api.Control.extend(/** @lends wp.customize.Menus.MenuLocationControl.prototype */{
-		initialize: function( id, options ) {
-			var control = this,
-				matches = id.match( /^nav_menu_locations\[(.+?)]/ );
-			control.themeLocation = matches[1];
-			api.Control.prototype.initialize.call( control, id, options );
-		},
-
-		ready: function() {
-			var control = this, navMenuIdRegex = /^nav_menu\[(-?\d+)]/;
-
-			// @todo It would be better if this was added directly on the setting itself, as opposed to the control.
-			control.setting.validate = function( value ) {
-				if ( '' === value ) {
-					return 0;
-				} else {
-					return parseInt( value, 10 );
-				}
-			};
-
-			// Create and Edit menu buttons.
-			control.container.find( '.create-menu' ).on( 'click', function() {
-				var addMenuSection = api.section( 'add_menu' );
-				addMenuSection.selectDefaultLocation( this.dataset.locationId );
-				addMenuSection.focus();
-			} );
-			control.container.find( '.edit-menu' ).on( 'click', function() {
-				var menuId = control.setting();
-				api.section( 'nav_menu[' + menuId + ']' ).focus();
-			});
-			control.setting.bind( 'change', function() {
-				var menuIsSelected = 0 !== control.setting();
-				control.container.find( '.create-menu' ).toggleClass( 'hidden', menuIsSelected );
-				control.container.find( '.edit-menu' ).toggleClass( 'hidden', ! menuIsSelected );
-			});
-
-			// Add/remove menus from the available options when they are added and removed.
-			api.bind( 'add', function( setting ) {
-				var option, menuId, matches = setting.id.match( navMenuIdRegex );
-				if ( ! matches || false === setting() ) {
-					return;
-				}
-				menuId = matches[1];
-				option = new Option( displayNavMenuName( setting().name ), menuId );
-				control.container.find( 'select' ).append( option );
-			});
-			api.bind( 'remove', function( setting ) {
-				var menuId, matches = setting.id.match( navMenuIdRegex );
-				if ( ! matches ) {
-					return;
-				}
-				menuId = parseInt( matches[1], 10 );
-				if ( control.setting() === menuId ) {
-					control.setting.set( '' );
-				}
-				control.container.find( 'option[value=' + menuId + ']' ).remove();
-			});
-			api.bind( 'change', function( setting ) {
-				var menuId, matches = setting.id.match( navMenuIdRegex );
-				if ( ! matches ) {
-					return;
-				}
-				menuId = parseInt( matches[1], 10 );
-				if ( false === setting() ) {
-					if ( control.setting() === menuId ) {
-						control.setting.set( '' );
-					}
-					control.container.find( 'option[value=' + menuId + ']' ).remove();
-				} else {
-					control.container.find( 'option[value=' + menuId + ']' ).text( displayNavMenuName( setting().name ) );
-				}
-			});
-		}
-	});
-
-	api.Menus.MenuItemControl = api.Control.extend(/** @lends wp.customize.Menus.MenuItemControl.prototype */{
+	api.Menus2.MenuItemControl = api.Control.extend(/** @lends wp.customize.Menus.MenuItemControl.prototype */{
 
 		/**
 		 * wp.customize.Menus.MenuItemControl
@@ -1639,7 +1352,7 @@
 					isAddNewBtn = $( e.target ).is( '.add-new-menu-item, .add-new-menu-item *' );
 
 				if ( $( 'body' ).hasClass( 'adding-menu-items' ) && ! isDeleteBtn && ! isAddNewBtn ) {
-					api.Menus.availableMenuItemsPanel.close();
+					api.Menus2.availableMenuItemsPanel.close();
 				}
 
 				if ( menuControl.isReordering || menuControl.isSorting ) {
@@ -1733,7 +1446,7 @@
 					menuControl;
 
 				if ( false === to ) {
-					menuControl = api.control( 'nav_menu[' + String( from.nav_menu_term_id ) + ']' );
+					menuControl = api.control( 'nav_menu2[' + String( from.nav_menu_term_id ) + ']' );
 					control.container.remove();
 
 					_.each( menuControl.getMenuItemControls(), function( otherControl ) {
@@ -1834,7 +1547,7 @@
 					}
 
 					menuItemId      = parseInt( matches[1], 10 );
-					menuItemControl = api.control( 'nav_menu_item[' + String( menuItemId ) + ']' );
+					menuItemControl = api.control( 'nav_menu_item2[' + String( menuItemId ) + ']' );
 
 					// Check for duplicate menu items.
 					if ( menuItemControl && deleteItemOriginalItemId == menuItemControl.params.original_item_id ) {
@@ -1851,7 +1564,7 @@
 
 				control.container.slideUp( function() {
 					control.setting.set( false );
-					wp.a11y.speak( api.Menus.data.l10n.itemDeleted );
+					wp.a11y.speak( api.Menus2.data.l10n.itemDeleted );
 					$adjacentFocusTarget.focus(); // Keyboard accessibility.
 				} );
 
@@ -1891,10 +1604,10 @@
 				item.title = item.title || '';
 				trimmedTitle = item.title.trim();
 
-				titleText = trimmedTitle || item.original_title || api.Menus.data.l10n.untitled;
+				titleText = trimmedTitle || item.original_title || api.Menus2.data.l10n.untitled;
 
 				if ( item._invalid ) {
-					titleText = api.Menus.data.l10n.invalidTitleTpl.replace( '%s', titleText );
+					titleText = api.Menus2.data.l10n.invalidTitleTpl.replace( '%s', titleText );
 				}
 
 				// Don't update to an empty title.
@@ -1921,7 +1634,7 @@
 			}
 			while ( setting && setting.menu_item_parent ) {
 				depth += 1;
-				control = api.control( 'nav_menu_item[' + setting.menu_item_parent + ']' );
+				control = api.control( 'nav_menu_item2[' + setting.menu_item_parent + ']' );
 				if ( ! control ) {
 					break;
 				}
@@ -1950,10 +1663,10 @@
 
 			if ( settingValue._invalid ) {
 				containerClasses.push( 'menu-item-invalid' );
-				control.params.title = api.Menus.data.l10n.invalidTitleTpl.replace( '%s', control.params.title );
+				control.params.title = api.Menus2.data.l10n.invalidTitleTpl.replace( '%s', control.params.title );
 			} else if ( 'draft' === settingValue.status ) {
 				containerClasses.push( 'pending' );
-				control.params.title = api.Menus.data.pendingTitleTpl.replace( '%s', control.params.title );
+				control.params.title = api.Menus2.data.pendingTitleTpl.replace( '%s', control.params.title );
 			}
 
 			control.params.el_classes = containerClasses.join( ' ' );
@@ -1983,7 +1696,7 @@
 		getMenuControl: function() {
 			var control = this, settingValue = control.setting();
 			if ( settingValue && settingValue.nav_menu_term_id ) {
-				return api.control( 'nav_menu[' + settingValue.nav_menu_term_id + ']' );
+				return api.control( 'nav_menu2[' + settingValue.nav_menu_term_id + ']' );
 			} else {
 				return null;
 			}
@@ -2181,7 +1894,7 @@
 		 */
 		moveUp: function() {
 			this._changePosition( -1 );
-			wp.a11y.speak( api.Menus.data.l10n.movedUp );
+			wp.a11y.speak( api.Menus2.data.l10n.movedUp );
 		},
 
 		/**
@@ -2189,14 +1902,14 @@
 		 */
 		moveDown: function() {
 			this._changePosition( 1 );
-			wp.a11y.speak( api.Menus.data.l10n.movedDown );
+			wp.a11y.speak( api.Menus2.data.l10n.movedDown );
 		},
 		/**
 		 * Move menu item and all children up one level of depth.
 		 */
 		moveLeft: function() {
 			this._changeDepth( -1 );
-			wp.a11y.speak( api.Menus.data.l10n.movedLeft );
+			wp.a11y.speak( api.Menus2.data.l10n.movedLeft );
 		},
 
 		/**
@@ -2204,7 +1917,7 @@
 		 */
 		moveRight: function() {
 			this._changeDepth( 1 );
-			wp.a11y.speak( api.Menus.data.l10n.movedRight );
+			wp.a11y.speak( api.Menus2.data.l10n.movedRight );
 		},
 
 		/**
@@ -2307,7 +2020,7 @@
 					return;
 				}
 
-				parentControl = api.control( 'nav_menu_item[' + settingValue.menu_item_parent + ']' );
+				parentControl = api.control( 'nav_menu_item2[' + settingValue.menu_item_parent + ']' );
 
 				// Make this control the parent of all the following siblings.
 				_( siblingControls ).chain().slice( realPosition ).each(function( siblingControl, i ) {
@@ -2368,45 +2081,6 @@
 	} );
 
 	/**
-	 * wp.customize.Menus.MenuNameControl
-	 *
-	 * Customizer control for a nav menu's name.
-	 *
-	 * @class    wp.customize.Menus.MenuNameControl
-	 * @augments wp.customize.Control
-	 */
-	api.Menus.MenuNameControl = api.Control.extend(/** @lends wp.customize.Menus.MenuNameControl.prototype */{
-
-		ready: function() {
-			var control = this;
-
-			if ( control.setting ) {
-				var settingValue = control.setting();
-
-				control.nameElement = new api.Element( control.container.find( '.menu-name-field' ) );
-
-				control.nameElement.bind(function( value ) {
-					var settingValue = control.setting();
-					if ( settingValue && settingValue.name !== value ) {
-						settingValue = _.clone( settingValue );
-						settingValue.name = value;
-						control.setting.set( settingValue );
-					}
-				});
-				if ( settingValue ) {
-					control.nameElement.set( settingValue.name );
-				}
-
-				control.setting.bind(function( object ) {
-					if ( object ) {
-						control.nameElement.set( object.name );
-					}
-				});
-			}
-		}
-	});
-
-	/**
 	 * wp.customize.Menus.MenuLocationsControl
 	 *
 	 * Customizer control for a nav menu's locations.
@@ -2415,7 +2089,7 @@
 	 * @class    wp.customize.Menus.MenuLocationsControl
 	 * @augments wp.customize.Control
 	 */
-	api.Menus.MenuLocationsControl = api.Control.extend(/** @lends wp.customize.Menus.MenuLocationsControl.prototype */{
+	api.Menus2.MenuLocationsControl = api.Control.extend(/** @lends wp.customize.Menus.MenuLocationsControl.prototype */{
 
 		/**
 		 * Set up the control.
@@ -2438,7 +2112,7 @@
 						navMenuLocationSetting.set( checked ? control.params.menu_id : 0 );
 					},
 					updateSelectedMenuLabel = function( selectedMenuId ) {
-						var menuSetting = api( 'nav_menu[' + String( selectedMenuId ) + ']' );
+						var menuSetting = api( 'nav_menu2[' + String( selectedMenuId ) + ']' );
 						if ( ! selectedMenuId || ! menuSetting || ! menuSetting() ) {
 							container.find( '.theme-location-set' ).hide();
 						} else {
@@ -2481,67 +2155,15 @@
 	});
 
 	/**
-	 * wp.customize.Menus.MenuAutoAddControl
-	 *
-	 * Customizer control for a nav menu's auto add.
-	 *
-	 * @class    wp.customize.Menus.MenuAutoAddControl
-	 * @augments wp.customize.Control
-	 */
-	api.Menus.MenuAutoAddControl = api.Control.extend(/** @lends wp.customize.Menus.MenuAutoAddControl.prototype */{
-
-		ready: function() {
-			var control = this,
-				settingValue = control.setting();
-
-			/*
-			 * Since the control is not registered in PHP, we need to prevent the
-			 * preview's sending of the activeControls to result in this control
-			 * being deactivated.
-			 */
-			control.active.validate = function() {
-				var value, section = api.section( control.section() );
-				if ( section ) {
-					value = section.active();
-				} else {
-					value = false;
-				}
-				return value;
-			};
-
-			control.autoAddElement = new api.Element( control.container.find( 'input[type=checkbox].auto_add' ) );
-
-			control.autoAddElement.bind(function( value ) {
-				var settingValue = control.setting();
-				if ( settingValue && settingValue.name !== value ) {
-					settingValue = _.clone( settingValue );
-					settingValue.auto_add = value;
-					control.setting.set( settingValue );
-				}
-			});
-			if ( settingValue ) {
-				control.autoAddElement.set( settingValue.auto_add );
-			}
-
-			control.setting.bind(function( object ) {
-				if ( object ) {
-					control.autoAddElement.set( object.auto_add );
-				}
-			});
-		}
-
-	});
-
-	/**
 	 * wp.customize.Menus.MenuControl
 	 *
 	 * Customizer control for menus.
-	 * Note that 'nav_menu' must match the WP_Menu_Customize_Control::$type
+	 * Note that 'nav_menu2' must match the WP_Menu_Customize_Control::$type
 	 *
 	 * @class    wp.customize.Menus.MenuControl
 	 * @augments wp.customize.Control
 	 */
-	api.Menus.MenuControl = api.Control.extend(/** @lends wp.customize.Menus.MenuControl.prototype */{
+	api.Menus2.MenuControl = api.Control.extend(/** @lends wp.customize.Menus.MenuControl.prototype */{
 		/**
 		 * Set up the control.
 		 */
@@ -2553,10 +2175,6 @@
 				name,
 				widgetTemplate,
 				select;
-
-			if ( 'undefined' === typeof this.params.menu_id ) {
-				throw new Error( 'params.menu_id was not defined' );
-			}
 
 			/*
 			 * Since the control is not registered in PHP, we need to prevent the
@@ -2593,7 +2211,7 @@
 
 				// Add the menu to the existing controls.
 				api.control.each( function( widgetControl ) {
-					if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== widgetControl.params.widget_id_base ) {
+					if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu2' !== widgetControl.params.widget_id_base ) {
 						return;
 					}
 					widgetControl.container.find( '.nav-menu-widget-form-controls:first' ).show();
@@ -2606,7 +2224,7 @@
 				} );
 
 				// Add the menu to the widget template.
-				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu2 ] )' );
 				widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).show();
 				widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).hide();
 				select = widgetTemplate.find( '.widget-inside select:first' );
@@ -2640,7 +2258,7 @@
 					// Update names in the Navigation Menu widgets.
 					name = displayNavMenuName( to.name );
 					api.control.each( function( widgetControl ) {
-						if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== widgetControl.params.widget_id_base ) {
+						if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu2' !== widgetControl.params.widget_id_base ) {
 							return;
 						}
 						var select = widgetControl.container.find( 'select' );
@@ -2688,7 +2306,7 @@
 							return;
 						}
 						menuItemId = parseInt( matches[1], 10 );
-						menuItemControl = api.control( 'nav_menu_item[' + String( menuItemId ) + ']' );
+						menuItemControl = api.control( 'nav_menu_item2[' + String( menuItemId ) + ']' );
 						if ( menuItemControl ) {
 							menuItemControls.push( menuItemControl );
 						}
@@ -2739,10 +2357,10 @@
 
 				if ( ! $( 'body' ).hasClass( 'adding-menu-items' ) ) {
 					$( this ).attr( 'aria-expanded', 'true' );
-					api.Menus.availableMenuItemsPanel.open( self );
+					api.Menus2.availableMenuItemsPanel.open( self );
 				} else {
 					$( this ).attr( 'aria-expanded', 'false' );
-					api.Menus.availableMenuItemsPanel.close();
+					api.Menus2.availableMenuItemsPanel.close();
 					event.stopPropagation();
 				}
 			} );
@@ -2765,7 +2383,7 @@
 				section.collapse({
 					completeCallback: function() {
 						removeSection();
-						wp.a11y.speak( api.Menus.data.l10n.menuDeleted );
+						wp.a11y.speak( api.Menus2.data.l10n.menuDeleted );
 						api.panel( 'nav_menus' ).focus();
 					}
 				});
@@ -2774,14 +2392,14 @@
 			}
 
 			api.each(function( setting ) {
-				if ( /^nav_menu\[/.test( setting.id ) && false !== setting() ) {
+				if ( /^nav_menu2\[/.test( setting.id ) && false !== setting() ) {
 					navMenuCount += 1;
 				}
 			});
 
 			// Remove the menu from any Navigation Menu widgets.
 			api.control.each(function( widgetControl ) {
-				if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== widgetControl.params.widget_id_base ) {
+				if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu2' !== widgetControl.params.widget_id_base ) {
 					return;
 				}
 				var select = widgetControl.container.find( 'select' );
@@ -2795,7 +2413,7 @@
 			});
 
 			// Remove the menu to the nav menu widget template.
-			widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+			widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu2 ] )' );
 			widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
 			widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
 			widgetTemplate.find( 'option[value=' + String( menuId ) + ']' ).remove();
@@ -2873,13 +2491,13 @@
 			this.$sectionContent.sortable( this.isReordering ? 'disable' : 'enable' );
 			if ( this.isReordering ) {
 				addNewItemBtn.attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
-				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOff );
-				wp.a11y.speak( api.Menus.data.l10n.reorderModeOn );
+				reorderBtn.attr( 'aria-label', api.Menus2.data.l10n.reorderLabelOff );
+				wp.a11y.speak( api.Menus2.data.l10n.reorderModeOn );
 				itemsTitle.attr( 'aria-hidden', 'false' );
 			} else {
 				addNewItemBtn.removeAttr( 'tabindex aria-hidden' );
-				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOn );
-				wp.a11y.speak( api.Menus.data.l10n.reorderModeOff );
+				reorderBtn.attr( 'aria-label', api.Menus2.data.l10n.reorderLabelOn );
+				wp.a11y.speak( api.Menus2.data.l10n.reorderModeOff );
 				itemsTitle.attr( 'aria-hidden', 'true' );
 			}
 
@@ -2891,7 +2509,7 @@
 		},
 
 		/**
-		 * @return {wp.customize.controlConstructor.nav_menu_item[]}
+		 * @return {wp.customize.controlConstructor.nav_menu_item2[]}
 		 */
 		getMenuItemControls: function() {
 			var menuControl = this,
@@ -2899,7 +2517,7 @@
 				menuTermId = menuControl.params.menu_id;
 
 			api.control.each(function( control ) {
-				if ( 'nav_menu_item' === control.params.type && control.setting() && menuTermId === control.setting().nav_menu_term_id ) {
+				if ( 'nav_menu_item2' === control.params.type && control.setting() && menuTermId === control.setting().nav_menu_term_id ) {
 					menuItemControls.push( control );
 				}
 			});
@@ -3016,7 +2634,7 @@
 
 			item = $.extend(
 				{},
-				api.Menus.data.defaultSettingValues.nav_menu_item,
+				api.Menus2.data.defaultSettingValues.nav_menu_item,
 				item,
 				{
 					nav_menu_term_id: menuControl.params.menu_id,
@@ -3026,11 +2644,11 @@
 			);
 			delete item.id; // Only used by Backbone.
 
-			placeholderId = api.Menus.generatePlaceholderAutoIncrementId();
-			customizeId = 'nav_menu_item[' + String( placeholderId ) + ']';
+			placeholderId = api.Menus2.generatePlaceholderAutoIncrementId();
+			customizeId = 'nav_menu_item2[' + String( placeholderId ) + ']';
 			settingArgs = {
-				type: 'nav_menu_item',
-				transport: api.Menus.data.settingTransport,
+				type: 'nav_menu_item2',
+				transport: api.Menus2.data.settingTransport,
 				previewer: api.previewer
 			};
 			setting = api.create( customizeId, customizeId, {}, settingArgs );
@@ -3038,7 +2656,7 @@
 
 			// Add the menu item control.
 			menuItemControl = new api.controlConstructor.nav_menu_item( customizeId, {
-				type: 'nav_menu_item',
+				type: 'nav_menu_item2',
 				section: menuControl.id,
 				priority: priority,
 				settings: {
@@ -3052,7 +2670,7 @@
 			setting.preview();
 			menuControl.debouncedReflowMenuItems();
 
-			wp.a11y.speak( api.Menus.data.l10n.itemAdded );
+			wp.a11y.speak( api.Menus2.data.l10n.itemAdded );
 
 			return menuItemControl;
 		},
@@ -3062,7 +2680,7 @@
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {wp.customize.controlConstructor.nav_menu_item[]} optionalMenuItemControls
+		 * @param {wp.customize.controlConstructor.nav_menu_item2[]} optionalMenuItemControls
 		 */
 		updateInvitationVisibility: function ( optionalMenuItemControls ) {
 			var menuItemControls = optionalMenuItemControls || this.getMenuItemControls();
@@ -3076,27 +2694,16 @@
 	 * menu_location, menu_item, nav_menu, and new_menu.
 	 */
 	$.extend( api.controlConstructor, {
-		nav_menu_location: api.Menus.MenuLocationControl,
-		nav_menu_item: api.Menus.MenuItemControl,
-		nav_menu: api.Menus.MenuControl,
-		nav_menu_name: api.Menus.MenuNameControl,
-		nav_menu_locations: api.Menus.MenuLocationsControl,
-		nav_menu_auto_add: api.Menus.MenuAutoAddControl
-	});
-
-	/**
-	 * Extends wp.customize.panelConstructor with section constructor for menus.
-	 */
-	$.extend( api.panelConstructor, {
-		nav_menus: api.Menus.MenusPanel
+		nav_menu_item2: api.Menus2.MenuItemControl,
+		nav_menu2: api.Menus2.MenuControl
 	});
 
 	/**
 	 * Extends wp.customize.sectionConstructor with section constructor for menu.
 	 */
 	$.extend( api.sectionConstructor, {
-		nav_menu: api.Menus.MenuSection,
-		new_menu: api.Menus.NewMenuSection
+		nav_menu2: api.Menus2.MenuSection,
+		new_menu2: api.Menus2.NewMenuSection
 	});
 
 	/**
@@ -3105,13 +2712,13 @@
 	api.bind( 'ready', function() {
 
 		// Set up the menu items panel.
-		api.Menus.availableMenuItemsPanel = new api.Menus.AvailableMenuItemsPanelView({
-			collection: api.Menus.availableMenuItems
+		api.Menus2.availableMenuItemsPanel = new api.Menus2.AvailableMenuItemsPanelView({
+			collection: api.Menus2.availableMenuItems
 		});
 
 		api.bind( 'saved', function( data ) {
 			if ( data.nav_menu_updates || data.nav_menu_item_updates ) {
-				api.Menus.applySavedData( data );
+				api.Menus2.applySavedData( data );
 			}
 		} );
 
@@ -3127,7 +2734,7 @@
 		} );
 
 		// Open and focus menu control.
-		api.previewer.bind( 'focus-nav-menu-item-control', api.Menus.focusMenuItemControl );
+		api.previewer.bind( 'focus-nav-menu-item-control', api.Menus2.focusMenuItemControl );
 	} );
 
 	/**
@@ -3140,7 +2747,7 @@
 	 * @param {Array} data.nav_menu_updates
 	 * @param {Array} data.nav_menu_item_updates
 	 */
-	api.Menus.applySavedData = function( data ) {
+	api.Menus2.applySavedData = function( data ) {
 
 		var insertedMenuIdMapping = {}, insertedMenuItemIdMapping = {};
 
@@ -3153,7 +2760,7 @@
 				if ( ! update.term_id ) {
 					throw new Error( 'Expected term_id' );
 				}
-				oldCustomizeId = 'nav_menu[' + String( update.previous_term_id ) + ']';
+				oldCustomizeId = 'nav_menu2[' + String( update.previous_term_id ) + ']';
 				if ( ! api.has( oldCustomizeId ) ) {
 					throw new Error( 'Expected setting to exist: ' + oldCustomizeId );
 				}
@@ -3170,10 +2777,10 @@
 				settingValue = $.extend( _.clone( settingValue ), update.saved_value );
 
 				insertedMenuIdMapping[ update.previous_term_id ] = update.term_id;
-				newCustomizeId = 'nav_menu[' + String( update.term_id ) + ']';
+				newCustomizeId = 'nav_menu2[' + String( update.term_id ) + ']';
 				newSetting = api.create( newCustomizeId, newCustomizeId, settingValue, {
-					type: 'nav_menu',
-					transport: api.Menus.data.settingTransport,
+					type: 'nav_menu2',
+					transport: api.Menus2.data.settingTransport,
 					previewer: api.previewer
 				} );
 
@@ -3183,11 +2790,11 @@
 				}
 
 				// Add the menu section.
-				newSection = new api.Menus.MenuSection( newCustomizeId, {
+				newSection = new api.Menus2.MenuSection( newCustomizeId, {
 					panel: 'nav_menus',
 					title: settingValue.name,
-					customizeAction: api.Menus.data.l10n.customizingMenus,
-					type: 'nav_menu',
+					customizeAction: api.Menus2.data.l10n.customizingMenus,
+					type: 'nav_menu2',
 					priority: oldSection.priority.get(),
 					menu_id: update.term_id
 				} );
@@ -3197,7 +2804,7 @@
 
 				// Update the values for nav menus in Navigation Menu controls.
 				api.control.each( function( setting ) {
-					if ( ! setting.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== setting.params.widget_id_base ) {
+					if ( ! setting.extended( api.controlConstructor.widget_form ) || 'nav_menu2' !== setting.params.widget_id_base ) {
 						return;
 					}
 					var select, oldMenuOption, newMenuOption;
@@ -3222,11 +2829,11 @@
 				// Update the nav_menu widget to reflect removed placeholder menu.
 				navMenuCount = 0;
 				api.each(function( setting ) {
-					if ( /^nav_menu\[/.test( setting.id ) && false !== setting() ) {
+					if ( /^nav_menu2\[/.test( setting.id ) && false !== setting() ) {
 						navMenuCount += 1;
 					}
 				});
-				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu2 ] )' );
 				widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
 				widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
 				widgetTemplate.find( 'option[value=' + String( update.previous_term_id ) + ']' ).remove();
@@ -3253,7 +2860,7 @@
 					newSection.expand();
 				}
 			} else if ( 'updated' === update.status ) {
-				customizeId = 'nav_menu[' + String( update.term_id ) + ']';
+				customizeId = 'nav_menu2[' + String( update.term_id ) + ']';
 				if ( ! api.has( customizeId ) ) {
 					throw new Error( 'Expected setting to exist: ' + customizeId );
 				}
@@ -3285,7 +2892,7 @@
 				if ( ! update.post_id ) {
 					throw new Error( 'Expected post_id' );
 				}
-				oldCustomizeId = 'nav_menu_item[' + String( update.previous_post_id ) + ']';
+				oldCustomizeId = 'nav_menu_item2[' + String( update.previous_post_id ) + ']';
 				if ( ! api.has( oldCustomizeId ) ) {
 					throw new Error( 'Expected setting to exist: ' + oldCustomizeId );
 				}
@@ -3314,18 +2921,18 @@
 					settingValue.nav_menu_term_id = insertedMenuIdMapping[ settingValue.nav_menu_term_id ];
 				}
 
-				newCustomizeId = 'nav_menu_item[' + String( update.post_id ) + ']';
+				newCustomizeId = 'nav_menu_item2[' + String( update.post_id ) + ']';
 				newSetting = api.create( newCustomizeId, newCustomizeId, settingValue, {
-					type: 'nav_menu_item',
-					transport: api.Menus.data.settingTransport,
+					type: 'nav_menu_item2',
+					transport: api.Menus2.data.settingTransport,
 					previewer: api.previewer
 				} );
 
 				// Add the menu control.
 				newControl = new api.controlConstructor.nav_menu_item( newCustomizeId, {
-					type: 'nav_menu_item',
+					type: 'nav_menu_item2',
 					menu_id: update.post_id,
-					section: 'nav_menu[' + String( settingValue.nav_menu_term_id ) + ']',
+					section: 'nav_menu2[' + String( settingValue.nav_menu_term_id ) + ']',
 					priority: oldControl.priority.get(),
 					settings: {
 						'default': newCustomizeId
@@ -3370,8 +2977,8 @@
 	 *
 	 * @param {string} menuItemId
 	 */
-	api.Menus.focusMenuItemControl = function( menuItemId ) {
-		var control = api.Menus.getMenuItemControl( menuItemId );
+	api.Menus2.focusMenuItemControl = function( menuItemId ) {
+		var control = api.Menus2.getMenuItemControl( menuItemId );
 		if ( control ) {
 			control.focus();
 		}
@@ -3385,8 +2992,8 @@
 	 * @param menuId
 	 * @return {wp.customize.controlConstructor.menus[]}
 	 */
-	api.Menus.getMenuControl = function( menuId ) {
-		return api.control( 'nav_menu[' + menuId + ']' );
+	api.Menus2.getMenuControl = function( menuId ) {
+		return api.control( 'nav_menu2[' + menuId + ']' );
 	};
 
 	/**
@@ -3397,7 +3004,7 @@
 	 * @param {string} menuItemId
 	 * @return {Object|null}
 	 */
-	api.Menus.getMenuItemControl = function( menuItemId ) {
+	api.Menus2.getMenuItemControl = function( menuItemId ) {
 		return api.control( menuItemIdToSettingId( menuItemId ) );
 	};
 
@@ -3407,7 +3014,7 @@
 	 * @param {string} menuItemId
 	 */
 	function menuItemIdToSettingId( menuItemId ) {
-		return 'nav_menu_item[' + menuItemId + ']';
+		return 'nav_menu_item2[' + menuItemId + ']';
 	}
 
 	/**
@@ -3423,7 +3030,7 @@
 		name = name || '';
 		name = wp.sanitize.stripTagsAndEncodeText( name ); // Remove any potential tags from name.
 		name = name.toString().trim();
-		return name || api.Menus.data.l10n.unnamed;
+		return name || api.Menus2.data.l10n.unnamed;
 	}
 
 })( wp.customize, wp, jQuery );

@@ -22,7 +22,7 @@ class WP_Customize_Nav_Menu_Control2 extends WP_Customize_Control {
 	 * @since 4.3.0
 	 * @var string
 	 */
-	public $type = 'nav_menu';
+	public $type = 'nav_menu2';
 
 	/**
 	 * Don't render the control's content - it uses a JS template instead.

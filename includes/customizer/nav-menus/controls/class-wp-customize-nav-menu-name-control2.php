@@ -2,7 +2,7 @@
 
 class WP_Customize_Nav_Menu_Name_Control2 extends WP_Customize_Control {
 
-	public $type = 'nav_menu_name';
+	public $type = 'nav_menu_name2';
 
 	protected function render_content() {}
 

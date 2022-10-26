@@ -20,11 +20,11 @@
  */
 class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 
-	const ID_PATTERN = '/^nav_menu\[(?P<id>-?\d+)\]$/';
+	const ID_PATTERN = '/^yoghbiolinks_links$/';
 
-	const TAXONOMY = 'nav_menu';
+	const TAXONOMY = 'nav_menu2';
 
-	const TYPE = 'nav_menu';
+	const TYPE = 'nav_menu2';
 
 	/**
 	 * Setting type.
@@ -136,12 +136,6 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 		if ( empty( $manager->nav_menus ) ) {
 			throw new Exception( 'Expected WP_Customize_Manager::$nav_menus to be set.' );
 		}
-
-		if ( ! preg_match( self::ID_PATTERN, $id, $matches ) ) {
-			throw new Exception( "Illegal widget setting ID: $id" );
-		}
-
-		$this->term_id = (int) $matches['id'];
 
 		parent::__construct( $manager, $id, $args );
 	}
@@ -570,11 +564,11 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 				}
 
 				$widget_instance = $nav_menu_widget_setting->post_value(); // Note that this calls WP_Customize_Widgets::sanitize_widget_instance().
-				if ( empty( $widget_instance['nav_menu'] ) || (int) $widget_instance['nav_menu'] !== $this->previous_term_id ) {
+				if ( empty( $widget_instance['nav_menu2'] ) || (int) $widget_instance['nav_menu2'] !== $this->previous_term_id ) {
 					continue;
 				}
 
-				$widget_instance['nav_menu'] = $this->term_id;
+				$widget_instance['nav_menu2'] = $this->term_id;
 				$updated_widget_instance     = $this->manager->widgets->sanitize_widget_js_instance( $widget_instance );
 				$this->manager->set_post_value( $nav_menu_widget_setting->id, $updated_widget_instance );
 				$nav_menu_widget_setting->save();

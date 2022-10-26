@@ -24,7 +24,7 @@ class WP_Customize_Nav_Menu_Section2 extends WP_Customize_Section {
 	 * @since 4.3.0
 	 * @var string
 	 */
-	public $type = 'nav_menu';
+	public $type = 'nav_menu2';
 
 	/**
 	 * Get section parameters for JS.
@@ -34,7 +34,7 @@ class WP_Customize_Nav_Menu_Section2 extends WP_Customize_Section {
 	 */
 	public function json() {
 		$exported            = parent::json();
-		$exported['menu_id'] = (int) preg_replace( '/^nav_menu\[(-?\d+)\]/', '$1', $this->id );
+		$exported['menu_id'] = (int) preg_replace( '/^nav_menu2\[(-?\d+)\]/', '$1', $this->id );
 
 		return $exported;
 	}

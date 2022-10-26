@@ -2,11 +2,11 @@
 
 class WP_Customize_Nav_Menu_Item_Setting2 extends WP_Customize_Setting {
 
-	const ID_PATTERN = '/^nav_menu_item\[(?P<id>-?\d+)\]$/';
+	const ID_PATTERN = '/^nav_menu_item2\[(?P<id>-?\d+)\]$/';
 
-	const POST_TYPE = 'nav_menu_item';
+	const POST_TYPE = 'nav_menu_item2';
 
-	const TYPE = 'nav_menu_item';
+	const TYPE = 'nav_menu_item2';
 
 	public $type = self::TYPE;
 
