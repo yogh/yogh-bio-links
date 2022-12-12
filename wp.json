@@ -1,0 +1,26 @@
+{
+	"slug": "yogh-bio-links",
+	"latest": {
+		"version": "1.0.0-beta2",
+		"package": "https://yogh.github.io/yogh-bio-links/dist/yogh-bio-links.1.0.0-beta2.zip",
+		"requires": "5.8",
+		"tested": "6.0.2",
+		"requires_php": "7.2"
+	},
+	"versions": {
+		"1.0.0-beta2": {
+			"version": "1.0.0-beta2",
+			"package": "https://yogh.github.io/yogh-bio-links/dist/yogh-bio-links.1.0.0-beta2.zip",
+			"requires": "5.8",
+			"tested": "6.0.2",
+			"requires_php": "7.2"
+		},
+		"1.0.0-beta1": {
+			"version": "1.0.0-beta1",
+			"package": "https://yogh.github.io/yogh-bio-links/dist/yogh-bio-links.1.0.0-beta1.zip",
+			"requires": "5.8",
+			"tested": "6.0.2",
+			"requires_php": "7.2"
+		}
+	}
+}
