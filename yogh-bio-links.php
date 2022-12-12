@@ -7,9 +7,10 @@
  * Author: Yogh
  * Author URI: https://www.yogh.com.br/
  * Text Domain: yogh-bio-links
- * Domain Path: /languagesx
+ * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP: 7.2
+ * Directory: https://yogh.github.io/yogh-bio-links/
  *
  * @package YoghBioLinks
  */

@@ -6,7 +6,9 @@
 .eslintignore
 .eslintrc
 .git
+.gitattributes
 .gitignore
+.gitmodules
 .github
 .gitlab-ci.yml
 .travis.yml
@@ -46,3 +48,8 @@ assets/css/mixins
 .stylelintignore
 .stylelintrc
 includes/customizer/nav-menus
+includes/selfdirectory/composer.json
+includes/selfdirectory/composer.lock
+includes/selfdirectory/example.php
+includes/selfdirectory/phpcs.xml
+includes/selfdirectory/README.md
