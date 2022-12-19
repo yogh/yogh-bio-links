@@ -164,6 +164,12 @@ class YoghBL_Customizer {
 			#available-yoghbl-menu-items .customize-section-title {
 				display: none;
 			}
+			.control-section-yoghbl_nav_menu .customize-section-description-container {
+				margin-bottom: 15px;
+			}
+			.adding-yoghbl-menu-items .menu-item-bar .item-edit {
+				display: none;
+			}
 			@media screen and (max-width: 640px) {
 				#available-yoghbl-menu-items .customize-section-title {
 					display: block;
@@ -446,10 +452,6 @@ class YoghBL_Customizer {
 		$this->manager = $wp_customize;
 
 		$changeset = $this->manager->unsanitized_post_values();
-		// echo '<pre>';
-		// print_r( array_keys( $changeset ) );
-		// die;
-
 		// Preview settings for nav menus early so that the sections and controls will be added properly.
 		// $nav_menus_setting_ids = array();
 		// foreach ( array_keys( $changeset ) as $setting_id ) {

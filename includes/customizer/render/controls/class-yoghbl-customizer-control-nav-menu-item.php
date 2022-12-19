@@ -44,6 +44,10 @@ class YoghBL_Customizer_Control_Nav_Menu_Item extends WP_Customize_Control {
 					<input type="text" id="edit-menu-item-title-{{ data.menu_item_id }}" placeholder="{{ data.title }}" class="widefat edit-menu-item-title" name="menu-item-title" />
 				</label>
 			</p>
+			<div class="menu-item-actions description-thin submitbox">
+				<button type="button" class="button-link button-link-delete item-delete submitdelete deletion"><?php _e( 'Remove' ); ?></button>
+				<span class="spinner"></span>
+			</div>
 		</div><!-- .menu-item-settings-->
 		<ul class="menu-item-transport"></ul>
 		<?php
@@ -52,7 +56,7 @@ class YoghBL_Customizer_Control_Nav_Menu_Item extends WP_Customize_Control {
 	public function json() {
 		$exported = parent::json();
 
-		$exported['menu_item_id'] = $this->setting->post_id;
+		$exported['menu_item_id'] = $this->setting->hash;
 
 		return $exported;
 	}

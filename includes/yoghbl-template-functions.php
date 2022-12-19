@@ -127,7 +127,9 @@ if ( ! function_exists( 'yoghbiolinks_buttons' ) ) {
 	/**
 	 * The HTML output to Yogh Bio Links buttons.
 	 */
-	function yoghbiolinks_links_html() {
+	function yoghbiolinks_links_html( $args = array() ) {
+		$args = (object) apply_filters( 'yoghbiolinks_links_html_args', $args );
+
 		$links = yoghbl_links();
 
 		$links_html = array();
@@ -145,7 +147,7 @@ if ( ! function_exists( 'yoghbiolinks_buttons' ) ) {
 		<div class="wp-block-buttons yoghbiolinks-links">' . implode( '', $links_html ) . '</div>
 		<!-- /wp:buttons -->';
 
-		echo trim(
+		$links_html = trim(
 			preg_replace(
 				'/<!--.+-->/',
 				'',
@@ -156,6 +158,10 @@ if ( ! function_exists( 'yoghbiolinks_buttons' ) ) {
 				)
 			)
 		);
+
+		$links_html = apply_filters( 'yoghbiolinks_links_html_output', $links_html, $args );
+
+		echo $links_html;
 	}
 }
 

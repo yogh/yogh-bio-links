@@ -53,5 +53,22 @@
   margin-bottom: 32px;
 }
 .yoghbiolinks-links {
-	margin-bottom: 32px;
+  margin-bottom: 32px;
+}
+
+.yoghbiolinks-links .customize-partial-edit-shortcut {
+  position: absolute;
+  top: -30px;
+  right: 0;
+}
+.yoghbiolinks-links {
+  position: relative;
+}
+@media screen and (max-width: 800px) {
+  .yoghbiolinks-links .customize-partial-edit-shortcut button {
+    right: -32px;
+  }
+  .yoghbiolinks-links .customize-partial-edit-shortcut {
+    top: -32px;
+  }
 }

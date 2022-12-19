@@ -229,6 +229,43 @@ function yoghbl_links() {
 	return yoghbl_links_decode( $links );
 }
 
+function yoghbl_links_update_item( $link ) {
+	$links = get_option( 'yoghbiolinks_links' );
+
+	$links = (array) explode( "\n", $links );
+
+	$link = (Object) $link;
+
+	$links[] = yoghbl_link_encode( $link );
+
+	$links = implode( "\n", $links );
+
+	return update_option( 'yoghbiolinks_links', $links );
+}
+
+function yoghbl_links_delete_item( $hash ) {
+	$links = get_option( 'yoghbiolinks_links' );
+
+	if ( $links ) {
+		$links = yoghbl_links_decode( $links );
+
+		$links = array_combine(
+			wp_list_pluck( $links, 'hash' ),
+			$links
+		);
+
+		if ( isset( $links[ $hash ] ) ) {
+			unset( $links[ $hash ] );
+		}
+
+		$links = array_values( $links );
+
+		$links = yoghbl_links_encode( $links );
+	}
+
+	return update_option( 'yoghbiolinks_links', $links );
+}
+
 /**
  * Encode array of link object to string.
  *

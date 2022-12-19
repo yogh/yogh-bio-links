@@ -1,39 +1,76 @@
+/**
+ * @output wp-admin/js/customize-nav-menus.js
+ */
+
+/* global _yoghblCustomizerSettingsNavMenus, wpNavMenu, console */
 ( function( api, wp, $ ) {
 	'use strict';
 
+	/**
+	 * Set up wpNavMenu for drag and drop.
+	 */
 	wpNavMenu.originalInit = wpNavMenu.init;
+	wpNavMenu.options.menuItemDepthPerLevel = 1;
+	wpNavMenu.options.sortableItems         = '> .customize-control-yoghbl_nav_menu_item';
+	wpNavMenu.options.targetTolerance       = 0;
 	wpNavMenu.init = function() {
 		this.jQueryExtensions();
 	};
 
+	/**
+	 * @namespace wp.customize.Menus
+	 */
 	api.YoghBL = api.YoghBL || {};
 
+	// Link settings.
 	api.YoghBL.data = {
 		l10n: {},
 		settingTransport: 'refresh',
 		phpIntMax: 0,
 		defaultSettingValues: {
 			yoghbl_nav_menu_item: {}
-		},
+		}
 	};
 	if ( 'undefined' !== typeof _yoghblCustomizerSettingsNavMenus ) {
 		$.extend( api.YoghBL.data, _yoghblCustomizerSettingsNavMenus );
 	}
 
-	api.YoghBL.md5 = function(d){var r = M(V(Y(X(d),8*d.length)));return r.toLowerCase()};function M(d){for(var _,m="0123456789ABCDEF",f="",r=0;r<d.length;r++)_=d.charCodeAt(r),f+=m.charAt(_>>>4&15)+m.charAt(15&_);return f}function X(d){for(var _=Array(d.length>>2),m=0;m<_.length;m++)_[m]=0;for(m=0;m<8*d.length;m+=8)_[m>>5]|=(255&d.charCodeAt(m/8))<<m%32;return _}function V(d){for(var _="",m=0;m<32*d.length;m+=8)_+=String.fromCharCode(d[m>>5]>>>m%32&255);return _}function Y(d,_){d[_>>5]|=128<<_%32,d[14+(_+64>>>9<<4)]=_;for(var m=1732584193,f=-271733879,r=-1732584194,i=271733878,n=0;n<d.length;n+=16){var h=m,t=f,g=r,e=i;f=md5_ii(f=md5_ii(f=md5_ii(f=md5_ii(f=md5_hh(f=md5_hh(f=md5_hh(f=md5_hh(f=md5_gg(f=md5_gg(f=md5_gg(f=md5_gg(f=md5_ff(f=md5_ff(f=md5_ff(f=md5_ff(f,r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+0],7,-680876936),f,r,d[n+1],12,-389564586),m,f,d[n+2],17,606105819),i,m,d[n+3],22,-1044525330),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+4],7,-176418897),f,r,d[n+5],12,1200080426),m,f,d[n+6],17,-1473231341),i,m,d[n+7],22,-45705983),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+8],7,1770035416),f,r,d[n+9],12,-1958414417),m,f,d[n+10],17,-42063),i,m,d[n+11],22,-1990404162),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+12],7,1804603682),f,r,d[n+13],12,-40341101),m,f,d[n+14],17,-1502002290),i,m,d[n+15],22,1236535329),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+1],5,-165796510),f,r,d[n+6],9,-1069501632),m,f,d[n+11],14,643717713),i,m,d[n+0],20,-373897302),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+5],5,-701558691),f,r,d[n+10],9,38016083),m,f,d[n+15],14,-660478335),i,m,d[n+4],20,-405537848),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+9],5,568446438),f,r,d[n+14],9,-1019803690),m,f,d[n+3],14,-187363961),i,m,d[n+8],20,1163531501),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+13],5,-1444681467),f,r,d[n+2],9,-51403784),m,f,d[n+7],14,1735328473),i,m,d[n+12],20,-1926607734),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+5],4,-378558),f,r,d[n+8],11,-2022574463),m,f,d[n+11],16,1839030562),i,m,d[n+14],23,-35309556),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+1],4,-1530992060),f,r,d[n+4],11,1272893353),m,f,d[n+7],16,-155497632),i,m,d[n+10],23,-1094730640),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+13],4,681279174),f,r,d[n+0],11,-358537222),m,f,d[n+3],16,-722521979),i,m,d[n+6],23,76029189),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+9],4,-640364487),f,r,d[n+12],11,-421815835),m,f,d[n+15],16,530742520),i,m,d[n+2],23,-995338651),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+0],6,-198630844),f,r,d[n+7],10,1126891415),m,f,d[n+14],15,-1416354905),i,m,d[n+5],21,-57434055),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+12],6,1700485571),f,r,d[n+3],10,-1894986606),m,f,d[n+10],15,-1051523),i,m,d[n+1],21,-2054922799),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+8],6,1873313359),f,r,d[n+15],10,-30611744),m,f,d[n+6],15,-1560198380),i,m,d[n+13],21,1309151649),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+4],6,-145523070),f,r,d[n+11],10,-1120210379),m,f,d[n+2],15,718787259),i,m,d[n+9],21,-343485551),m=safe_add(m,h),f=safe_add(f,t),r=safe_add(r,g),i=safe_add(i,e)}return Array(m,f,r,i)}function md5_cmn(d,_,m,f,r,i){return safe_add(bit_rol(safe_add(safe_add(_,d),safe_add(f,i)),r),m)}function md5_ff(d,_,m,f,r,i,n){return md5_cmn(_&m|~_&f,d,_,r,i,n)}function md5_gg(d,_,m,f,r,i,n){return md5_cmn(_&f|m&~f,d,_,r,i,n)}function md5_hh(d,_,m,f,r,i,n){return md5_cmn(_^m^f,d,_,r,i,n)}function md5_ii(d,_,m,f,r,i,n){return md5_cmn(m^(_|~f),d,_,r,i,n)}function safe_add(d,_){var m=(65535&d)+(65535&_);return(d>>16)+(_>>16)+(m>>16)<<16|65535&m}function bit_rol(d,_){return d<<_|d>>>32-_};
-
+	/**
+	 * Newly-created Nav Menus and Nav Menu Items have negative integer IDs which
+	 * serve as placeholders until Save & Publish happens.
+	 *
+	 * @alias wp.customize.Menus.generatePlaceholderAutoIncrementId
+	 *
+	 * @return {number}
+	 */
 	api.YoghBL.generatePlaceholderAutoIncrementId = function() {
 		return -Math.ceil( api.YoghBL.data.phpIntMax * Math.random() );
 	};
 
+	/**
+	 * wp.customize.Menus.AvailableItemModel
+	 *
+	 * A single available menu item model. See PHP's WP_Customize_Nav_Menu_Item_Setting class.
+	 *
+	 * @class    wp.customize.Menus.AvailableItemModel
+	 * @augments Backbone.Model
+	 */
 	api.YoghBL.AvailableItemModel = Backbone.Model.extend( $.extend(
 		{
-			id: null
+			id: null // This is only used by Backbone.
 		},
 		api.YoghBL.data.defaultSettingValues.yoghbl_nav_menu_item
 	) );
 
-	api.YoghBL.AvailableItemCollection = Backbone.Collection.extend( {
+	/**
+	 * wp.customize.Menus.AvailableItemCollection
+	 *
+	 * Collection for available menu item models.
+	 *
+	 * @class    wp.customize.Menus.AvailableItemCollection
+	 * @augments Backbone.Collection
+	 */
+	api.YoghBL.AvailableItemCollection = Backbone.Collection.extend(/** @lends wp.customize.Menus.AvailableItemCollection.prototype */{
 		model: api.YoghBL.AvailableItemModel,
 
 		sort_key: 'order',
@@ -46,10 +83,10 @@
 			this.sort_key = fieldName;
 			this.sort();
 		}
-	} );
+	});
 	api.YoghBL.availableMenuItems = new api.YoghBL.AvailableItemCollection( api.YoghBL.data.availableMenuItems );
 
-	api.YoghBL.AvailableMenuItemsPanelView = wp.Backbone.View.extend( {
+	api.YoghBL.AvailableMenuItemsPanelView = wp.Backbone.View.extend(/** @lends wp.customize.Menus.AvailableMenuItemsPanelView.prototype */{
 
 		el: '#available-yoghbl-menu-items',
 
@@ -113,9 +150,31 @@
 				}
 			} );
 
+			// Load available items if it looks like we'll need them.
 			api.panel( 'yoghbiolinks' ).container.on( 'expanded', function() {
 				if ( ! self.rendered ) {
 					self.rendered = true;
+				}
+			});
+
+			// Load more items.
+			this.sectionContent.on( 'scroll', function() {
+				var totalHeight = self.$el.find( '.accordion-section.open .available-menu-items-list' ).prop( 'scrollHeight' ),
+					visibleHeight = self.$el.find( '.accordion-section.open' ).height();
+
+				if ( ! self.loading && $( this ).scrollTop() > 3 / 4 * totalHeight - visibleHeight ) {
+					var type = $( this ).data( 'type' ),
+						object = $( this ).data( 'object' );
+
+					if ( 'search' === type ) {
+						if ( self.searchTerm ) {
+							self.doSearch( self.pages.search );
+						}
+					} else {
+						self.loadItems( [
+							{ type: type, object: object }
+						] );
+					}
 				}
 			});
 
@@ -125,6 +184,7 @@
 			self.delegateEvents();
 		},
 
+		// Adjust the height of each section of items to fit the screen.
 		itemSectionHeight: function() {
 			var sections, lists, totalHeight, accordionHeight, diff;
 			totalHeight = window.innerHeight;
@@ -206,8 +266,6 @@
 			if ( ! this.currentMenuControl ) {
 				return;
 			}
-			console.log( itemName );
-			console.log( itemUrl );
 
 			/*
 			 * Allow URLs including:
@@ -361,6 +419,7 @@
 			};
 			$( '#customize-preview' ).on( 'click', close );
 
+			// Collapse all controls.
 			_( this.currentMenuControl.getMenuItemControls() ).each( function( control ) {
 				control.collapseForm();
 			} );
@@ -402,19 +461,37 @@
 				this.close( { returnFocus: true } );
 			}
 		}
-	} );
+	});
 
-	api.YoghBL.MenuSection = api.Section.extend( {
+	api.YoghBL.MenuSection = api.Section.extend(/** @lends wp.customize.Menus.MenuItemControl.prototype */{
 
+		/**
+		 * Initialize.
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param {string} id
+		 * @param {Object} options
+		 */
 		initialize: function( id, options ) {
 			var section = this;
 			api.Section.prototype.initialize.call( section, id, options );
 			section.deferred.initSortables = $.Deferred();
 		},
 
+		/**
+		 * Ready.
+		 */
 		ready: function() {
 			var section = this, handleFieldActiveToggle;
 
+			/*
+			 * Since newly created sections won't be registered in PHP, we need to prevent the
+			 * preview's sending of the activeSections to result in this control
+			 * being deactivated when the preview refreshes. So we can hook onto
+			 * the setting that has the same ID and its presence can dictate
+			 * whether the section is active.
+			 */
 			section.active.validate = function() {
 				if ( ! api.has( section.id ) ) {
 					return false;
@@ -422,9 +499,12 @@
 				return !! api( section.id ).get();
 			};
 
+			section.$sectionContent = section.container.closest( '.accordion-section-content' );
+
 			section.populateControls();
 
 			api.bind( 'pane-contents-reflowed', function() {
+				// Skip menus that have been removed.
 				if ( ! section.contentContainer.parent().length ) {
 					return;
 				}
@@ -435,6 +515,12 @@
 				section.container.find( '.menu-item.move-right-disabled .menus-move-right' ).attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
 			} );
 
+			/**
+			 * Update the active field class for the content container for a given checkbox toggle.
+			 *
+			 * @this {jQuery}
+			 * @return {void}
+			 */
 			handleFieldActiveToggle = function() {
 				var className = 'field-' + $( this ).val() + '-active';
 				section.contentContainer.toggleClass( className, $( this ).prop( 'checked' ) );
@@ -453,6 +539,8 @@
 				menuAutoAddControl,
 				menuDeleteControl;
 
+
+			// Add the menu control.
 			menuControl = api.control( section.id );
 			if ( ! menuControl ) {
 				menuControl = new api.controlConstructor.yoghbl_nav_menu( section.id, {
@@ -469,6 +557,9 @@
 			}
 		},
 
+		/**
+		 *
+		 */
 		refreshAssignedLocations: function() {
 			var section = this,
 				menuTermId = section.params.menu_id,
@@ -481,6 +572,9 @@
 			section.assignedLocations.set( currentAssignedLocations );
 		},
 
+		/**
+		 * @param {Array} themeLocationSlugs Theme location slugs.
+		 */
 		updateAssignedLocationsInSectionTitle: function( themeLocationSlugs ) {
 			var section = this,
 				$title;
@@ -506,7 +600,9 @@
 				wpNavMenu.menuList = section.contentContainer;
 				wpNavMenu.targetList = wpNavMenu.menuList;
 
+				// Add attributes needed by wpNavMenu.
 				$( '#menu-to-edit' ).removeAttr( 'id' );
+				wpNavMenu.menuList.attr( 'id', 'menu-to-edit' ).addClass( 'menu' );
 
 				_.each( api.section( section.id ).controls(), function( control ) {
 					if ( 'yoghbl_nav_menu_item' === control.params.type ) {
@@ -514,6 +610,7 @@
 					}
 				} );
 
+				// Make sure Sortables is initialized after the section has been expanded to prevent `offset` issues.
 				if ( args.completeCallback ) {
 					completeCallback = args.completeCallback;
 				}
@@ -534,10 +631,226 @@
 
 		highlightNewItemButton: function() {
 			api.utils.highlightButton( this.contentContainer.find( '.add-new-yoghbl-menu-item' ), { delay: 2000 } );
-		}
-	} );
+		},
 
-	api.YoghBL.MenuItemControl = api.Control.extend( {
+		/***********************************************************************
+		 * Begin public API methods
+		 **********************************************************************/
+
+		/**
+		 * @return {wp.customize.controlConstructor.yoghbl_nav_menu_item[]}
+		 */
+		getMenuItemControls: function() {
+			var menuControl = this,
+				menuItemControls = [],
+				menuTermId = menuControl.params.menu_id;
+
+			api.control.each(function( control ) {
+				if ( 'yoghbl_nav_menu_item' === control.params.type && control.setting() ) {
+					menuItemControls.push( control );
+				}
+			});
+
+			return menuItemControls;
+		},
+
+		/**
+		 * Make sure that each menu item control has the proper depth.
+		 */
+		reflowMenuItems: function() {
+			var menuControl = this,
+				menuItemControls = menuControl.getMenuItemControls(),
+				reflowRecursively;
+
+			reflowRecursively = function( context ) {
+				var currentMenuItemControls = [],
+					thisParent = context.currentParent;
+				_.each( context.menuItemControls, function( menuItemControl ) {
+					if ( thisParent === menuItemControl.setting().menu_item_parent ) {
+						currentMenuItemControls.push( menuItemControl );
+						// @todo We could remove this item from menuItemControls now, for efficiency.
+					}
+				});
+				currentMenuItemControls.sort( function( a, b ) {
+					return a.setting().position - b.setting().position;
+				});
+
+				_.each( currentMenuItemControls, function( menuItemControl ) {
+					// Update position.
+					context.currentAbsolutePosition += 1;
+					menuItemControl.priority.set( context.currentAbsolutePosition ); // This will change the sort order.
+
+					// Update depth.
+					if ( ! menuItemControl.container.hasClass( 'menu-item-depth-' + String( context.currentDepth ) ) ) {
+						_.each( menuItemControl.container.prop( 'className' ).match( /menu-item-depth-\d+/g ), function( className ) {
+							menuItemControl.container.removeClass( className );
+						});
+						menuItemControl.container.addClass( 'menu-item-depth-' + String( context.currentDepth ) );
+					}
+					menuItemControl.container.data( 'item-depth', context.currentDepth );
+
+					// Process any children items.
+					context.currentDepth += 1;
+					context.currentParent = menuItemControl.params.menu_item_id;
+					reflowRecursively( context );
+					context.currentDepth -= 1;
+					context.currentParent = thisParent;
+				});
+
+				// Update class names for reordering controls.
+				if ( currentMenuItemControls.length ) {
+					_( currentMenuItemControls ).each(function( menuItemControl ) {
+						menuItemControl.container.removeClass( 'move-up-disabled move-down-disabled move-left-disabled move-right-disabled' );
+						if ( 0 === context.currentDepth ) {
+							menuItemControl.container.addClass( 'move-left-disabled' );
+						} else if ( 10 === context.currentDepth ) {
+							menuItemControl.container.addClass( 'move-right-disabled' );
+						}
+					});
+
+					currentMenuItemControls[0].container
+						.addClass( 'move-up-disabled' )
+						.addClass( 'move-right-disabled' )
+						.toggleClass( 'move-down-disabled', 1 === currentMenuItemControls.length );
+					currentMenuItemControls[ currentMenuItemControls.length - 1 ].container
+						.addClass( 'move-down-disabled' )
+						.toggleClass( 'move-up-disabled', 1 === currentMenuItemControls.length );
+				}
+			};
+
+			reflowRecursively( {
+				menuItemControls: menuItemControls,
+				currentParent: 0,
+				currentDepth: 0,
+				currentAbsolutePosition: 0
+			} );
+
+			menuControl.updateInvitationVisibility( menuItemControls );
+			menuControl.container.find( '.reorder-toggle' ).toggle( menuItemControls.length > 1 );
+		},
+
+		/**
+		 * Note that this function gets debounced so that when a lot of setting
+		 * changes are made at once, for instance when moving a menu item that
+		 * has child items, this function will only be called once all of the
+		 * settings have been updated.
+		 */
+		debouncedReflowMenuItems: _.debounce( function() {
+			this.reflowMenuItems.apply( this, arguments );
+		}, 0 ),
+
+		/**
+		 * Add a new item to this menu.
+		 *
+		 * @param {Object} item - Value for the nav_menu_item setting to be created.
+		 * @return {wp.customize.Menus.controlConstructor.yoghbl_nav_menu_item} The newly-created nav_menu_item control instance.
+		 */
+		addItemToMenu: function( item ) {
+			var menuControl = this, customizeId, settingArgs, setting, menuItemControl, placeholderId, position = 0, priority = 10,
+				originalItemId = item.id || '';
+
+			_.each( menuControl.getMenuItemControls(), function( control ) {
+				if ( false === control.setting() ) {
+					return;
+				}
+				priority = Math.max( priority, control.priority() );
+				if ( 0 === control.setting().menu_item_parent ) {
+					position = Math.max( position, control.setting().position );
+				}
+			});
+			position += 1;
+			priority += 1;
+
+			item = $.extend(
+				{},
+				api.YoghBL.data.defaultSettingValues.yoghbl_nav_menu_item,
+				item,
+				{
+					nav_menu_term_id: menuControl.params.menu_id,
+					original_title: item.title,
+					position: position
+				}
+			);
+			delete item.id; // Only used by Backbone.
+
+			placeholderId = api.YoghBL.generatePlaceholderAutoIncrementId();
+			customizeId = 'yoghbl_nav_menu_item[' + String( placeholderId ) + ']';
+			settingArgs = {
+				type: 'yoghbl_nav_menu_item',
+				transport: api.YoghBL.data.settingTransport,
+				previewer: api.previewer
+			};
+			setting = api.create( customizeId, customizeId, {}, settingArgs );
+			setting.set( item ); // Change from initial empty object to actual item to mark as dirty.
+
+			// Add the menu item control.
+			menuItemControl = new api.controlConstructor.yoghbl_nav_menu_item( customizeId, {
+				type: 'yoghbl_nav_menu_item',
+				section: menuControl.id,
+				priority: priority,
+				settings: {
+					'default': customizeId
+				},
+				menu_item_id: placeholderId,
+				original_item_id: originalItemId
+			} );
+
+			api.control.add( menuItemControl );
+			setting.preview();
+			menuControl.debouncedReflowMenuItems();
+
+			wp.a11y.speak( api.YoghBL.data.l10n.itemAdded );
+
+			return menuItemControl;
+		},
+
+		/**
+		 * Show an invitation to add new menu items when there are no menu items.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {wp.customize.controlConstructor.yoghbl_nav_menu_item[]} optionalMenuItemControls
+		 */
+		updateInvitationVisibility: function ( optionalMenuItemControls ) {
+			var menuItemControls = optionalMenuItemControls || this.getMenuItemControls();
+
+			this.container.find( '.new-menu-item-invitation' ).toggle( menuItemControls.length === 0 );
+		}
+	});
+
+	api.YoghBL.MenuItemControl = api.Control.extend(/** @lends wp.customize.Menus.MenuItemControl.prototype */{
+
+		/**
+		 * wp.customize.Menus.MenuItemControl
+		 *
+		 * Customizer control for menu items.
+		 * Note that 'menu_item' must match the WP_Customize_Menu_Item_Control::$type.
+		 *
+		 * @constructs wp.customize.Menus.MenuItemControl
+		 * @augments   wp.customize.Control
+		 *
+		 * @inherit
+
+		/***********************************************************************
+		 * Begin public API methods
+		 **********************************************************************/
+
+		/**
+		 * @return {wp.customize.controlConstructor.yoghbl_nav_menu_item[]}
+		 */
+		getMenuItemControls: function() {
+			var menuControl = this,
+				menuItemControls = [],
+				menuTermId = menuControl.params.menu_id;
+
+			api.control.each(function( control ) {
+				if ( 'yoghbl_nav_menu_item' === control.params.type && control.setting() && menuTermId === control.setting().nav_menu_term_id ) {
+					menuItemControls.push( control );
+				}
+			});
+
+			return menuItemControls;
+		},
 
 		initialize: function( id, options ) {
 			var control = this;
@@ -560,6 +873,13 @@
 			};
 		},
 
+		/**
+		 * Override the embed() method to do nothing,
+		 * so that the control isn't embedded on load,
+		 * unless the containing section is already expanded.
+		 *
+		 * @since 4.3.0
+		 */
 		embed: function() {
 			var control = this,
 				sectionId = control.section(),
@@ -573,6 +893,12 @@
 			}
 		},
 
+		/**
+		 * This function is called in Section.onChangeExpanded() so the control
+		 * will only get embedded when the Section is first expanded.
+		 *
+		 * @since 4.3.0
+		 */
 		actuallyEmbed: function() {
 			var control = this;
 			if ( 'resolved' === control.deferred.embedded.state() ) {
@@ -582,9 +908,12 @@
 			control.deferred.embedded.resolve(); // This triggers control.ready().
 		},
 
+		/**
+		 * Set up the control.
+		 */
 		ready: function() {
 			this._setupControlToggle();
-			this._setupReorderUI();
+			// this._setupReorderUI();
 			this._setupUpdateUI();
 			this._setupRemoveUI();
 			this._setupLinksUI();
@@ -618,30 +947,24 @@
 		_setupReorderUI: function() {
 			var control = this, template, $reorderNav;
 
-			template = wp.template( 'menu-item-reorder-nav' );
+			template = wp.template( 'yoghbl-menu-item-reorder-nav' );
 
 			// Add the menu item reordering elements to the menu item control.
 			control.container.find( '.item-controls' ).after( template );
 
 			// Handle clicks for up/down/left-right on the reorder nav.
 			$reorderNav = control.container.find( '.menu-item-reorder-nav' );
-			$reorderNav.find( '.menus-move-up, .menus-move-down, .menus-move-left, .menus-move-right' ).on( 'click', function() {
+			$reorderNav.find( '.menus-move-up, .menus-move-down' ).on( 'click', function() {
 				var moveBtn = $( this );
 				moveBtn.focus();
 
 				var isMoveUp = moveBtn.is( '.menus-move-up' ),
-					isMoveDown = moveBtn.is( '.menus-move-down' ),
-					isMoveLeft = moveBtn.is( '.menus-move-left' ),
-					isMoveRight = moveBtn.is( '.menus-move-right' );
+					isMoveDown = moveBtn.is( '.menus-move-down' );
 
 				if ( isMoveUp ) {
 					control.moveUp();
 				} else if ( isMoveDown ) {
 					control.moveDown();
-				} else if ( isMoveLeft ) {
-					control.moveLeft();
-				} else if ( isMoveRight ) {
-					control.moveRight();
 				}
 
 				moveBtn.focus(); // Re-focus after the container was moved.
@@ -696,7 +1019,7 @@
 					menuControl;
 
 				if ( false === to ) {
-					menuControl = api.control( 'yogbl_nav_menu[' + String( from.nav_menu_term_id ) + ']' );
+					menuControl = api.section( 'yoghbiolinks_links' );
 					control.container.remove();
 
 					_.each( menuControl.getMenuItemControls(), function( otherControl ) {
@@ -757,7 +1080,7 @@
 			$removeBtn = control.container.find( '.item-delete' );
 
 			$removeBtn.on( 'click', function() {
-				// Find an adjacent element to add focus to when this menu item goes away.
+				// // Find an adjacent element to add focus to when this menu item goes away.
 				var addingItems = true, $adjacentFocusTarget, $next, $prev,
 					instanceCounter = 0, // Instance count of the menu item deleted.
 					deleteItemOriginalItemId = control.params.original_item_id,
@@ -768,15 +1091,15 @@
 					addingItems = false;
 				}
 
-				$next = control.container.nextAll( '.customize-control-nav_menu_item:visible' ).first();
-				$prev = control.container.prevAll( '.customize-control-nav_menu_item:visible' ).first();
+				$next = control.container.nextAll( '.customize-control-yoghbl_nav_menu_item:visible' ).first();
+				$prev = control.container.prevAll( '.customize-control-yoghbl_nav_menu_item:visible' ).first();
 
 				if ( $next.length ) {
 					$adjacentFocusTarget = $next.find( false === addingItems ? '.item-edit' : '.item-delete' ).first();
 				} else if ( $prev.length ) {
 					$adjacentFocusTarget = $prev.find( false === addingItems ? '.item-edit' : '.item-delete' ).first();
 				} else {
-					$adjacentFocusTarget = control.container.nextAll( '.customize-control-nav_menu' ).find( '.add-new-yoghbl-menu-item' ).first();
+					$adjacentFocusTarget = control.container.nextAll( '.customize-control-yoghbl_nav_menu' ).find( '.add-new-yoghbl-menu-item' ).first();
 				}
 
 				/*
@@ -791,7 +1114,7 @@
 						return;
 					}
 
-					matches = addedItem.getAttribute( 'id' ).match( /^customize-control-nav_menu_item-(-?\d+)$/, '' );
+					matches = addedItem.getAttribute( 'id' ).match( /^customize-control-yoghbl_nav_menu_item-(-?\d+)$/, '' );
 					if ( ! matches ) {
 						return;
 					}
@@ -807,7 +1130,7 @@
 
 				if ( instanceCounter <= 1 ) {
 					// Revert the check icon to add icon.
-					availableMenuItem = $( '#menu-item-tpl-' + control.params.original_item_id );
+					availableMenuItem = $( '#yoghbl-menu-item-tpl-' + control.params.original_item_id );
 					availableMenuItem.removeClass( 'selected' );
 					availableMenuItem.find( '.menu-item-handle' ).removeClass( 'item-added' );
 				}
@@ -818,7 +1141,7 @@
 					$adjacentFocusTarget.focus(); // Keyboard accessibility.
 				} );
 
-				control.setting.set( false );
+				// control.setting.set( false );
 			} );
 		},
 
@@ -945,8 +1268,8 @@
 		 */
 		getMenuControl: function() {
 			var control = this, settingValue = control.setting();
-			if ( settingValue && settingValue.nav_menu_term_id ) {
-				return api.control( 'yogbl_nav_menu[' + settingValue.nav_menu_term_id + ']' );
+			if ( settingValue ) {
+				return api.section( 'yoghbiolinks_links' );
 			} else {
 				return null;
 			}
@@ -1154,21 +1477,6 @@
 			this._changePosition( 1 );
 			wp.a11y.speak( api.YoghBL.data.l10n.movedDown );
 		},
-		/**
-		 * Move menu item and all children up one level of depth.
-		 */
-		moveLeft: function() {
-			this._changeDepth( -1 );
-			wp.a11y.speak( api.YoghBL.data.l10n.movedLeft );
-		},
-
-		/**
-		 * Move menu item and children one level deeper, as a submenu of the previous item.
-		 */
-		moveRight: function() {
-			this._changeDepth( 1 );
-			wp.a11y.speak( api.YoghBL.data.l10n.movedRight );
-		},
 
 		/**
 		 * Note that this will trigger a UI update, causing child items to
@@ -1196,9 +1504,7 @@
 
 			// Locate the other items under the same parent (siblings).
 			_( control.getMenuControl().getMenuItemControls() ).each(function( otherControl ) {
-				if ( otherControl.setting().menu_item_parent === settingValue.menu_item_parent ) {
-					siblingSettings.push( otherControl.setting );
-				}
+				siblingSettings.push( otherControl.setting );
 			});
 			siblingSettings.sort(function( a, b ) {
 				return a().position - b().position;
@@ -1228,110 +1534,22 @@
 
 			settingValue.position += offset;
 			control.setting.set( settingValue );
-		},
-
-		/**
-		 * Note that this will trigger a UI update, causing child items to
-		 * move as well and cardinal order class names to be updated.
-		 *
-		 * @private
-		 *
-		 * @param {number} offset 1|-1
-		 */
-		_changeDepth: function( offset ) {
-			if ( 1 !== offset && -1 !== offset ) {
-				throw new Error( 'Offset changes by 1 are only supported.' );
-			}
-			var control = this,
-				settingValue = _.clone( control.setting() ),
-				siblingControls = [],
-				realPosition,
-				siblingControl,
-				parentControl;
-
-			// Locate the other items under the same parent (siblings).
-			_( control.getMenuControl().getMenuItemControls() ).each(function( otherControl ) {
-				if ( otherControl.setting().menu_item_parent === settingValue.menu_item_parent ) {
-					siblingControls.push( otherControl );
-				}
-			});
-			siblingControls.sort(function( a, b ) {
-				return a.setting().position - b.setting().position;
-			});
-
-			realPosition = _.indexOf( siblingControls, control );
-			if ( -1 === realPosition ) {
-				throw new Error( 'Expected control to be among siblings.' );
-			}
-
-			if ( -1 === offset ) {
-				// Skip moving left an item that is already at the top level.
-				if ( ! settingValue.menu_item_parent ) {
-					return;
-				}
-
-				parentControl = api.control( 'yoghbl_nav_menu_item[' + settingValue.menu_item_parent + ']' );
-
-				// Make this control the parent of all the following siblings.
-				_( siblingControls ).chain().slice( realPosition ).each(function( siblingControl, i ) {
-					siblingControl.setting.set(
-						$.extend(
-							{},
-							siblingControl.setting(),
-							{
-								menu_item_parent: control.params.menu_item_id,
-								position: i
-							}
-						)
-					);
-				});
-
-				// Increase the positions of the parent item's subsequent children to make room for this one.
-				_( control.getMenuControl().getMenuItemControls() ).each(function( otherControl ) {
-					var otherControlSettingValue, isControlToBeShifted;
-					isControlToBeShifted = (
-						otherControl.setting().menu_item_parent === parentControl.setting().menu_item_parent &&
-						otherControl.setting().position > parentControl.setting().position
-					);
-					if ( isControlToBeShifted ) {
-						otherControlSettingValue = _.clone( otherControl.setting() );
-						otherControl.setting.set(
-							$.extend(
-								otherControlSettingValue,
-								{ position: otherControlSettingValue.position + 1 }
-							)
-						);
-					}
-				});
-
-				// Make this control the following sibling of its parent item.
-				settingValue.position = parentControl.setting().position + 1;
-				settingValue.menu_item_parent = parentControl.setting().menu_item_parent;
-				control.setting.set( settingValue );
-
-			} else if ( 1 === offset ) {
-				// Skip moving right an item that doesn't have a previous sibling.
-				if ( realPosition === 0 ) {
-					return;
-				}
-
-				// Make the control the last child of the previous sibling.
-				siblingControl = siblingControls[ realPosition - 1 ];
-				settingValue.menu_item_parent = siblingControl.params.menu_item_id;
-				settingValue.position = 0;
-				_( control.getMenuControl().getMenuItemControls() ).each(function( otherControl ) {
-					if ( otherControl.setting().menu_item_parent === settingValue.menu_item_parent ) {
-						settingValue.position = Math.max( settingValue.position, otherControl.setting().position );
-					}
-				});
-				settingValue.position += 1;
-				control.setting.set( settingValue );
-			}
 		}
 	} );
 
-	api.YoghBL.MenuControl = api.Control.extend( {
-
+	/**
+	 * wp.customize.Menus.MenuControl
+	 *
+	 * Customizer control for menus.
+	 * Note that 'nav_menu' must match the WP_Menu_Customize_Control::$type
+	 *
+	 * @class    wp.customize.Menus.MenuControl
+	 * @augments wp.customize.Control
+	 */
+	api.YoghBL.MenuControl = api.Control.extend(/** @lends wp.customize.Menus.MenuControl.prototype */{
+		/**
+		 * Set up the control.
+		 */
 		ready: function() {
 			var control = this,
 				section = api.section( control.section() ),
@@ -1359,6 +1577,14 @@
 			control.$controlSection = section.headContainer;
 			control.$sectionContent = control.container.closest( '.accordion-section-content' );
 
+			this._setupModel();
+
+			api.section( control.section(), function( section ) {
+				section.deferred.initSortables.done(function( menuList ) {
+					control._setupSortable( menuList );
+				});
+			} );
+
 			this._setupAddition();
 
 			/*
@@ -1368,6 +1594,107 @@
 			 */
 			_.defer( function () {
 				control.updateInvitationVisibility();
+			} );
+		},
+
+		/**
+		 * Update ordering of menu item controls when the setting is updated.
+		 */
+		_setupModel: function() {
+			var control = this,
+				menuId = control.params.menu_id;
+
+			control.setting.bind( function( to ) {
+				var name;
+				if ( false === to ) {
+					control._handleDeletion();
+				} else {
+					// Update names in the Navigation Menu widgets.
+					name = displayNavMenuName( to.name );
+					api.control.each( function( widgetControl ) {
+						if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'yoghbl_nav_menu' !== widgetControl.params.widget_id_base ) {
+							return;
+						}
+						var select = widgetControl.container.find( 'select' );
+						select.find( 'option[value=' + String( menuId ) + ']' ).text( name );
+					});
+				}
+			} );
+		},
+
+		/**
+		 * Allow items in each menu to be re-ordered, and for the order to be previewed.
+		 *
+		 * Notice that the UI aspects here are handled by wpNavMenu.initSortables()
+		 * which is called in MenuSection.onChangeExpanded()
+		 *
+		 * @param {Object} menuList - The element that has sortable().
+		 */
+		_setupSortable: function( menuList ) {
+			var control = this;
+
+			if ( ! menuList.is( control.$sectionContent ) ) {
+				throw new Error( 'Unexpected menuList.' );
+			}
+
+			menuList.on( 'sortstart', function() {
+				control.isSorting = true;
+			});
+
+			menuList.on( 'sortstop', function() {
+				setTimeout( function() { // Next tick.
+					var menuItemContainerIds = control.$sectionContent.sortable( 'toArray' ),
+						menuItemControls = [],
+						position = 0,
+						priority = 10;
+
+					control.isSorting = false;
+
+					// Reset horizontal scroll position when done dragging.
+					control.$sectionContent.scrollLeft( 0 );
+
+					_.each( menuItemContainerIds, function( menuItemContainerId ) {
+						var menuItemId, menuItemControl, matches;
+						matches = menuItemContainerId.match( /^customize-control-yoghbl_nav_menu_item-(-?\d+)$/, '' );
+						if ( ! matches ) {
+							return;
+						}
+						menuItemId = parseInt( matches[1], 10 );
+						menuItemControl = api.control( 'yoghbl_nav_menu_item[' + String( menuItemId ) + ']' );
+						if ( menuItemControl ) {
+							menuItemControls.push( menuItemControl );
+						}
+					} );
+
+					_.each( menuItemControls, function( menuItemControl ) {
+						if ( false === menuItemControl.setting() ) {
+							// Skip deleted items.
+							return;
+						}
+						var setting = _.clone( menuItemControl.setting() );
+						position += 1;
+						priority += 1;
+						setting.position = position;
+						menuItemControl.priority( priority );
+
+						// Note that wpNavMenu will be setting this .menu-item-data-parent-id input's value.
+						setting.menu_item_parent = parseInt( menuItemControl.container.find( '.menu-item-data-parent-id' ).val(), 10 );
+						if ( ! setting.menu_item_parent ) {
+							setting.menu_item_parent = 0;
+						}
+
+						menuItemControl.setting.set( setting );
+					});
+				});
+
+			});
+			control.isReordering = false;
+
+			/**
+			 * Keyboard-accessible reordering.
+			 */
+			this.container.find( '.reorder-toggle' ).on( 'click', function() {
+				control.toggleReordering( ! control.isReordering );
 			} );
 		},
 
@@ -1414,11 +1741,53 @@
 				removeSection();
 			}
 
-			api.each (function( setting ) {
-				if ( /^yogbl_nav_menu\[/.test( setting.id ) && false !== setting() ) {
+			api.each(function( setting ) {
+				if ( /^yoghbl_nav_menu\[/.test( setting.id ) && false !== setting() ) {
 					navMenuCount += 1;
 				}
-			} );
+			});
+		},
+
+		/***********************************************************************
+		 * Begin public API methods
+		 **********************************************************************/
+
+		/**
+		 * Enable/disable the reordering UI
+		 *
+		 * @param {boolean} showOrHide to enable/disable reordering
+		 */
+		toggleReordering: function( showOrHide ) {
+			var addNewItemBtn = this.container.find( '.add-new-yoghbl-menu-item' ),
+				reorderBtn = this.container.find( '.reorder-toggle' ),
+				itemsTitle = this.$sectionContent.find( '.item-title' );
+
+			showOrHide = Boolean( showOrHide );
+
+			if ( showOrHide === this.$sectionContent.hasClass( 'reordering' ) ) {
+				return;
+			}
+
+			this.isReordering = showOrHide;
+			this.$sectionContent.toggleClass( 'reordering', showOrHide );
+			this.$sectionContent.sortable( this.isReordering ? 'disable' : 'enable' );
+			if ( this.isReordering ) {
+				addNewItemBtn.attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
+				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOff );
+				wp.a11y.speak( api.Menus.data.l10n.reorderModeOn );
+				itemsTitle.attr( 'aria-hidden', 'false' );
+			} else {
+				addNewItemBtn.removeAttr( 'tabindex aria-hidden' );
+				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOn );
+				wp.a11y.speak( api.Menus.data.l10n.reorderModeOff );
+				itemsTitle.attr( 'aria-hidden', 'true' );
+			}
+
+			if ( showOrHide ) {
+				_( this.getMenuItemControls() ).each( function( formControl ) {
+					formControl.collapseForm();
+				} );
+			}
 		},
 
 		/**
@@ -1426,10 +1795,11 @@
 		 */
 		getMenuItemControls: function() {
 			var menuControl = this,
-				menuItemControls = [];
+				menuItemControls = [],
+				menuTermId = menuControl.params.menu_id;
 
 			api.control.each(function( control ) {
-				if ( 'yoghbl_nav_menu_item' === control.params.type && control.setting() ) {
+				if ( 'yoghbl_nav_menu_item' === control.params.type && control.setting() && menuTermId === control.setting().nav_menu_term_id ) {
 					menuItemControls.push( control );
 				}
 			});
@@ -1446,13 +1816,9 @@
 				reflowRecursively;
 
 			reflowRecursively = function( context ) {
-				var currentMenuItemControls = [],
-					thisParent = context.currentParent;
+				var currentMenuItemControls = [];
 				_.each( context.menuItemControls, function( menuItemControl ) {
-					if ( thisParent === menuItemControl.setting().menu_item_parent ) {
-						currentMenuItemControls.push( menuItemControl );
-						// @todo We could remove this item from menuItemControls now, for efficiency.
-					}
+					currentMenuItemControls.push( menuItemControl );
 				});
 				currentMenuItemControls.sort( function( a, b ) {
 					return a.setting().position - b.setting().position;
@@ -1462,38 +1828,16 @@
 					// Update position.
 					context.currentAbsolutePosition += 1;
 					menuItemControl.priority.set( context.currentAbsolutePosition ); // This will change the sort order.
-
-					// Update depth.
-					if ( ! menuItemControl.container.hasClass( 'menu-item-depth-' + String( context.currentDepth ) ) ) {
-						_.each( menuItemControl.container.prop( 'className' ).match( /menu-item-depth-\d+/g ), function( className ) {
-							menuItemControl.container.removeClass( className );
-						});
-						menuItemControl.container.addClass( 'menu-item-depth-' + String( context.currentDepth ) );
-					}
-					menuItemControl.container.data( 'item-depth', context.currentDepth );
-
-					// Process any children items.
-					context.currentDepth += 1;
-					context.currentParent = menuItemControl.params.menu_item_id;
-					reflowRecursively( context );
-					context.currentDepth -= 1;
-					context.currentParent = thisParent;
 				});
 
 				// Update class names for reordering controls.
 				if ( currentMenuItemControls.length ) {
 					_( currentMenuItemControls ).each(function( menuItemControl ) {
-						menuItemControl.container.removeClass( 'move-up-disabled move-down-disabled move-left-disabled move-right-disabled' );
-						if ( 0 === context.currentDepth ) {
-							menuItemControl.container.addClass( 'move-left-disabled' );
-						} else if ( 10 === context.currentDepth ) {
-							menuItemControl.container.addClass( 'move-right-disabled' );
-						}
+						menuItemControl.container.removeClass( 'move-up-disabled move-down-disabled' );
 					});
 
 					currentMenuItemControls[0].container
 						.addClass( 'move-up-disabled' )
-						.addClass( 'move-right-disabled' )
 						.toggleClass( 'move-down-disabled', 1 === currentMenuItemControls.length );
 					currentMenuItemControls[ currentMenuItemControls.length - 1 ].container
 						.addClass( 'move-down-disabled' )
@@ -1526,12 +1870,11 @@
 		 * Add a new item to this menu.
 		 *
 		 * @param {Object} item - Value for the nav_menu_item setting to be created.
-		 * @return {wp.customize.Menus.controlConstructor.nav_menu_item} The newly-created nav_menu_item control instance.
+		 * @return {wp.customize.Menus.controlConstructor.yoghbl_nav_menu_item} The newly-created nav_menu_item control instance.
 		 */
 		addItemToMenu: function( item ) {
 			var menuControl = this, customizeId, settingArgs, setting, menuItemControl, placeholderId, position = 0, priority = 10,
-				originalItemId = item.id || '',
-				md5;
+				originalItemId = item.id || '';
 
 			_.each( menuControl.getMenuItemControls(), function( control ) {
 				if ( false === control.setting() ) {
@@ -1547,7 +1890,7 @@
 
 			item = $.extend(
 				{},
-				api.YoghBL.data.defaultSettingValues.nav_menu_item,
+				api.YoghBL.data.defaultSettingValues.yoghbl_nav_menu_item,
 				item,
 				{
 					nav_menu_term_id: menuControl.params.menu_id,
@@ -1558,7 +1901,6 @@
 			delete item.id; // Only used by Backbone.
 
 			placeholderId = api.YoghBL.generatePlaceholderAutoIncrementId();
-			md5 = api.YoghBL.md5( item.title )
 			customizeId = 'yoghbl_nav_menu_item[' + String( placeholderId ) + ']';
 			settingArgs = {
 				type: 'yoghbl_nav_menu_item',
@@ -1589,6 +1931,13 @@
 			return menuItemControl;
 		},
 
+		/**
+		 * Show an invitation to add new menu items when there are no menu items.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {wp.customize.controlConstructor.yoghbl_nav_menu_item[]} optionalMenuItemControls
+		 */
 		updateInvitationVisibility: function ( optionalMenuItemControls ) {
 			var menuItemControls = optionalMenuItemControls || this.getMenuItemControls();
 
@@ -1596,22 +1945,309 @@
 		}
 	} );
 
+	/**
+	 * Extends wp.customize.controlConstructor with control constructor for
+	 * menu_location, menu_item, nav_menu, and new_menu.
+	 */
 	$.extend( api.controlConstructor, {
 		yoghbl_nav_menu_item: api.YoghBL.MenuItemControl,
 		yoghbl_nav_menu: api.YoghBL.MenuControl
-	} );
+	});
 
+	/**
+	 * Extends wp.customize.sectionConstructor with section constructor for menu.
+	 */
 	$.extend( api.sectionConstructor, {
-		yoghbl_nav_menu: api.YoghBL.MenuSection,
-	} );
+		yoghbl_nav_menu: api.YoghBL.MenuSection
+	});
 
+	/**
+	 * Init Customizer for menus.
+	 */
 	api.bind( 'ready', function() {
 
+		// Set up the menu items panel.
 		api.YoghBL.availableMenuItemsPanel = new api.YoghBL.AvailableMenuItemsPanelView( {
 			collection: api.YoghBL.availableMenuItems
+		});
+
+		api.bind( 'saved', function( data ) {
+			if ( data.nav_menu_updates || data.yoghbl_nav_menu_item_updates ) {
+				api.YoghBL.applySavedData( data );
+			}
 		} );
 
+		// Open and focus menu control.
 		api.previewer.bind( 'focus-nav-menu-item-control', api.YoghBL.focusMenuItemControl );
 	} );
 
-} )( wp.customize, wp, jQuery );
+	/**
+	 * When customize_save comes back with a success, make sure any inserted
+	 * nav menus and items are properly re-added with their newly-assigned IDs.
+	 *
+	 * @alias wp.customize.Menus.applySavedData
+	 *
+	 * @param {Object} data
+	 * @param {Array} data.nav_menu_updates
+	 * @param {Array} data.yoghbl_nav_menu_item_updates
+	 */
+	api.YoghBL.applySavedData = function( data ) {
+		console.log( 'applySavedData' );
+
+		var insertedMenuIdMapping = {}, insertedMenuItemIdMapping = {};
+
+		_( data.nav_menu_updates ).each(function( update ) {
+			var oldCustomizeId, newCustomizeId, customizeId, oldSetting, newSetting, setting, settingValue, oldSection, newSection, wasSaved, widgetTemplate, navMenuCount, shouldExpandNewSection;
+			if ( 'inserted' === update.status ) {
+				if ( ! update.previous_term_id ) {
+					throw new Error( 'Expected previous_term_id' );
+				}
+				if ( ! update.term_id ) {
+					throw new Error( 'Expected term_id' );
+				}
+				oldCustomizeId = 'nav_menu[' + String( update.previous_term_id ) + ']';
+				if ( ! api.has( oldCustomizeId ) ) {
+					throw new Error( 'Expected setting to exist: ' + oldCustomizeId );
+				}
+				oldSetting = api( oldCustomizeId );
+				if ( ! api.section.has( oldCustomizeId ) ) {
+					throw new Error( 'Expected control to exist: ' + oldCustomizeId );
+				}
+				oldSection = api.section( oldCustomizeId );
+
+				settingValue = oldSetting.get();
+				if ( ! settingValue ) {
+					throw new Error( 'Did not expect setting to be empty (deleted).' );
+				}
+				settingValue = $.extend( _.clone( settingValue ), update.saved_value );
+
+				insertedMenuIdMapping[ update.previous_term_id ] = update.term_id;
+				newCustomizeId = 'nav_menu[' + String( update.term_id ) + ']';
+				newSetting = api.create( newCustomizeId, newCustomizeId, settingValue, {
+					type: 'nav_menu',
+					transport: api.YoghBL.data.settingTransport,
+					previewer: api.previewer
+				} );
+
+				shouldExpandNewSection = oldSection.expanded();
+				if ( shouldExpandNewSection ) {
+					oldSection.collapse();
+				}
+
+				// Add the menu section.
+				newSection = new api.YoghBL.MenuSection( newCustomizeId, {
+					panel: 'nav_menus',
+					title: settingValue.name,
+					customizeAction: api.YoghBL.data.l10n.customizingMenus,
+					type: 'nav_menu',
+					priority: oldSection.priority.get(),
+					menu_id: update.term_id
+				} );
+
+				// Add new control for the new menu.
+				api.section.add( newSection );
+
+				// Update the values for nav menus in Navigation Menu controls.
+				api.control.each( function( setting ) {
+					if ( ! setting.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== setting.params.widget_id_base ) {
+						return;
+					}
+					var select, oldMenuOption, newMenuOption;
+					select = setting.container.find( 'select' );
+					oldMenuOption = select.find( 'option[value=' + String( update.previous_term_id ) + ']' );
+					newMenuOption = select.find( 'option[value=' + String( update.term_id ) + ']' );
+					newMenuOption.prop( 'selected', oldMenuOption.prop( 'selected' ) );
+					oldMenuOption.remove();
+				} );
+
+				// Delete the old placeholder nav_menu.
+				oldSetting.callbacks.disable(); // Prevent setting triggering Customizer dirty state when set.
+				oldSetting.set( false );
+				oldSetting.preview();
+				newSetting.preview();
+				oldSetting._dirty = false;
+
+				// Remove nav_menu section.
+				oldSection.container.remove();
+				api.section.remove( oldCustomizeId );
+
+				// Update the nav_menu widget to reflect removed placeholder menu.
+				navMenuCount = 0;
+				api.each(function( setting ) {
+					if ( /^nav_menu\[/.test( setting.id ) && false !== setting() ) {
+						navMenuCount += 1;
+					}
+				});
+				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+				widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
+				widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
+				widgetTemplate.find( 'option[value=' + String( update.previous_term_id ) + ']' ).remove();
+
+				// Update the nav_menu_locations[...] controls to remove the placeholder menus from the dropdown options.
+				wp.customize.control.each(function( control ){
+					if ( /^nav_menu_locations\[/.test( control.id ) ) {
+						control.container.find( 'option[value=' + String( update.previous_term_id ) + ']' ).remove();
+					}
+				});
+
+				// Update nav_menu_locations to reference the new ID.
+				api.each( function( setting ) {
+					var wasSaved = api.state( 'saved' ).get();
+					if ( /^nav_menu_locations\[/.test( setting.id ) && setting.get() === update.previous_term_id ) {
+						setting.set( update.term_id );
+						setting._dirty = false; // Not dirty because this is has also just been done on server in WP_Customize_Nav_Menu_Setting::update().
+						api.state( 'saved' ).set( wasSaved );
+						setting.preview();
+					}
+				} );
+
+				if ( shouldExpandNewSection ) {
+					newSection.expand();
+				}
+			} else if ( 'updated' === update.status ) {
+				customizeId = 'nav_menu[' + String( update.term_id ) + ']';
+				if ( ! api.has( customizeId ) ) {
+					throw new Error( 'Expected setting to exist: ' + customizeId );
+				}
+
+				// Make sure the setting gets updated with its sanitized server value (specifically the conflict-resolved name).
+				setting = api( customizeId );
+				if ( ! _.isEqual( update.saved_value, setting.get() ) ) {
+					wasSaved = api.state( 'saved' ).get();
+					setting.set( update.saved_value );
+					setting._dirty = false;
+					api.state( 'saved' ).set( wasSaved );
+				}
+			}
+		} );
+
+		// Build up mapping of nav_menu_item placeholder IDs to inserted IDs.
+		_( data.yoghbl_nav_menu_item_updates ).each(function( update ) {
+			if ( update.previous_post_id ) {
+				insertedMenuItemIdMapping[ update.previous_post_id ] = update.post_id;
+			}
+		});
+
+		_( data.yoghbl_nav_menu_item_updates ).each(function( update ) {
+			var oldCustomizeId, newCustomizeId, oldSetting, newSetting, settingValue, oldControl, newControl;
+			if ( 'inserted' === update.status ) {
+				if ( ! update.previous_post_id ) {
+					throw new Error( 'Expected previous_post_id' );
+				}
+				if ( ! update.post_id ) {
+					throw new Error( 'Expected post_id' );
+				}
+				oldCustomizeId = 'yoghbl_nav_menu_item[' + String( update.previous_post_id ) + ']';
+				if ( ! api.has( oldCustomizeId ) ) {
+					throw new Error( 'Expected setting to exist: ' + oldCustomizeId );
+				}
+				oldSetting = api( oldCustomizeId );
+				if ( ! api.control.has( oldCustomizeId ) ) {
+					throw new Error( 'Expected control to exist: ' + oldCustomizeId );
+				}
+				oldControl = api.control( oldCustomizeId );
+
+				settingValue = oldSetting.get();
+				if ( ! settingValue ) {
+					throw new Error( 'Did not expect setting to be empty (deleted).' );
+				}
+				settingValue = _.clone( settingValue );
+
+				// If the parent menu item was also inserted, update the menu_item_parent to the new ID.
+				if ( settingValue.menu_item_parent < 0 ) {
+					if ( ! insertedMenuItemIdMapping[ settingValue.menu_item_parent ] ) {
+						throw new Error( 'inserted ID for menu_item_parent not available' );
+					}
+					settingValue.menu_item_parent = insertedMenuItemIdMapping[ settingValue.menu_item_parent ];
+				}
+
+				// If the menu was also inserted, then make sure it uses the new menu ID for nav_menu_term_id.
+				if ( insertedMenuIdMapping[ settingValue.nav_menu_term_id ] ) {
+					settingValue.nav_menu_term_id = insertedMenuIdMapping[ settingValue.nav_menu_term_id ];
+				}
+
+				newCustomizeId = 'yoghbl_nav_menu_item[' + String( update.post_id ) + ']';
+				newSetting = api.create( newCustomizeId, newCustomizeId, settingValue, {
+					type: 'yoghbl_nav_menu_item',
+					transport: api.YoghBL.data.settingTransport,
+					previewer: api.previewer
+				} );
+
+				// Add the menu control.
+				newControl = new api.controlConstructor.yoghbl_nav_menu_item( newCustomizeId, {
+					type: 'yoghbl_nav_menu_item',
+					menu_id: update.post_id,
+					section: 'nav_menu[' + String( settingValue.nav_menu_term_id ) + ']',
+					priority: oldControl.priority.get(),
+					settings: {
+						'default': newCustomizeId
+					},
+					menu_item_id: update.post_id
+				} );
+
+				// Remove old control.
+				oldControl.container.remove();
+				api.control.remove( oldCustomizeId );
+
+				// Add new control to take its place.
+				api.control.add( newControl );
+
+				// Delete the placeholder and preview the new setting.
+				oldSetting.callbacks.disable(); // Prevent setting triggering Customizer dirty state when set.
+				oldSetting.set( false );
+				oldSetting.preview();
+				newSetting.preview();
+				oldSetting._dirty = false;
+
+				newControl.container.toggleClass( 'menu-item-edit-inactive', oldControl.container.hasClass( 'menu-item-edit-inactive' ) );
+			}
+		});
+
+		/*
+		 * Update the settings for any nav_menu widgets that had selected a placeholder ID.
+		 */
+		_.each( data.widget_nav_menu_updates, function( widgetSettingValue, widgetSettingId ) {
+			var setting = api( widgetSettingId );
+			if ( setting ) {
+				setting._value = widgetSettingValue;
+				setting.preview(); // Send to the preview now so that menu refresh will use the inserted menu.
+			}
+		});
+	};
+
+	/**
+	 * Focus a menu item control.
+	 *
+	 * @alias wp.customize.Menus.focusMenuItemControl
+	 *
+	 * @param {string} menuItemId
+	 */
+	api.YoghBL.focusMenuItemControl = function( menuItemId ) {
+		var control = api.YoghBL.getMenuItemControl( menuItemId );
+		if ( control ) {
+			control.focus();
+		}
+	};
+
+	/**
+	 * Given a menu item ID, get the control associated with it.
+	 *
+	 * @alias wp.customize.Menus.getMenuItemControl
+	 *
+	 * @param {string} menuItemId
+	 * @return {Object|null}
+	 */
+	api.YoghBL.getMenuItemControl = function( menuItemId ) {
+		return api.control( menuItemIdToSettingId( menuItemId ) );
+	};
+
+	/**
+	 * @alias wp.customize.Menus~menuItemIdToSettingId
+	 *
+	 * @param {string} menuItemId
+	 */
+	function menuItemIdToSettingId( menuItemId ) {
+		return 'yoghbl_nav_menu_item[' + menuItemId + ']';
+	}
+
+})( wp.customize, wp, jQuery );
