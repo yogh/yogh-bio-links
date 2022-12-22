@@ -28,6 +28,7 @@ class YoghBL_Customizer {
 		add_action( 'customize_controls_print_styles', array( $this, 'add_styles' ) );
 		add_action( 'customize_controls_print_scripts', array( $this, 'add_scripts' ), 30 );
 		add_action( 'customize_preview_init', array( $this, 'preview_init' ) );
+		add_action( 'customize_save_yoghbiolinks_url_slug', array( $this, 'save_slug' ) );
 	}
 
 	/**
@@ -366,7 +367,7 @@ class YoghBL_Customizer {
 				'type'              => 'option',
 				'capability'        => 'edit_pages',
 				'sanitize_callback' => 'sanitize_title',
-				'transport'         => false,
+				'transport'         => 'postMessage',
 			)
 		);
 
@@ -410,6 +411,11 @@ class YoghBL_Customizer {
 					'container_inclusive' => true,
 					'render_callback'     => 'yoghbiolinks_description',
 				)
+			);
+
+			$wp_customize->selective_refresh->add_partial(
+				'yoghbiolinks_url_slug',
+				array()
 			);
 		}
 	}
@@ -782,6 +788,19 @@ class YoghBL_Customizer {
 	 */
 	public static function sanitize_links( $value = null ) {
 		return yoghbl_links_encode( yoghbl_links_decode( $value ) );
+	}
+
+	public function save_slug( $setting ) {
+		$value = $setting->post_value();
+
+		$page_id = yoghbl_get_page_id( 'biolinks' );
+
+		wp_update_post(
+			array(
+				'ID'        => $page_id,
+				'post_name' => $value,
+			)
+		);
 	}
 }
 

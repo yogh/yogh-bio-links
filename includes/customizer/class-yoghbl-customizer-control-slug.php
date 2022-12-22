@@ -76,12 +76,14 @@ class YoghBL_Customizer_Control_Slug extends WP_Customize_Control {
 				$( document.body ).on( 'input', '.yoghbiolinks-slug-control input[type="text"]', function() {
 					var $wrapper = $( this ).closest( '.yoghbiolinks-slug-control' ),
 						$postName = $wrapper.find( '.edit-post-post-link__link-post-name' ),
+						$postLink = $wrapper.find( '.edit-post-post-link__link' ),
 						value = $wrapper.find( 'input' ).val();
 
 					if ( '' === value ) {
 						value = $postName.data( 'default' );
 					}
 
+					$postLink.attr( 'href', $postLink.data( 'href' ).toString().replace( '%%slug%%', value ) );
 					$postName.text( value );
 
 					return false;
@@ -90,12 +92,14 @@ class YoghBL_Customizer_Control_Slug extends WP_Customize_Control {
 				$( document.body ).on( 'blur', '.yoghbiolinks-slug-control input[type="text"]', function() {
 					var $wrapper = $( this ).closest( '.yoghbiolinks-slug-control' ),
 						$postName = $wrapper.find( '.edit-post-post-link__link-post-name' ),
+						$postLink = $wrapper.find( '.edit-post-post-link__link' ),
 						$input = $wrapper.find( 'input' ),
 						value = $input.val();
 
 					if ( '' !== value ) {
 						value = wp.url.cleanForSlug( value );
 						$input.val( value );
+						$postLink.attr( 'href', $postLink.data( 'href' ).toString().replace( '%%slug%%', value ) );
 						$postName.text( value );
 					}
 
@@ -142,7 +146,7 @@ class YoghBL_Customizer_Control_Slug extends WP_Customize_Control {
 				/>
 
 			<div class="edit-post-post-link__preview-link-container">
-				<a target="_blank" class="components-external-link edit-post-post-link__link" href="<?php echo home_url( "/{$slug}" ); ?>" rel="external noreferrer noopener">
+				<a target="_blank" class="components-external-link edit-post-post-link__link" data-href="<?php echo home_url( '/%%slug%%/' ); ?>" href="<?php echo home_url( "/{$slug}/" ); ?>" rel="external noreferrer noopener">
 					<span class="edit-post-post-link__link-prefix"><?php echo home_url( '/' ); ?></span><span class="edit-post-post-link__link-post-name" data-default="<?php echo esc_attr( $default ); ?>"><?php echo esc_html( $slug ); ?></span><span class="edit-post-post-link__link-suffix">/</span><span data-wp-c16t="true" data-wp-component="VisuallyHidden" class="components-visually-hidden css-0 em57xhy0" style="border: 0px; clip: rect(1px, 1px, 1px, 1px); clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; overflow-wrap: normal;"><?php esc_html_e( '(opens in a new tab)', 'yogh-bio-links' ); ?></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="components-external-link__icon css-rvs7bx etxm6pv0" aria-hidden="true" focusable="false"><path d="M18.2 17c0 .7-.6 1.2-1.2 1.2H7c-.7 0-1.2-.6-1.2-1.2V7c0-.7.6-1.2 1.2-1.2h3.2V4.2H7C5.5 4.2 4.2 5.5 4.2 7v10c0 1.5 1.2 2.8 2.8 2.8h10c1.5 0 2.8-1.2 2.8-2.8v-3.6h-1.5V17zM14.9 3v1.5h3.7l-6.4 6.4 1.1 1.1 6.4-6.4v3.7h1.5V3h-6.3z"></path></svg>
 				</a>
 			</div>

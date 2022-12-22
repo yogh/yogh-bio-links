@@ -20,7 +20,7 @@ final class YoghBioLinks {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.0-beta1';
+	public $version = '1.0.0-beta2';
 
 	/**
 	 * YoghBioLinks Schema version.
