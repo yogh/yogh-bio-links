@@ -10,9 +10,9 @@
 	 * Set up wpNavMenu for drag and drop.
 	 */
 	wpNavMenu.originalInit = wpNavMenu.init;
-	wpNavMenu.options.menuItemDepthPerLevel = 1;
+	wpNavMenu.options.menuItemDepthPerLevel = 0;
 	wpNavMenu.options.sortableItems         = '> .customize-control-yoghbl_nav_menu_item';
-	wpNavMenu.options.targetTolerance       = 0;
+	wpNavMenu.options.targetTolerance       = 10;
 	wpNavMenu.init = function() {
 		this.jQueryExtensions();
 	};
@@ -913,7 +913,7 @@
 		 */
 		ready: function() {
 			this._setupControlToggle();
-			// this._setupReorderUI();
+			this._setupReorderUI();
 			this._setupUpdateUI();
 			this._setupRemoveUI();
 			this._setupLinksUI();
@@ -937,6 +937,9 @@
 					api.YoghBL.availableMenuItemsPanel.close();
 				}
 
+				if ( menuControl.isReordering || menuControl.isSorting ) {
+					return;
+				}
 				control.toggleForm();
 			} );
 		},
@@ -1269,7 +1272,7 @@
 		getMenuControl: function() {
 			var control = this, settingValue = control.setting();
 			if ( settingValue ) {
-				return api.section( 'yoghbiolinks_links' );
+				return api.control( 'yoghbiolinks_links' );
 			} else {
 				return null;
 			}
@@ -1689,6 +1692,8 @@
 
 			});
 			control.isReordering = false;
+
+			this.$sectionContent.sortable( 'disable' );
 
 			/**
 			 * Keyboard-accessible reordering.

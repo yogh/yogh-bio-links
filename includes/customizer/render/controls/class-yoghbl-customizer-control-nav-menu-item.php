@@ -4,6 +4,14 @@ class YoghBL_Customizer_Control_Nav_Menu_Item extends WP_Customize_Control {
 
 	public $type = 'yoghbl_nav_menu_item';
 
+	/**
+	 * The nav menu item setting.
+	 *
+	 * @since 1.0.0.0
+	 * @var YoghBL_Customizer_Setting_Nav_Menu_Item
+	 */
+	public $setting;
+
 	public function render_content() {}
 
 	public function content_template() {

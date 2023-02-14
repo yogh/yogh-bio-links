@@ -90,10 +90,13 @@ class YoghBL_Customizer_Setting_Nav_Menu_Item extends WP_Customize_Setting {
 
 		$irrelevant_properties = array(
 			'ID',
-			'order',
 		);
 		foreach ( $irrelevant_properties as $property ) {
 			unset( $this->value[ $property ] );
+		}
+
+		if ( isset( $this->value['order'] ) ) {
+			$this->value['position'] = (int) $this->value['order'];
 		}
 
 		if ( ! isset( $this->value['position'] ) ) {
@@ -152,8 +155,9 @@ class YoghBL_Customizer_Setting_Nav_Menu_Item extends WP_Customize_Setting {
 
 			// Insert or update menu.
 			$item_data = array(
-				'title' => $value['title'],
-				'url'   => $value['url'],
+				'title'    => $value['title'],
+				'url'      => $value['url'],
+				'position' => $value['position'],
 			);
 
 			$r = yoghbl_links_update_item(

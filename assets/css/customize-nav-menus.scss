@@ -887,7 +887,7 @@ li.assigned-to-menu-location .add-new-yoghbl-menu-item {
 }
 
 .adding-yoghbl-menu-items .wp-full-overlay.expanded.preview-mobile .wp-full-overlay-main {
-	left: 64%;
+  left: 64%;
 
   @media screen and (max-width: 1200px) {
     left: 67%;
@@ -895,7 +895,11 @@ li.assigned-to-menu-location .add-new-yoghbl-menu-item {
 }
 
 .reordering .add-new-yoghbl-menu-item {
-	opacity: 0.2;
-	pointer-events: none;
-	cursor: not-allowed; /* doesn't work in conjunction with pointer-events */
+  pointer-events: none;
+  cursor: not-allowed; /* doesn't work in conjunction with pointer-events */
+  opacity: .2;
+}
+
+.js .control-section-yoghbl_nav_menu:not(.reordering) .menu-item-handle {
+  cursor: default;
 }

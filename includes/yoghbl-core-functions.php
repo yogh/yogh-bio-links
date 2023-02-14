@@ -230,15 +230,46 @@ function yoghbl_links() {
 }
 
 function yoghbl_links_update_item( $link ) {
-	$links = get_option( 'yoghbiolinks_links' );
-
-	$links = (array) explode( "\n", $links );
-
 	$link = (Object) $link;
 
-	$links[] = yoghbl_link_encode( $link );
+	if ( isset( $link->position ) ) {
+		$link->order = $link->position;
+		unset( $link->position );
+	}
 
-	$links = implode( "\n", $links );
+	if ( ! isset( $link->order ) ) {
+		$link->order = 0;
+	}
+
+	$link->order = (int) $link->order;
+
+	$links = yoghbl_links();
+
+	$links = array_combine(
+		wp_list_pluck( $links, 'hash' ),
+		$links
+	);
+
+	$md5 = md5( yoghbl_link_encode( $link ) );
+	if ( isset( $links[ $md5 ] ) ) {
+		unset( $links[ $md5 ] );
+	}
+
+	$links = array_values( $links );
+
+	usort( $links, 'yoghbl_links_sort' );
+
+	if ( 0 === $link->order ) {
+		$last_link = end( $links );
+
+		$link->order = $last_link->order + 1;
+	}
+
+	$links[] = (Object) $link;
+
+	usort( $links, 'yoghbl_links_sort' );
+
+	$links = yoghbl_links_encode( $links );
 
 	return update_option( 'yoghbiolinks_links', $links );
 }
@@ -273,6 +304,7 @@ function yoghbl_links_delete_item( $hash ) {
  * @return string Link as line string.
  */
 function yoghbl_link_encode( $link ) {
+	$link = (Object) $link;
 	$link = array(
 		isset( $link->title ) ? $link->title : '',
 		isset( $link->url ) ? $link->url : '',
@@ -362,4 +394,21 @@ function yoghbl_links_decode( $links ) {
 		$i++;
 	}
 	return $decode;
+}
+
+/**
+ * Sort links.
+ *
+ * @since  1.0.0
+ * @param  array $a First link array.
+ * @param  array $b Second link array.
+ * @return int
+ */
+function yoghbl_links_sort( $a, $b ) {
+	$a->order = (int) $a->order;
+	$b->order = (int) $b->order;
+	if ( $a->order === $b->order ) {
+		return 0;
+	}
+	return $a->order < $b->order ? -1 : 1;
 }

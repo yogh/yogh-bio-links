@@ -14,6 +14,7 @@
     "css-compile": "sass --style expanded --no-source-map assets/css/:assets/css/",
     "css-lint": "stylelint \"**/*.scss\" --fix --cache --cache-location .cache/.stylelintcache --rd",
     "css-minify": "cleancss -O1 --format breakWith=lf --with-rebase --output assets/css/ --batch --batch-suffix \"\" \"assets/css/*.css\" \"!assets/css/*.min.css\"",
+    "css": "npm-run-all css-lint css-compile css-minify",
     "watch": "nodemon --watch assets/css/ --ext scss --exec \"npm-run-all css-lint css-compile\"",
     "dist-archive": "cross-env-shell \"cp ../../languages/plugins/yogh-bio-links-*.mo languages && wp dist-archive . && rm languages/yogh-bio-links-*.mo\""
   }

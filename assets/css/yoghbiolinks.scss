@@ -21,54 +21,25 @@
 @import "stick-footer";
 @import "footer";
 
-.yoghbiolinks-page {
-
-  // .wp-block-post-title {
-  //   display: none;
-  // }
-
-  // h1 {
-  //   margin-bottom: 32px;
-  //   font-family: var(--wp--preset--font-family--system-font);
-  //   font-size: 20px;
-  //   font-weight: 700;
-  // }
-
-  // .wp-block-post-title + .wp-block-separator {
-  //   display: none;
-  // }
-
-  // .wp-site-blocks > header,
-  // .wp-site-blocks > footer {
-  //   display: none;
-  // }
-
-  // .wp-container-8 > :where(:not(.alignleft):not(.alignright)) {
-  //   max-width: 680px;
-  // }
-}
-
 .yoghbiolinks-description:not(.yoghbiolinks-empty) {
   margin-top: -16px;
   margin-bottom: 32px;
 }
 .yoghbiolinks-links {
-  margin-bottom: 32px;
-}
-
-.yoghbiolinks-links .customize-partial-edit-shortcut {
-  position: absolute;
-  top: -30px;
-  right: 0;
-}
-.yoghbiolinks-links {
   position: relative;
-}
-@media screen and (max-width: 800px) {
-  .yoghbiolinks-links .customize-partial-edit-shortcut button {
-    right: -32px;
-  }
-  .yoghbiolinks-links .customize-partial-edit-shortcut {
-    top: -32px;
+  margin-bottom: 32px;
+
+  .customize-partial-edit-shortcut {
+    position: absolute;
+    top: -30px;
+    right: 0;
+
+    @media screen and (max-width: 800px) {
+      top: -32px;
+
+      button {
+        right: -32px;
+      }
+    }
   }
 }
