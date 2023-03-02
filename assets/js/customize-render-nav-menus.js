@@ -1886,9 +1886,7 @@
 					return;
 				}
 				priority = Math.max( priority, control.priority() );
-				if ( 0 === control.setting().menu_item_parent ) {
-					position = Math.max( position, control.setting().position );
-				}
+				position = Math.max( position, control.setting().position );
 			});
 			position += 1;
 			priority += 1;
