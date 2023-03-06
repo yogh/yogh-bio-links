@@ -70,8 +70,8 @@ class YoghBL_Install {
 		}
 
 		// If we made it till here nothing is running yet, lets set the transient now.
-		// set_transient( 'yoghbl_installing', 'yes', MINUTE_IN_SECONDS * 10 );
-		// yoghbl_maybe_define_constant( 'YOGHBL_INSTALLING', true );
+		set_transient( 'yoghbl_installing', 'yes', MINUTE_IN_SECONDS * 10 );
+		yoghbl_maybe_define_constant( 'YOGHBL_INSTALLING', true );
 
 		self::maybe_create_pages();
 		self::maybe_update_db_version();

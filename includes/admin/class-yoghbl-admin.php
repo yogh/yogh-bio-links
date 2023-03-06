@@ -86,6 +86,7 @@ class YoghBL_Admin {
 				$actions['edit'] = sprintf(
 					'<a href="%s" aria-label="%s">%s</a>',
 					esc_url( yoghbl_edit_link() ),
+					/* translators: %s: Post title. */
 					esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $post->post_title ) ),
 					esc_html__( 'Edit' )
 				);

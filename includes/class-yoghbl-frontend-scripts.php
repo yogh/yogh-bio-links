@@ -224,7 +224,7 @@ class YoghBL_Frontend_Scripts {
 
 			$name                        = str_replace( '-', '_', $handle ) . '_params';
 			self::$wp_localize_scripts[] = $handle;
-			wp_localize_script( $handle, $name, apply_filters( $name, $data ) );
+			wp_localize_script( $handle, $name, apply_filters( $name, $data ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 		}
 	}
 
@@ -303,7 +303,7 @@ class YoghBL_Frontend_Scripts {
 			}
 
 			$name = str_replace( '-', '_', $handle ) . '_data';
-			$data = str_replace( "\n", '', apply_filters( $name, $data ) );
+			$data = str_replace( "\n", '', apply_filters( $name, $data ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 
 			self::$added_inline_style[] = $handle;
 			wp_add_inline_style( $handle, $data );

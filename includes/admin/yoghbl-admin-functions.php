@@ -33,6 +33,7 @@ function yoghbl_create_page( $slug, $option = '', $page_title = '', $page_conten
 		}
 	}
 
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery
 	if ( strlen( $page_content ) > 0 ) {
 		// Search for an existing page with the specified page content (typically a shortcode).
 		$shortcode        = str_replace( array( '<!-- wp:shortcode -->', '<!-- /wp:shortcode -->' ), '', $page_content );
@@ -59,6 +60,7 @@ function yoghbl_create_page( $slug, $option = '', $page_title = '', $page_conten
 		// Search for an existing page with the specified page slug.
 		$trashed_page_found = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_name = %s LIMIT 1;", $slug ) );
 	}
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery
 
 	if ( $trashed_page_found ) {
 		$page_id   = $trashed_page_found;

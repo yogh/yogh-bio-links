@@ -22,7 +22,7 @@ require YOGHBL_ABSPATH . 'includes/yoghbl-page-functions.php';
  */
 function yoghbl_maybe_define_constant( $name, $value ) {
 	if ( ! defined( $name ) ) {
-		define( $name, $value );
+		define( $name, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.VariableConstantNameFound
 	}
 }
 
@@ -204,6 +204,8 @@ function yoghbl_default_links() {
 
 /**
  * Get link.
+ *
+ * @param string $hash Hash of link.
  */
 function yoghbl_link( $hash ) {
 	$links = yoghbl_links();
@@ -229,8 +231,13 @@ function yoghbl_links() {
 	return yoghbl_links_decode( $links );
 }
 
+/**
+ * Update links item.
+ *
+ * @param array|object $link Link.
+ */
 function yoghbl_links_update_item( $link ) {
-	$link = (Object) $link;
+	$link = (object) $link;
 
 	if ( isset( $link->position ) ) {
 		$link->order = $link->position;
@@ -265,7 +272,7 @@ function yoghbl_links_update_item( $link ) {
 		$link->order = $last_link->order + 1;
 	}
 
-	$links[] = (Object) $link;
+	$links[] = (object) $link;
 
 	usort( $links, 'yoghbl_links_sort' );
 
@@ -274,6 +281,11 @@ function yoghbl_links_update_item( $link ) {
 	return update_option( 'yoghbiolinks_links', $links );
 }
 
+/**
+ * Delete links item.
+ *
+ * @param string $hash Hash of link.
+ */
 function yoghbl_links_delete_item( $hash ) {
 	$links = get_option( 'yoghbiolinks_links' );
 
@@ -304,7 +316,7 @@ function yoghbl_links_delete_item( $hash ) {
  * @return string Link as line string.
  */
 function yoghbl_link_encode( $link ) {
-	$link = (Object) $link;
+	$link = (object) $link;
 	$link = array(
 		isset( $link->title ) ? $link->title : '',
 		isset( $link->url ) ? $link->url : '',
@@ -383,7 +395,7 @@ function yoghbl_links_decode( $links ) {
 
 	$i = 0;
 	foreach ( $hasheds as $md5 => $hashed ) {
-		$decode[ $i ] = (Object) array_merge(
+		$decode[ $i ] = (object) array_merge(
 			array( 'ID' => $i + 1 ),
 			$hashed,
 			array(

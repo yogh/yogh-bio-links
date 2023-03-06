@@ -82,7 +82,7 @@ final class YoghBioLinks {
 	 */
 	private function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
-			define( $name, $value );
+			define( $name, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.VariableConstantNameFound
 		}
 	}
 
@@ -155,7 +155,7 @@ final class YoghBioLinks {
 		/**
 		 * Action triggered before YoghBioLinks initialization begins.
 		 */
-		do_action( 'before_yoghbl_init' );
+		do_action( 'before_yoghbl_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		/**
 		 * Action triggered after YoghBioLinks initialization finishes.
@@ -185,7 +185,7 @@ final class YoghBioLinks {
 		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), -1 );
 		add_action( 'after_setup_theme', array( $this, 'include_template_functions' ), 11 );
 		add_action( 'init', array( $this, 'init' ), 0 );
-		add_action( 'selfd_register',  array( $this, 'register_selfdirectory' ) );
+		add_action( 'selfd_register', array( $this, 'register_selfdirectory' ) );
 	}
 
 	/**
@@ -218,6 +218,9 @@ final class YoghBioLinks {
 		return apply_filters( 'yoghbl_template_path', 'yoghbiolinks/' );
 	}
 
+	/**
+	 * Register selfdirectory.
+	 */
 	public function register_selfdirectory() {
 		selfd( YOGHBL_PLUGIN_FILE );
 	}

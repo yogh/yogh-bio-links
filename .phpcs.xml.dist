@@ -35,15 +35,12 @@
 			<property name="prefixes" type="array" value="YoghBL,YOGHBL,yoghbiolinks,is_yoghbiolinks"/>
 		</properties>
 	</rule>
-	<rule ref="WordPress.WP.I18n">
-		<properties>
-			<!-- Value: replace the text domain used. -->
-			<property name="text_domain" type="array" value="yogh-bio-links"/>
-		</properties>
-	</rule>
 	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
 		<properties>
 			<property name="blank_line_check" value="true"/>
 		</properties>
 	</rule>
+
+	<exclude-pattern>*/includes/customizer/*</exclude-pattern>
+	<exclude-pattern>*/includes/selfdirectory/*</exclude-pattern>
 </ruleset>

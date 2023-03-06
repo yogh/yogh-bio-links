@@ -53,3 +53,4 @@ includes/selfdirectory/composer.lock
 includes/selfdirectory/example.php
 includes/selfdirectory/phpcs.xml
 includes/selfdirectory/README.md
+assets/screenshot

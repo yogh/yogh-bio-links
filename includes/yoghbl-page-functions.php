@@ -40,16 +40,31 @@ function yoghbl_get_page_permalink( $page, $fallback = null ) {
 	return apply_filters( 'yoghbl_get_' . $page . '_page_permalink', $permalink );
 }
 
+/**
+ * Retrieve edit link.
+ *
+ * @return string
+ */
 function yoghbl_edit_link() {
+	$request_uri = '';
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+	}
 	return add_query_arg(
 		array(
-			'return' => urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ),
+			'return' => rawurlencode( remove_query_arg( wp_removable_query_args(), $request_uri ) ),
 			array( 'autofocus' => array( 'panel' => 'yoghbiolinks' ) ),
 		),
 		admin_url( 'customize.php' )
 	);
 }
 
+/**
+ * Filter to edit link.
+ *
+ * @param string $link Edit post link.
+ * @param int    $post_id Post ID.
+ */
 function yoghbl_get_edit_post_link_filter( $link, $post_id ) {
 	if ( yoghbl_get_page_id( 'biolinks' ) === $post_id ) {
 		$link = yoghbl_edit_link();
