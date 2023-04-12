@@ -21,13 +21,14 @@ yoghbl_get_template_part( 'header', 'yoghbiolinks' ); ?>
 	<?php while ( have_posts() ) : ?>
 		<?php the_post(); ?>
 
-		<?php yoghbiolinks_logo(); ?>
-
-		<?php yoghbiolinks_title(); ?>
-
-		<?php yoghbiolinks_description(); ?>
-
-		<?php yoghbiolinks_links_html(); ?>
+		<?php
+		ob_start();
+		yoghbiolinks_logo();
+		yoghbiolinks_title();
+		yoghbiolinks_description();
+		yoghbiolinks_links_html();
+		echo apply_filters( 'the_content', ob_get_clean() );
+		?>
 
 		<?php the_content(); ?>
 
