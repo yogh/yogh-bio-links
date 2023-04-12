@@ -186,6 +186,14 @@ final class YoghBioLinks {
 		add_action( 'after_setup_theme', array( $this, 'include_template_functions' ), 11 );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'selfd_register', array( $this, 'register_selfdirectory' ) );
+		add_filter( 'elementor/theme/need_override_location', array( $this, 'elementor_theme_need_override_location' ) );
+	}
+
+	public function elementor_theme_need_override_location( $need_override_location ) {
+		if ( yoghbl_get_page_id( 'biolinks' ) === get_the_ID() ) {
+			$need_override_location = false;
+		}
+		return $need_override_location;
 	}
 
 	/**
