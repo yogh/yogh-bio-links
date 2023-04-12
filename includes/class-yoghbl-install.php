@@ -107,7 +107,8 @@ class YoghBL_Install {
 			if ( file_exists( YOGHBL_ABSPATH . "languages/{$file_basename}" ) ) {
 				$tmpfname = YOGHBL_ABSPATH . "languages/{$file_basename}";
 			} else {
-				$version  = preg_replace( '/[^\d.]/', '', YoghBL()->version );
+				$version  = preg_replace( '/(beta|RC)\d+$/', '$1', YoghBL()->version );
+				$version  = preg_replace( '/[^\d.]/', '', $version );
 				$url      = "https://github.com/yogh/yogh-bio-links/raw/translate/v{$version}/{$file_basename}";
 				$tmpfname = download_url( $url );
 			}
