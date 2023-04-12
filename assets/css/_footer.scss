@@ -1,18 +1,27 @@
 .yoghbiolinks-footer {
   padding-top: 1rem;
   padding-bottom: 1rem;
+  color: inherit;
   text-align: center;
+  background: none;
 }
 
 .yoghbiolinks-credits {
   font-size: 87.5%;
 
-  > span:not(.customize-partial-edit-shortcut) {
-    opacity: .5;
-  }
-
   a {
-    color: inherit;
-    text-decoration: none;
+    opacity: .5;
+
+    &,
+    &:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: inherit;
+      text-decoration: none;
+      opacity: .8;
+    }
   }
 }
