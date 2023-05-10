@@ -35,15 +35,15 @@ if ( ! function_exists( 'yoghbiolinks_logo' ) ) {
 	function yoghbiolinks_logo() {
 		$logo_id = get_option( 'yoghbiolinks_logo' );
 
-		$html = '<!-- wp:image {"align":"center","width":96,"height":96,"sizeSlug":"thumbnail","linkDestination":"none","className":"is-style-rounded yoghbiolinks-logo yoghbiolinks-empty"} -->
-		<figure class="wp-block-image aligncenter size-thumbnail is-resized is-style-rounded yoghbiolinks-logo yoghbiolinks-empty"></figure>
-		<!-- /wp:image -->';
+		$html = '<div class="yoghbiolinks-logo yoghbiolinks-empty"><!-- wp:image {"align":"center","width":96,"height":96,"sizeSlug":"thumbnail","linkDestination":"none","className":"is-style-rounded"} -->
+		<figure class="wp-block-image aligncenter size-thumbnail is-resized is-style-rounded"></figure>
+		<!-- /wp:image --></div>';
 
 		if ( ! empty( $logo_id ) ) {
 			$logo = wp_get_attachment_image_src( $logo_id );
-			$html = '<!-- wp:image {"align":"center","id":' . esc_attr( $logo_id ) . ',"width":96,"height":96,"sizeSlug":"thumbnail","linkDestination":"none","className":"is-style-rounded yoghbiolinks-logo"} -->
-			<figure class="wp-block-image aligncenter size-thumbnail is-resized is-style-rounded yoghbiolinks-logo"><img src="' . esc_url( $logo[0] ) . '" alt="" class="wp-image-' . esc_attr( $logo_id ) . '" width="96" height="96"/></figure>
-			<!-- /wp:image -->';
+			$html = '<div class="yoghbiolinks-logo"><!-- wp:image {"align":"center","id":' . esc_attr( $logo_id ) . ',"width":96,"height":96,"sizeSlug":"thumbnail","linkDestination":"none","className":"is-style-rounded"} -->
+			<figure class="wp-block-image aligncenter size-thumbnail is-resized is-style-rounded"><img src="' . esc_url( $logo[0] ) . '" alt="" class="wp-image-' . esc_attr( $logo_id ) . '" width="96" height="96"/></figure>
+			<!-- /wp:image --></div>';
 		}
 		echo apply_filters(
 			'yoghbiolinks_logo_html',
