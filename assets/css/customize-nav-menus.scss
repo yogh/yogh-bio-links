@@ -903,3 +903,9 @@ li.assigned-to-menu-location .add-new-yoghbl-menu-item {
 .js .control-section-yoghbl_nav_menu:not(.reordering) .menu-item-handle {
   cursor: default;
 }
+
+.note-publish-refresh::before {
+  display: block;
+  clear: both;
+  content: "";
+}

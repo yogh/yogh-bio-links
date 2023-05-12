@@ -17,6 +17,9 @@ class YoghBL_Customizer_Control_Nav_Menu extends WP_Customize_Control {
 				<span class="reorder-done"><?php _e( 'Done' ); ?></span>
 			</button>
 		</div>
+		<div class="note-publish-refresh">
+			<p><?php echo esc_html_e( 'Click Publish and refresh the page to see the links changes', 'yogh-bio-links' ); ?></p>
+		</div>
 		<?php
 	}
 }

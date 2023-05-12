@@ -23,13 +23,13 @@ class YoghBL_Customizer_Control_Link extends WP_Customize_Control {
 				<span class="item-controls">
 					<button type="button" class="button-link item-edit" aria-expanded="false"><span class="screen-reader-text">
 					<?php
-						/* translators: 1: Title of a menu item */
+						/* translators: 1: Title of a menu item. */
 						printf( __( 'Edit menu item: %s', 'yogh-bio-links' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}' );
 					?>
 					</span><span class="toggle-indicator" aria-hidden="true"></span></button>
 					<button type="button" class="button-link item-delete submitdelete deletion"><span class="screen-reader-text">
 					<?php
-						/* translators: 1: Title of a menu item */
+						/* translators: 1: Title of a menu item. */
 						printf( __( 'Remove Menu Item: %s', 'yogh-bio-links' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}' );
 					?>
 					</span></button>
