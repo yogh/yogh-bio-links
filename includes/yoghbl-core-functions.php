@@ -259,20 +259,22 @@ function yoghbl_links_update_item( $link ) {
 
 	$md5 = md5( yoghbl_link_encode( $link ) );
 	if ( isset( $links[ $md5 ] ) ) {
+		$saved = $links[ $md5 ];
+		unset( $saved->ID, $saved->hash );
+
+		if ( (array) $saved === (array) $link ) {
+			return false;
+		}
+
 		unset( $links[ $md5 ] );
 	}
 
 	$links = array_values( $links );
 
-	usort( $links, 'yoghbl_links_sort' );
-
-	if ( 0 === $link->order ) {
-		$last_link = end( $links );
-
-		$link->order = $last_link->order + 1;
-	}
-
-	$links[] = (object) $link;
+	$links = array_merge(
+		array( $link ),
+		$links
+	);
 
 	usort( $links, 'yoghbl_links_sort' );
 
