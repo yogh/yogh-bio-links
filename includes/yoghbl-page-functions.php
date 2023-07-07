@@ -50,13 +50,15 @@ function yoghbl_edit_link() {
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 	}
-	return add_query_arg(
+	$link_edited = add_query_arg(
 		array(
 			'return' => rawurlencode( remove_query_arg( wp_removable_query_args(), $request_uri ) ),
 			array( 'autofocus' => array( 'panel' => 'yoghbiolinks' ) ),
 		),
 		admin_url( 'customize.php' )
 	);
+
+	return esc_url($link_edited);
 }
 
 /**

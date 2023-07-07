@@ -75,7 +75,6 @@ class YoghBL_Install {
 
 		self::maybe_create_pages();
 		self::maybe_update_db_version();
-		self::maybe_get_translation();
 
 		// Use add_option() here to avoid overwriting this value with each
 		// plugin version update. We base plugin age off of this value.
@@ -85,52 +84,6 @@ class YoghBL_Install {
 		 * Run after YoghBioLinks has been installed or updated.
 		 */
 		do_action( 'yoghbiolinks_installed' );
-	}
-
-	/**
-	 * Maybe get remote translation and copy to WP_LANG_DIR.
-	 *
-	 * @todo Need to be removed before directory publish.
-	 */
-	public static function maybe_get_translation() {
-		global $wp_filesystem;
-
-		$locale           = get_locale();
-		$file_basename    = "yogh-bio-links-{$locale}.mo";
-		$lang_dir_plugins = WP_LANG_DIR . '/plugins';
-		$destination      = "$lang_dir_plugins/{$file_basename}";
-		if ( ! file_exists( $destination ) ) {
-
-			// Ensure WP_Filesystem() is declared.
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-
-			if ( file_exists( YOGHBL_ABSPATH . "languages/{$file_basename}" ) ) {
-				$tmpfname = YOGHBL_ABSPATH . "languages/{$file_basename}";
-			} else {
-				$version  = preg_replace( '/(beta|RC)\d+$/', '$1', YoghBL()->version );
-				$version  = preg_replace( '/[^\d.]/', '', $version );
-				$url      = "https://github.com/yogh/yogh-bio-links/raw/translate/v{$version}/{$file_basename}";
-				$tmpfname = download_url( $url );
-			}
-
-			if ( is_wp_error( $tmpfname ) ) {
-				return;
-			}
-
-			WP_Filesystem();
-
-			if ( ! $wp_filesystem->exists( $lang_dir_plugins ) ) {
-				if ( ! $wp_filesystem->mkdir( $lang_dir_plugins, FS_CHMOD_DIR ) ) {
-					return;
-				}
-			}
-
-			if ( ! $wp_filesystem->is_writable( $lang_dir_plugins ) ) {
-				return;
-			}
-
-			$wp_filesystem->move( $tmpfname, $destination );
-		}
 	}
 
 	/**

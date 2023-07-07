@@ -126,10 +126,6 @@ final class YoghBioLinks {
 			$this->frontend_includes();
 		}
 
-		/**
-		 * Self Directory
-		 */
-		include_once YOGHBL_ABSPATH . 'includes/selfdirectory/class-selfdirectory.php';
 	}
 
 	/**
@@ -185,7 +181,6 @@ final class YoghBioLinks {
 		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), -1 );
 		add_action( 'after_setup_theme', array( $this, 'include_template_functions' ), 11 );
 		add_action( 'init', array( $this, 'init' ), 0 );
-		add_action( 'selfd_register', array( $this, 'register_selfdirectory' ) );
 		add_filter( 'elementor/theme/need_override_location', array( $this, 'elementor_theme_need_override_location' ) );
 	}
 
@@ -226,10 +221,4 @@ final class YoghBioLinks {
 		return apply_filters( 'yoghbl_template_path', 'yoghbiolinks/' );
 	}
 
-	/**
-	 * Register selfdirectory.
-	 */
-	public function register_selfdirectory() {
-		selfd( YOGHBL_PLUGIN_FILE );
-	}
 }

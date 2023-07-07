@@ -3,13 +3,13 @@
  * Plugin Name: Yogh Bio Links
  * Plugin URI: https://www.yogh.com.br/plugins/yogh-bio-links/
  * Description: Creation of a page with links to the biography of social networks or others.
- * Version: 1.0.0-RC4
+ * Version: 1.0.1
  * Author: Yogh
  * Author URI: https://www.yogh.com.br/
  * Text Domain: yogh-bio-links
  * Domain Path: /languages
  * Requires at least: 5.8
- * Requires PHP: 7.2
+ * Requires PHP: 7.0
  * Directory: https://yogh.github.io/yogh-bio-links/
  *
  * @package YoghBioLinks

@@ -98,11 +98,11 @@ final class WP_Customize_Nav_Menus2 {
 		$all_items  = array();
 		$item_types = array();
 		if ( isset( $_POST['item_types'] ) && is_array( $_POST['item_types'] ) ) {
-			$item_types = wp_unslash( $_POST['item_types'] );
+			$item_types = sanitize_text_field( wp_unslash( $_POST['item_types'] ));
 		} elseif ( isset( $_POST['type'] ) && isset( $_POST['object'] ) ) { // Back compat.
 			$item_types[] = array(
-				'type'   => wp_unslash( $_POST['type'] ),
-				'object' => wp_unslash( $_POST['object'] ),
+				'type'   => sanitize_text_field( wp_unslash( $_POST['type'] )),
+				'object' => sanitize_text_field( wp_unslash( $_POST['object'] )),
 				'page'   => empty( $_POST['page'] ) ? 0 : absint( $_POST['page'] ),
 			);
 		} else {
@@ -927,7 +927,7 @@ final class WP_Customize_Nav_Menus2 {
 			wp_send_json_error( 'missing_params', 400 );
 		}
 
-		$params         = wp_unslash( $_POST['params'] );
+		$params         = sanitize_text_field( wp_unslash( $_POST['params'] ));
 		$illegal_params = array_diff( array_keys( $params ), array( 'post_type', 'post_title' ) );
 		if ( ! empty( $illegal_params ) ) {
 			wp_send_json_error( 'illegal_params', 400 );

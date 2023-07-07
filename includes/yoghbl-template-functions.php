@@ -139,7 +139,7 @@ if ( ! function_exists( 'yoghbiolinks_buttons' ) ) {
 
 		$links_html = apply_filters( 'yoghbiolinks_links_html_output', $links_html, $args );
 
-		echo $links_html;
+		echo wp_kses_post($links_html);
 	}
 }
 

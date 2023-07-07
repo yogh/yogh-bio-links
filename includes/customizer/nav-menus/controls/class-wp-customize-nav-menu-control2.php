@@ -50,7 +50,7 @@ class WP_Customize_Nav_Menu_Control2 extends WP_Customize_Control {
 		</p>
 		<div class="customize-control-nav_menu-buttons">
 			<button type="button" class="button add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
-				<?php echo $add_items; ?>
+				<?php echo esc_html($add_items); ?>
 			</button>
 			<button type="button" class="button-link reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder menu items' ); ?>" aria-describedby="reorder-items-desc-{{ data.menu_id }}">
 				<span class="reorder"><?php _e( 'Reorder' ); ?></span>

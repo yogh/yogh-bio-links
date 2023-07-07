@@ -42,5 +42,4 @@
 	</rule>
 
 	<exclude-pattern>*/includes/customizer/*</exclude-pattern>
-	<exclude-pattern>*/includes/selfdirectory/*</exclude-pattern>
 </ruleset>

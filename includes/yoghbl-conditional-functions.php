@@ -8,8 +8,6 @@
  * @version     1.0.0
  */
 
-use Automattic\Jetpack\Constants;
-
 defined( 'ABSPATH' ) || exit;
 
 
