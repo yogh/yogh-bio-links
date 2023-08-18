@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
  * YoghBioLinks Template
  *
@@ -16,57 +19,59 @@ defined( 'ABSPATH' ) || exit;
  * @param  array $classes Body Classes.
  * @return array
  */
-function yoghbl_body_class( $classes ) {
-	$classes = (array) $classes;
+if( !function_exists('yoghbl_body_class') ){
+	function yoghbl_body_class( $classes ) {
+		$classes = (array) $classes;
 
-	if ( is_yoghbiolinks() ) {
-		$classes[] = 'yoghbiolinks';
-		$classes[] = 'yoghbiolinks-page';
+		if ( yoghbl_is() ) {
+			$classes[] = 'yoghbl';
+			$classes[] = 'yoghbl-page';
+		}
+
+		return array_unique( $classes );
 	}
-
-	return array_unique( $classes );
 }
 
-if ( ! function_exists( 'yoghbiolinks_logo' ) ) {
+if ( ! function_exists( 'yoghbl_logo' ) ) {
 
 	/**
 	 * The Yogh Bio Links logo.
 	 */
-	function yoghbiolinks_logo() {
-		$logo_id = get_option( 'yoghbiolinks_logo' );
+	function yoghbl_logo() {
+		$logo_id = intval(get_option( 'yoghbl_logo' ));
 
-		$html = '<div class="yoghbiolinks-logo yoghbiolinks-empty"><!-- wp:image {"align":"center","width":96,"height":96,"sizeSlug":"thumbnail","linkDestination":"none","className":"is-style-rounded"} -->
+		$html = '<div class="yoghbl-logo yoghbl-empty"><!-- wp:image {"align":"center","width":96,"height":96,"sizeSlug":"thumbnail","linkDestination":"none","className":"is-style-rounded"} -->
 		<figure class="wp-block-image aligncenter size-thumbnail is-resized is-style-rounded"></figure>
 		<!-- /wp:image --></div>';
 
 		if ( ! empty( $logo_id ) ) {
 			$logo = wp_get_attachment_image_src( $logo_id );
-			$html = '<div class="yoghbiolinks-logo"><!-- wp:image {"align":"center","id":' . esc_attr( $logo_id ) . ',"width":96,"height":96,"sizeSlug":"thumbnail","linkDestination":"none","className":"is-style-rounded"} -->
+			$html = '<div class="yoghbl-logo"><!-- wp:image {"align":"center","id":' . esc_attr( $logo_id ) . ',"width":96,"height":96,"sizeSlug":"thumbnail","linkDestination":"none","className":"is-style-rounded"} -->
 			<figure class="wp-block-image aligncenter size-thumbnail is-resized is-style-rounded"><img src="' . esc_url( $logo[0] ) . '" alt="" class="wp-image-' . esc_attr( $logo_id ) . '" width="96" height="96"/></figure>
 			<!-- /wp:image --></div>';
 		}
 		echo apply_filters(
-			'yoghbiolinks_logo_html',
+			'yoghbl_logo_html',
 			$html,
 			$logo_id
 		);
 	}
 }
 
-if ( ! function_exists( 'yoghbiolinks_title' ) ) {
+if ( ! function_exists( 'yoghbl_title' ) ) {
 
 	/**
 	 * The Yogh Bio Links title.
 	 */
-	function yoghbiolinks_title() {
-		$title = get_option( 'yoghbiolinks_title' );
+	function yoghbl_title() {
+		$title = wp_strip_all_tags(get_option( 'yoghbl_title' ));
 
 		if ( empty( $title ) ) {
-			$title = get_bloginfo( 'name' );
+			$title = wp_strip_all_tags(get_bloginfo( 'name' ));
 		}
 
 		echo apply_filters(
-			'yoghbiolinks_title_html',
+			'yoghbl_title_html',
 			'<!-- wp:heading {"textAlign":"center","level":1} -->
 			<h1 class="has-text-align-center">' . esc_html( $title ) . '</h1>
 			<!-- /wp:heading -->',
@@ -75,44 +80,44 @@ if ( ! function_exists( 'yoghbiolinks_title' ) ) {
 	}
 }
 
-if ( ! function_exists( 'yoghbiolinks_description' ) ) {
+if ( ! function_exists( 'yoghbl_description' ) ) {
 
 	/**
 	 * The Yogh Bio Links description.
 	 */
-	function yoghbiolinks_description() {
-		$description = get_option( 'yoghbiolinks_description' );
+	function yoghbl_description() {
+		$description = get_option( 'yoghbl_description' );
 
 		if ( false === $description ) {
 			$description = get_bloginfo( 'description' );
 		}
 
 		if ( empty( $description ) ) {
-			$html = '<!-- wp:paragraph {"textAlign":"center","level":1,"className":"yoghbiolinks-description yoghbiolinks-empty"} -->
-			<p class="has-text-align-center yoghbiolinks-description yoghbiolinks-empty"></p>
+			$html = '<!-- wp:paragraph {"textAlign":"center","level":1,"className":"yoghbl-description yoghbl-empty"} -->
+			<p class="has-text-align-center yoghbl-description yoghbl-empty"></p>
 			<!-- /wp:paragraph -->';
 		} else {
-			$html = '<!-- wp:paragraph {"textAlign":"center","level":1,"className":"yoghbiolinks-description"} -->
-			<p class="has-text-align-center yoghbiolinks-description">' . esc_html( $description ) . '</p>
+			$html = '<!-- wp:paragraph {"textAlign":"center","level":1,"className":"yoghbl-description"} -->
+			<p class="has-text-align-center yoghbl-description">' . esc_html( $description ) . '</p>
 			<!-- /wp:paragraph -->';
 		}
 		echo apply_filters(
-			'yoghbiolinks_description_html',
+			'yoghbl_description_html',
 			$html,
 			$description
 		);
 	}
 }
 
-if ( ! function_exists( 'yoghbiolinks_buttons' ) ) {
+if ( ! function_exists( 'yoghbl_buttons' ) ) {
 
 	/**
 	 * The HTML output to Yogh Bio Links buttons.
 	 *
 	 * @param array $args Arguments.
 	 */
-	function yoghbiolinks_links_html( $args = array() ) {
-		$args = (object) apply_filters( 'yoghbiolinks_links_html_args', $args );
+	function yoghbl_links_html( $args = array() ) {
+		$args = (object) apply_filters( 'yoghbl_links_html_args', $args );
 
 		$links = yoghbl_links();
 
@@ -127,31 +132,31 @@ if ( ! function_exists( 'yoghbiolinks_buttons' ) ) {
 		<!-- /wp:button -->';
 		}
 
-		$html = '<!-- wp:buttons {"className":"yoghbiolinks-links wp-block-button aligncenter has-custom-width wp-block-button__width-100","layout":{"type":"flex","justifyContent":"center"}} -->
-		<div class="wp-block-buttons yoghbiolinks-links wp-block-button aligncenter has-custom-width wp-block-button__width-100">' . implode( '', $links_html ) . '</div>
+		$html = '<!-- wp:buttons {"className":"yoghbl-links wp-block-button aligncenter has-custom-width wp-block-button__width-100","layout":{"type":"flex","justifyContent":"center"}} -->
+		<div class="wp-block-buttons yoghbl-links wp-block-button aligncenter has-custom-width wp-block-button__width-100">' . implode( '', $links_html ) . '</div>
 		<!-- /wp:buttons -->';
 
 		$links_html = apply_filters(
-			'yoghbiolinks_links_html',
+			'yoghbl_links_html',
 			$html,
 			$links
 		);
 
-		$links_html = apply_filters( 'yoghbiolinks_links_html_output', $links_html, $args );
+		$links_html = apply_filters( 'yoghbl_links_html_output', $links_html, $args );
 
 		echo wp_kses_post($links_html);
 	}
 }
 
-if ( ! function_exists( 'yoghbiolinks_credits' ) ) {
+if ( ! function_exists( 'yoghbl_credits' ) ) {
 
 	/**
 	 * The Yogh Bio Links credits.
 	 */
-	function yoghbiolinks_credits() {
-		$hide_credits = (int) get_option( 'yoghbiolinks_credits', 0 );
+	function yoghbl_credits() {
+		$hide_credits = (int) get_option( 'yoghbl_credits', 0 );
 
-		$html = '<div class="yoghbiolinks-credits yoghbiolinks-empty"></div>';
+		$html = '<div class="yoghbl-credits yoghbl-empty"></div>';
 		if ( 1 !== $hide_credits ) {
 			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require ABSPATH . 'wp-admin/includes/plugin.php';
@@ -159,18 +164,18 @@ if ( ! function_exists( 'yoghbiolinks_credits' ) ) {
 			$plugin = get_plugin_data( YOGHBL_PLUGIN_FILE );
 
 			$html = sprintf(
-				'<div class="yoghbiolinks-credits"><span><a href="%s" target="_blank">%s</a></span></div>',
-				$plugin['PluginURI'],
+				'<div class="yoghbl-credits"><span><a href="%s" target="_blank">%s</a></span></div>',
+				sanitize_url($plugin['PluginURI']),
 				/* translators: %s: Plugin Name */
-				sprintf( __( 'Created with %s', 'yogh-bio-links' ), $plugin['Name'] )
+				sprintf( __( 'Created with %s', 'yogh-bio-links' ), wp_strip_all_tags($plugin['Name']) )
 			);
 		}
 
 		echo apply_filters(
-			'yoghbiolinks_credits',
+			'yoghbl_credits',
 			$html,
-			$plugin['PluginURI'],
-			$plugin['Name']
+			sanitize_url($plugin['PluginURI']),
+			wp_strip_all_tags($plugin['Name'])
 		);
 	}
 }

@@ -5,8 +5,8 @@
  *
  * @return {number} - Returns the luminance, number between 0 and 255.
  */
-function yoghbiolinksGetHexLum( hex ) {
-	var rgb = yoghbiolinksGetRgbFromHex( hex );
+function yoghblGetHexLum( hex ) {
+	var rgb = yoghblGetRgbFromHex( hex );
 	return Math.round( ( 0.2126 * rgb.r ) + ( 0.7152 * rgb.g ) + ( 0.0722 * rgb.b ) );
 }
 
@@ -17,7 +17,7 @@ function yoghbiolinksGetHexLum( hex ) {
  *
  * @return {Object} - Returns an object {r, g, b}
  */
-function yoghbiolinksGetRgbFromHex( hex ) {
+function yoghblGetRgbFromHex( hex ) {
 	var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
 		result;
 

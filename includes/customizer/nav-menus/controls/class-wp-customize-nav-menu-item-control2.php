@@ -1,6 +1,8 @@
 <?php
 
-class WP_Customize_Nav_Menu_Item_Control2 extends WP_Customize_Control {
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+class yoghbl_customize_Nav_Menu_Item_Control2 extends yoghbl_customize_Control {
 
 	public $type = 'nav_menu_item2';
 
@@ -36,13 +38,13 @@ class WP_Customize_Nav_Menu_Item_Control2 extends WP_Customize_Control {
 		<div class="menu-item-settings" id="menu-item-settings-{{ data.menu_item_id }}">
 			<p class="field-url description description-thin">
 				<label for="edit-menu-item-url-{{ data.menu_item_id }}">
-					<?php _e( 'URL' ); ?><br />
+					<?php _e( 'URL', 'yogh-bio-links' ); ?><br />
 					<input class="widefat code edit-menu-item-url" type="text" id="edit-menu-item-url-{{ data.menu_item_id }}" name="menu-item-url" />
 				</label>
 			</p>
 			<p class="description description-thin">
 				<label for="edit-menu-item-title-{{ data.menu_item_id }}">
-					<?php _e( 'Navigation Label' ); ?><br />
+					<?php _e( 'Navigation Label', 'yogh-bio-links' ); ?><br />
 					<input type="text" id="edit-menu-item-title-{{ data.menu_item_id }}" placeholder="{{ data.original_title }}" class="widefat edit-menu-item-title" name="menu-item-title" />
 				</label>
 			</p>

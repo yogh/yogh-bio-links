@@ -1,10 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-class YoghBL_Customizer_Setting_Nav_Menu extends WP_Customize_Setting {
+class YoghBL_Customizer_Setting_Nav_Menu extends yoghbl_customize_Setting {
 
-	const ID_PATTERN = '/^yoghbiolinks_links$/';
+	const ID_PATTERN = '/^yoghbl_links$/';
 
-	const TYPE = 'yoghbiolinks_links';
+	const TYPE = 'yoghbl_links';
 
 	public $type = self::TYPE;
 

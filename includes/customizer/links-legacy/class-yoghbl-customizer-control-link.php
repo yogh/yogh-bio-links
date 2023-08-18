@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * YoghBL_Customizer_Control_Link class.
  */
-class YoghBL_Customizer_Control_Link extends WP_Customize_Control {
+class YoghBL_Customizer_Control_Link extends yoghbl_customize_Control {
 
 	/**
 	 * Declare the control type.
@@ -29,7 +29,7 @@ class YoghBL_Customizer_Control_Link extends WP_Customize_Control {
 	 *
 	 * @throws Exception If $id is not valid for this setting type.
 	 *
-	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param yoghbl_customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      A specific ID of the setting.
 	 *                                      Can be a theme mod or option name.
 	 * @param array                $args    Optional. Setting arguments.
@@ -59,13 +59,13 @@ class YoghBL_Customizer_Control_Link extends WP_Customize_Control {
 					<button type="button" class="button-link item-edit" aria-expanded="false"><span class="screen-reader-text">
 					<?php
 						/* translators: 1: Title of a menu item, 2: Type of a menu item. */
-						printf( __( 'Edit menu item: %1$s (%2$s)' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.item_type_label }}' );
+						printf( __( 'Edit menu item: %1$s (%2$s)', 'yogh-bio-links' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.item_type_label }}' );
 					?>
 					</span><span class="toggle-indicator" aria-hidden="true"></span></button>
 					<button type="button" class="button-link item-delete submitdelete deletion"><span class="screen-reader-text">
 					<?php
 						/* translators: 1: Title of a menu item, 2: Type of a menu item. */
-						printf( __( 'Remove Menu Item: %1$s (%2$s)' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.item_type_label }}' );
+						printf( __( 'Remove Menu Item: %1$s (%2$s)', 'yogh-bio-links' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.item_type_label }}' );
 					?>
 					</span></button>
 				</span>
@@ -76,46 +76,46 @@ class YoghBL_Customizer_Control_Link extends WP_Customize_Control {
 			<# if ( 'custom' === data.item_type ) { #>
 			<p class="field-url description description-thin">
 				<label for="edit-menu-item-url-{{ data.menu_item_id }}">
-					<?php _e( 'URL' ); ?><br />
+					<?php _e( 'URL', 'yogh-bio-links' ); ?><br />
 					<input class="widefat code edit-menu-item-url" type="text" id="edit-menu-item-url-{{ data.menu_item_id }}" name="menu-item-url" />
 				</label>
 			</p>
 		<# } #>
 			<p class="description description-thin">
 				<label for="edit-menu-item-title-{{ data.menu_item_id }}">
-					<?php _e( 'Navigation Label' ); ?><br />
+					<?php _e( 'Navigation Label', 'yogh-bio-links' ); ?><br />
 					<input type="text" id="edit-menu-item-title-{{ data.menu_item_id }}" placeholder="{{ data.original_title }}" class="widefat edit-menu-item-title" name="menu-item-title" />
 				</label>
 			</p>
 			<p class="field-link-target description description-thin">
 				<label for="edit-menu-item-target-{{ data.menu_item_id }}">
 					<input type="checkbox" id="edit-menu-item-target-{{ data.menu_item_id }}" class="edit-menu-item-target" value="_blank" name="menu-item-target" />
-					<?php _e( 'Open link in a new tab' ); ?>
+					<?php _e( 'Open link in a new tab', 'yogh-bio-links' ); ?>
 				</label>
 			</p>
 			<p class="field-title-attribute field-attr-title description description-thin">
 				<label for="edit-menu-item-attr-title-{{ data.menu_item_id }}">
-					<?php _e( 'Title Attribute' ); ?><br />
+					<?php _e( 'Title Attribute', 'yogh-bio-links' ); ?><br />
 					<input type="text" id="edit-menu-item-attr-title-{{ data.menu_item_id }}" class="widefat edit-menu-item-attr-title" name="menu-item-attr-title" />
 				</label>
 			</p>
 			<p class="field-css-classes description description-thin">
 				<label for="edit-menu-item-classes-{{ data.menu_item_id }}">
-					<?php _e( 'CSS Classes' ); ?><br />
+					<?php _e( 'CSS Classes', 'yogh-bio-links' ); ?><br />
 					<input type="text" id="edit-menu-item-classes-{{ data.menu_item_id }}" class="widefat code edit-menu-item-classes" name="menu-item-classes" />
 				</label>
 			</p>
 			<p class="field-xfn description description-thin">
 				<label for="edit-menu-item-xfn-{{ data.menu_item_id }}">
-					<?php _e( 'Link Relationship (XFN)' ); ?><br />
+					<?php _e( 'Link Relationship (XFN)', 'yogh-bio-links' ); ?><br />
 					<input type="text" id="edit-menu-item-xfn-{{ data.menu_item_id }}" class="widefat code edit-menu-item-xfn" name="menu-item-xfn" />
 				</label>
 			</p>
 			<p class="field-description description description-thin">
 				<label for="edit-menu-item-description-{{ data.menu_item_id }}">
-					<?php _e( 'Description' ); ?><br />
+					<?php _e( 'Description', 'yogh-bio-links' ); ?><br />
 					<textarea id="edit-menu-item-description-{{ data.menu_item_id }}" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description">{{ data.description }}</textarea>
-					<span class="description"><?php _e( 'The description will be displayed in the menu if the active theme supports it.' ); ?></span>
+					<span class="description"><?php _e( 'The description will be displayed in the menu if the active theme supports it.', 'yogh-bio-links' ); ?></span>
 				</label>
 			</p>
 
@@ -135,7 +135,7 @@ class YoghBL_Customizer_Control_Link extends WP_Customize_Control {
 				<p class="link-to-original">
 					<?php
 						/* translators: Nav menu item original title. %s: Original title. */
-						printf( __( 'Original: %s' ), '<a class="original-link" href="{{ data.url }}">{{ data.original_title }}</a>' );
+						printf( __( 'Original: %s', 'yogh-bio-links' ), '<a class="original-link" href="{{ data.url }}">{{ data.original_title }}</a>' );
 					?>
 				</p>
 				<# } #>

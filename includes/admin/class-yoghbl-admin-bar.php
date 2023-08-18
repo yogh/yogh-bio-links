@@ -44,7 +44,7 @@ class YoghBL_Admin_Bar {
 		}
 
 		if ( ! empty( $current_object->post_type ) ) {
-			if ( yoghbl_get_page_id( 'biolinks' ) !== $current_object->ID ) {
+			if ( intval(yoghbl_get_page_id( 'biolinks' )) !== $current_object->ID ) {
 				return;
 			}
 
@@ -52,14 +52,14 @@ class YoghBL_Admin_Bar {
 			$edit_post_link   = yoghbl_edit_link();
 			if ( $post_type_object
 				&& $edit_post_link
-				&& current_user_can( 'edit_post', $current_object->ID )
+				&& current_user_can( 'edit_post', intval($current_object->ID) )
 				&& $post_type_object->show_in_admin_bar ) {
 				$wp_admin_bar->remove_node( 'edit' );
 				$wp_admin_bar->add_node(
 					array(
 						'id'    => 'edit',
-						'title' => $post_type_object->labels->edit_item,
-						'href'  => $edit_post_link,
+						'title' => esc_html($post_type_object->labels->edit_item),
+						'href'  => esc_url($edit_post_link),
 					)
 				);
 			}

@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
  * Handle frontend scripts
  *
@@ -68,10 +71,10 @@ class YoghBL_Frontend_Scripts {
 		$styles = apply_filters(
 			'yoghbl_enqueue_styles',
 			array(
-				'yoghbiolinks-general' => array(
-					'src'     => self::get_asset_url( 'assets/css/yoghbiolinks.css' ),
+				'yoghbl-general' => array(
+					'src'     => self::get_asset_url( 'assets/css/yoghbl.css' ),
 					'deps'    => array(),
-					'version' => $version,
+					'version' => wp_strip_all_tags($version),
 					'media'   => 'all',
 					'has_rtl' => true,
 				),
@@ -154,6 +157,7 @@ class YoghBL_Frontend_Scripts {
 	 * @param  boolean  $has_rtl If has RTL version to load too.
 	 */
 	private static function enqueue_style( $handle, $path = '', $deps = array(), $version = YOGHBL_VERSION, $media = 'all', $has_rtl = false ) {
+		$handle = sanitize_title($handle);
 		if ( ! in_array( $handle, self::$styles, true ) && $path ) {
 			self::register_style( $handle, $path, $deps, $version, $media, $has_rtl );
 		}
@@ -189,7 +193,7 @@ class YoghBL_Frontend_Scripts {
 	 * Register/queue frontend scripts.
 	 */
 	public static function load_scripts() {
-		if ( ! did_action( 'before_yoghbl_init' ) || ! is_yoghbiolinks() ) {
+		if ( ! did_action( 'before_yoghbl_init' ) || ! yoghbl_is() ) {
 			return;
 		}
 
@@ -215,6 +219,7 @@ class YoghBL_Frontend_Scripts {
 	 * @param string $handle Script handle the data will be attached to.
 	 */
 	private static function localize_script( $handle ) {
+		$handle = sanitize_title($handle);
 		if ( ! in_array( $handle, self::$wp_localize_scripts, true ) && wp_script_is( $handle ) ) {
 			$data = self::get_script_data( $handle );
 
@@ -235,6 +240,7 @@ class YoghBL_Frontend_Scripts {
 	 * @return array|bool
 	 */
 	private static function get_script_data( $handle ) {
+		$handle = sanitize_title($handle);
 		switch ( $handle ) {
 			default:
 				$params = false;
@@ -259,8 +265,9 @@ class YoghBL_Frontend_Scripts {
 	 * @return array|bool
 	 */
 	private static function get_extra_style_data( $handle ) {
+		$handle = sanitize_title($handle);
 		switch ( $handle ) {
-			case 'yoghbiolinks-general':
+			case 'yoghbl-general':
 				$data = array();
 
 				// Add stick footer height 100% with or without admin bar.
@@ -295,6 +302,7 @@ class YoghBL_Frontend_Scripts {
 	 * @param string $handle Style handle the inline style will be attached to.
 	 */
 	private static function add_inline_style( $handle ) {
+		$handle = sanitize_title($handle);
 		if ( ! in_array( $handle, self::$added_inline_style, true ) && wp_style_is( $handle ) ) {
 			$data = self::get_extra_style_data( $handle );
 

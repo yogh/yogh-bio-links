@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 final class YoghBL_Customizer_Links {
 
 	public $manager;
@@ -36,7 +38,7 @@ final class YoghBL_Customizer_Links {
 		$this->manager->register_control_type( 'YoghBL_Customizer_Control_Links' );
 		$this->manager->register_control_type( 'YoghBL_Customizer_Control_Link' );
 
-		$section_id = 'yoghbiolinks_links';
+		$section_id = 'yoghbl_links';
 		$this->manager->add_section(
 			new YoghBL_Customizer_Section_Links(
 				$this->manager,
@@ -44,7 +46,7 @@ final class YoghBL_Customizer_Links {
 				array(
 					'title'    => __( 'Links' ),
 					'priority' => 10,
-					'panel'    => 'yoghbiolinks',
+					'panel'    => 'yoghbl',
 				)
 			)
 		);
@@ -62,7 +64,7 @@ final class YoghBL_Customizer_Links {
 		$links = (array) yoghbl_links();
 		foreach ( array_values( $links ) as $i => $link ) {
 
-			$link_setting_id = 'yoghbiolinks_link[' . $link->ID . ']';
+			$link_setting_id = 'yoghbl_link[' . intval($link->ID) . ']';
 
 			$value = (array) $link;
 
@@ -82,8 +84,8 @@ final class YoghBL_Customizer_Links {
 					$this->manager,
 					$link_setting_id,
 					array(
-						'label'    => $link->title,
-						'section'  => $section_id,
+						'label'    => wp_strip_all_tags($link->title),
+						'section'  => wp_strip_all_tags($section_id),
 						'priority' => 10 + $i,
 					)
 				)

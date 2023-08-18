@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+
 require_once YOGHBL_ABSPATH . 'includes/customizer/render/controls/class-yoghbl-customizer-control-nav-menu.php';
 require_once YOGHBL_ABSPATH . 'includes/customizer/render/sections/class-yoghbl-customizer-section-nav-menu.php';
 require_once YOGHBL_ABSPATH . 'includes/customizer/render/settings/class-yoghbl-customizer-setting-nav-menu.php';
@@ -151,11 +154,11 @@ final class YoghBL_Customizer_Nav_Menus {
 			} elseif ( 'post' !== $object_name && 0 === $page && $post_type->has_archive ) {
 				// Add a post type archive link.
 				$items[] = array(
-					'id'         => $object_name . '-archive',
-					'title'      => $post_type->labels->archives,
+					'id'         => sanitize_title($object_name) . '-archive',
+					'title'      => wp_strip_all_tags($post_type->labels->archives),
 					'type'       => 'post_type_archive',
 					'type_label' => __( 'Post Type Archive' ),
-					'object'     => $object_name,
+					'object'     => wp_strip_all_tags($object_name),
 					'url'        => get_post_type_archive_link( $object_name ),
 				);
 			}
@@ -194,7 +197,7 @@ final class YoghBL_Customizer_Nav_Menus {
 				$post_title = $post->post_title;
 				if ( '' === $post_title ) {
 					/* translators: %d: ID of a post. */
-					$post_title = sprintf( __( '#%d (no title)' ), $post->ID );
+					$post_title = sprintf( __( '#%d (no title)', 'yogh-bio-links' ), $post->ID );
 				}
 
 				$post_type_label = get_post_type_object( $post->post_type )->labels->singular_name;
@@ -207,8 +210,8 @@ final class YoghBL_Customizer_Nav_Menus {
 					'id'         => "post-{$post->ID}",
 					'title'      => html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
 					'type'       => 'post_type',
-					'type_label' => $post_type_label,
-					'object'     => $post->post_type,
+					'type_label' => wp_strip_all_tags($post_type_label),
+					'object'     => wp_strip_all_tags($post->post_type),
 					'object_id'  => (int) $post->ID,
 					'url'        => get_permalink( (int) $post->ID ),
 				);
@@ -240,7 +243,7 @@ final class YoghBL_Customizer_Nav_Menus {
 					'title'      => html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) ),
 					'type'       => 'taxonomy',
 					'type_label' => get_taxonomy( $term->taxonomy )->labels->singular_name,
-					'object'     => $term->taxonomy,
+					'object'     => wp_strip_all_tags($term->taxonomy),
 					'object_id'  => (int) $term->term_id,
 					'url'        => get_term_link( (int) $term->term_id, $term->taxonomy ),
 				);
@@ -292,7 +295,7 @@ final class YoghBL_Customizer_Nav_Menus {
 		);
 
 		if ( empty( $items ) ) {
-			wp_send_json_error( array( 'message' => __( 'No results found.' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No results found.', 'yogh-bio-links' ) ) );
 		} else {
 			wp_send_json_success( array( 'items' => $items ) );
 		}
@@ -352,10 +355,10 @@ final class YoghBL_Customizer_Nav_Menus {
 
 		// Create items for posts.
 		foreach ( $posts as $post ) {
-			$post_title = $post->post_title;
+			$post_title = wp_strip_all_tags($post->post_title);
 			if ( '' === $post_title ) {
 				/* translators: %d: ID of a post. */
-				$post_title = sprintf( __( '#%d (no title)' ), $post->ID );
+				$post_title = sprintf( __( '#%d (no title)', 'yogh-bio-links' ), $post->ID );
 			}
 
 			$post_type_label = $post_type_objects[ $post->post_type ]->labels->singular_name;
@@ -365,7 +368,7 @@ final class YoghBL_Customizer_Nav_Menus {
 			}
 
 			$items[] = array(
-				'id'         => 'post-' . $post->ID,
+				'id'         => "post-{$post->ID}",
 				'title'      => html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
 				'type'       => 'post_type',
 				'type_label' => $post_type_label,
@@ -391,7 +394,7 @@ final class YoghBL_Customizer_Nav_Menus {
 		if ( ! empty( $terms ) ) {
 			foreach ( $terms as $term ) {
 				$items[] = array(
-					'id'         => 'term-' . $term->term_id,
+					'id'         => "term-{$term->term_id}",
 					'title'      => html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) ),
 					'type'       => 'taxonomy',
 					'type_label' => get_taxonomy( $term->taxonomy )->labels->singular_name,
@@ -405,16 +408,16 @@ final class YoghBL_Customizer_Nav_Menus {
 		// Add "Home" link if search term matches. Treat as a page, but switch to custom on add.
 		if ( isset( $args['s'] ) ) {
 			// Only insert custom "Home" link if there's no Front Page
-			$front_page = 'page' === get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
+			$front_page = 'page' === wp_strip_all_tags(get_option( 'show_on_front' )) ? (int) wp_strip_all_tags(get_option( 'page_on_front' )) : 0;
 			if ( empty( $front_page ) ) {
 				$title   = _x( 'Home', 'nav menu home label' );
 				$matches = function_exists( 'mb_stripos' ) ? false !== mb_stripos( $title, $args['s'] ) : false !== stripos( $title, $args['s'] );
 				if ( $matches ) {
 					$items[] = array(
 						'id'         => 'home',
-						'title'      => $title,
+						'title'      => wp_strip_all_tags($title),
 						'type'       => 'custom',
-						'type_label' => __( 'Custom Link' ),
+						'type_label' => __( 'Custom Link', 'yogh-bio-links'  ),
 						'object'     => '',
 						'url'        => home_url(),
 					);
@@ -452,10 +455,10 @@ final class YoghBL_Customizer_Nav_Menus {
 
 		$settings = array(
 			'l10n'                     => array(
-				'itemAdded'   => __( 'Menu item added' ),
-				'itemDeleted' => __( 'Menu item deleted' ),
-				'movedUp'     => __( 'Menu item moved up' ),
-				'movedDown'   => __( 'Menu item moved down' ),
+				'itemAdded'   => __( 'Menu item added', 'yogh-bio-links'  ),
+				'itemDeleted' => __( 'Menu item deleted', 'yogh-bio-links'  ),
+				'movedUp'     => __( 'Menu item moved up', 'yogh-bio-links'  ),
+				'movedDown'   => __( 'Menu item moved down', 'yogh-bio-links'  ),
 			),
 			'settingTransport'         => 'postMessage',
 			'phpIntMax'                => PHP_INT_MAX,
@@ -468,7 +471,7 @@ final class YoghBL_Customizer_Nav_Menus {
 		wp_scripts()->add_data( 'customize-render-nav-menus', 'data', $data );
 
 		wp_enqueue_style(
-			'yoghbiolinks-customize-nav-menus',
+			'yoghbl-customize-nav-menus',
 			YoghBL()->plugin_url() . '/assets/css/customize-nav-menus.css',
 			array( 'wp-admin', 'colors' ),
 			$version
@@ -480,11 +483,11 @@ final class YoghBL_Customizer_Nav_Menus {
 	 *
 	 * For a dynamic setting to be registered, this filter must be employed
 	 * to override the default false value with an array of args to pass to
-	 * the WP_Customize_Setting constructor.
+	 * the yoghbl_customize_Setting constructor.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param false|array $setting_args The arguments to the WP_Customize_Setting constructor.
+	 * @param false|array $setting_args The arguments to the yoghbl_customize_Setting constructor.
 	 * @param string      $setting_id   ID for dynamic setting, usually coming from `$_POST['customized']`.
 	 * @return array|false
 	 */
@@ -504,13 +507,13 @@ final class YoghBL_Customizer_Nav_Menus {
 	}
 
 	/**
-	 * Allows non-statically created settings to be constructed with custom WP_Customize_Setting subclass.
+	 * Allows non-statically created settings to be constructed with custom yoghbl_customize_Setting subclass.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param string $setting_class WP_Customize_Setting or a subclass.
+	 * @param string $setting_class yoghbl_customize_Setting or a subclass.
 	 * @param string $setting_id    ID for dynamic setting, usually coming from `$_POST['customized']`.
-	 * @param array  $setting_args  WP_Customize_Setting or a subclass.
+	 * @param array  $setting_args  yoghbl_customize_Setting or a subclass.
 	 * @return string
 	 */
 	public function filter_dynamic_setting_class( $setting_class, $setting_id, $setting_args ) {
@@ -544,22 +547,22 @@ final class YoghBL_Customizer_Nav_Menus {
 		$this->manager->register_control_type( 'YoghBL_Customizer_Control_Nav_Menu_Item' );
 
 		$this->manager->add_section(
-			'yoghbiolinks_links',
+			'yoghbl_links',
 			array(
 				'title'    => __( 'Links', 'yogh-bio-links' ),
 				'priority' => 20,
-				'panel'    => 'yoghbiolinks',
+				'panel'    => 'yoghbl',
 			)
 		);
 
 		$this->manager->add_section(
 			new YoghBL_Customizer_Section_Nav_Menu(
 				$this->manager,
-				'yoghbiolinks_links',
+				'yoghbl_links',
 				array(
 					'title'    => __( 'Links', 'yogh-bio-links' ),
 					'priority' => 10,
-					'panel'    => 'yoghbiolinks',
+					'panel'    => 'yoghbl',
 				)
 			)
 		);
@@ -567,7 +570,7 @@ final class YoghBL_Customizer_Nav_Menus {
 		$this->manager->add_setting(
 			new YoghBL_Customizer_Setting_Nav_Menu(
 				$this->manager,
-				'yoghbiolinks_links',
+				'yoghbl_links',
 				array(
 					'transport' => 'postMessage',
 				)
@@ -597,7 +600,7 @@ final class YoghBL_Customizer_Nav_Menus {
 					$link_setting_id,
 					array(
 						'label'    => $link->title,
-						'section'  => 'yoghbiolinks_links',
+						'section'  => 'yoghbl_links',
 						'priority' => 10 + $i,
 					)
 				)
@@ -636,10 +639,10 @@ final class YoghBL_Customizer_Nav_Menus {
 		if ( $post_types ) {
 			foreach ( $post_types as $slug => $post_type ) {
 				$item_types[] = array(
-					'title'      => $post_type->labels->name,
-					'type_label' => $post_type->labels->singular_name,
+					'title'      => wp_strip_all_tags($post_type->labels->name),
+					'type_label' => wp_strip_all_tags($post_type->labels->singular_name),
 					'type'       => 'post_type',
-					'object'     => $post_type->name,
+					'object'     => wp_strip_all_tags($post_type->name),
 				);
 			}
 		}
@@ -651,10 +654,10 @@ final class YoghBL_Customizer_Nav_Menus {
 					continue;
 				}
 				$item_types[] = array(
-					'title'      => $taxonomy->labels->name,
-					'type_label' => $taxonomy->labels->singular_name,
+					'title'      => wp_strip_all_tags($taxonomy->labels->name),
+					'type_label' => wp_strip_all_tags($taxonomy->labels->singular_name),
 					'type'       => 'taxonomy',
-					'object'     => $taxonomy->name,
+					'object'     => wp_strip_all_tags($taxonomy->name),
 				);
 			}
 		}
@@ -689,13 +692,13 @@ final class YoghBL_Customizer_Nav_Menus {
 	 */
 	public function insert_auto_draft_post( $postarr ) {
 		if ( ! isset( $postarr['post_type'] ) ) {
-			return new WP_Error( 'unknown_post_type', __( 'Invalid post type.' ) );
+			return new WP_Error( 'unknown_post_type', __( 'Invalid post type.', 'yogh-bio-links' ) );
 		}
 		if ( empty( $postarr['post_title'] ) ) {
-			return new WP_Error( 'empty_title', __( 'Empty title.' ) );
+			return new WP_Error( 'empty_title', __( 'Empty title.', 'yogh-bio-links' ) );
 		}
 		if ( ! empty( $postarr['post_status'] ) ) {
-			return new WP_Error( 'status_forbidden', __( 'Status is forbidden.' ) );
+			return new WP_Error( 'status_forbidden', __( 'Status is forbidden.', 'yogh-bio-links' ) );
 		}
 
 		/*
@@ -781,12 +784,12 @@ final class YoghBL_Customizer_Nav_Menus {
 			if ( ! empty( $post_type_object->labels->singular_name ) ) {
 				$singular_name = $post_type_object->labels->singular_name;
 			} else {
-				$singular_name = __( 'Post' );
+				$singular_name = __( 'Post', 'yogh-bio-links' );
 			}
 
 			$data = array(
 				/* translators: 1: Post type name, 2: Error message. */
-				'message' => sprintf( __( '%1$s could not be created: %2$s' ), $singular_name, $error->get_error_message() ),
+				'message' => sprintf( __( '%1$s could not be created: %2$s', 'yogh-bio-links' ), $singular_name, $error->get_error_message() ),
 			);
 			wp_send_json_error( $data );
 		} else {
@@ -844,14 +847,14 @@ final class YoghBL_Customizer_Nav_Menus {
 		<script type="text/html" id="tmpl-nav-menu-delete-button">
 			<div class="menu-delete-item">
 				<button type="button" class="button-link button-link-delete">
-					<?php _e( 'Delete Menu' ); ?>
+					<?php _e( 'Delete Menu', 'yogh-bio-links' ); ?>
 				</button>
 			</div>
 		</script>
 
 		<script type="text/html" id="tmpl-nav-menu-submit-new-button">
 			<p id="customize-new-menu-submit-description"><?php _e( 'Click &#8220;Next&#8221; to start adding links to your new menu.' ); ?></p>
-			<button id="customize-new-menu-submit" type="button" class="button" aria-describedby="customize-new-menu-submit-description"><?php _e( 'Next' ); ?></button>
+			<button id="customize-new-menu-submit" type="button" class="button" aria-describedby="customize-new-menu-submit-description"><?php _e( 'Next', 'yogh-bio-links' ); ?></button>
 		</script>
 
 		<script type="text/html" id="tmpl-nav-menu-locations-header">
@@ -880,7 +883,7 @@ final class YoghBL_Customizer_Nav_Menus {
 		<div id="available-yoghbl-menu-items" class="accordion-container">
 			<div class="customize-section-title">
 				<button type="button" class="customize-section-back" tabindex="-1">
-					<span class="screen-reader-text"><?php _e( 'Back' ); ?></span>
+					<span class="screen-reader-text"><?php _e( 'Back', 'yogh-bio-links' ); ?></span>
 				</button>
 				<h3>
 					<span class="customize-action">
@@ -920,7 +923,7 @@ final class YoghBL_Customizer_Nav_Menus {
 					<span class="screen-reader-text">
 					<?php
 						/* translators: %s: Title of a section with menu items. */
-						printf( __( 'Toggle section: %s' ), esc_html( $available_item_type['title'] ) );
+						printf( __( 'Toggle section: %s', 'yogh-bio-links' ), esc_html( $available_item_type['title'] ) );
 					?>
 						</span>
 					<span class="toggle-indicator" aria-hidden="true"></span>
@@ -948,16 +951,16 @@ final class YoghBL_Customizer_Nav_Menus {
 		<div id="new-custom-menu-item" class="accordion-section open">
 			<div class="accordion-section-content customlinkdiv">
 				<p id="menu-item-url-wrap" class="wp-clearfix">
-					<label class="howto" for="custom-yoghbl-menu-item-url"><?php _e( 'URL' ); ?></label>
+					<label class="howto" for="custom-yoghbl-menu-item-url"><?php _e( 'URL', 'yogh-bio-links' ); ?></label>
 					<input id="custom-yoghbl-menu-item-url" name="yobhbl-menu-item[-1][url]" type="text" class="code menu-item-textbox" placeholder="https://">
 				</p>
 				<p id="menu-item-name-wrap" class="wp-clearfix">
-					<label class="howto" for="custom-yoghbl-menu-item-name"><?php _e( 'Link Text' ); ?></label>
+					<label class="howto" for="custom-yoghbl-menu-item-name"><?php _e( 'Link Text', 'yogh-bio-links' ); ?></label>
 					<input id="custom-yoghbl-menu-item-name" name="yobhbl-menu-item[-1][title]" type="text" class="regular-text menu-item-textbox">
 				</p>
 				<p class="button-controls">
 					<span class="add-to-menu">
-						<input type="submit" class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add' ); ?>" name="add-custom-menu-item" id="custom-yoghbl-menu-item-submit">
+						<input type="submit" class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add', 'yogh-bio-links' ); ?>" name="add-custom-menu-item" id="custom-yoghbl-menu-item-submit">
 						<span class="spinner"></span>
 					</span>
 				</p>
@@ -989,14 +992,14 @@ final class YoghBL_Customizer_Nav_Menus {
 	 */
 	public function customize_dynamic_partial_args( $partial_args, $partial_id ) {
 
-		if ( preg_match( '/^yoghbiolinks_links$/', $partial_id ) ) {
+		if ( preg_match( '/^yoghbl_links$/', $partial_id ) ) {
 			if ( false === $partial_args ) {
 				$partial_args = array();
 			}
 			$partial_args = array_merge(
 				$partial_args,
 				array(
-					'type'                => 'yoghbiolinks_links',
+					'type'                => 'yoghbl_links',
 					'render_callback'     => array( $this, 'render_nav_menu_partial' ),
 					'container_inclusive' => true,
 					'settings'            => array(), // Empty because the nav menu instance may relate to a menu or a location.
@@ -1014,8 +1017,8 @@ final class YoghBL_Customizer_Nav_Menus {
 	 */
 	public function customize_preview_init() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'customize_preview_enqueue_deps' ) );
-		add_filter( 'yoghbiolinks_links_html_args', array( $this, 'filter_wp_nav_menu_args' ), 1000 );
-		add_filter( 'yoghbiolinks_links_html_output', array( $this, 'filter_wp_nav_menu' ), 10, 2 );
+		add_filter( 'yoghbl_links_html_args', array( $this, 'filter_wp_nav_menu_args' ), 1000 );
+		add_filter( 'yoghbl_links_html_output', array( $this, 'filter_wp_nav_menu' ), 10, 2 );
 		add_filter( 'wp_footer', array( $this, 'export_preview_data' ), 1 );
 		add_filter( 'customize_render_partials_response', array( $this, 'export_partial_rendered_nav_menu_instances' ) );
 	}
@@ -1026,7 +1029,7 @@ final class YoghBL_Customizer_Nav_Menus {
 	 * @since 4.3.0
 	 *
 	 * @see wp_nav_menu()
-	 * @see WP_Customize_Widgets::filter_dynamic_sidebar_params()
+	 * @see yoghbl_customize_Widgets::filter_dynamic_sidebar_params()
 	 *
 	 * @param array $args An array containing wp_nav_menu() arguments.
 	 * @return array Arguments.
@@ -1075,8 +1078,8 @@ final class YoghBL_Customizer_Nav_Menus {
 	 */
 	public function filter_wp_nav_menu( $nav_menu_content, $args ) {
 		if ( isset( $args->customize_preview_nav_menus_args['can_partial_refresh'] ) && $args->customize_preview_nav_menus_args['can_partial_refresh'] ) {
-			$attributes       = sprintf( ' data-customize-partial-id="%s"', 'yoghbiolinks_links' );
-			$attributes      .= ' data-customize-partial-type="yoghbiolinks_links"';
+			$attributes       = sprintf( ' data-customize-partial-id="%s"', 'yoghbl_links' );
+			$attributes      .= ' data-customize-partial-type="yoghbl_links"';
 			$attributes      .= sprintf( ' data-customize-partial-placement-context="%s"', esc_attr( wp_json_encode( $args->customize_preview_nav_menus_args ) ) );
 			$nav_menu_content = preg_replace( '#^(<\w+)#', '$1 ' . str_replace( '\\', '\\\\', $attributes ), $nav_menu_content, 1 );
 		}
@@ -1141,7 +1144,7 @@ final class YoghBL_Customizer_Nav_Menus {
 	 *
 	 * @see wp_nav_menu()
 	 *
-	 * @param WP_Customize_Partial $partial       Partial.
+	 * @param yoghbl_customize_Partial $partial       Partial.
 	 * @param array                $nav_menu_args Nav menu args supplied as container context.
 	 * @return string|false
 	 */
@@ -1149,7 +1152,7 @@ final class YoghBL_Customizer_Nav_Menus {
 		unset( $partial );
 
 		ob_start();
-		yoghbiolinks_links_html( $nav_menu_args );
+		yoghbl_links_html( $nav_menu_args );
 		$content = ob_get_clean();
 
 		return $content;

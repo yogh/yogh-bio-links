@@ -2982,7 +2982,7 @@
 	 * menu_location, menu_item, nav_menu, and new_menu.
 	 */
 	$.extend( api.controlConstructor, {
-		yoghbiolinks_links: api.Menus.MenuItemControl
+		yoghbl_links: api.Menus.MenuItemControl
 	});
 
 	/**

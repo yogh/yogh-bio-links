@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
  * YoghBioLinks Conditional Functions
  *
@@ -12,10 +15,12 @@ defined( 'ABSPATH' ) || exit;
 
 
 /**
- * Is_yoghbiolinks - Returns true if on a page which uses YoghBioLinks template.
+ * Is_yoghbl - Returns true if on a page which uses YoghBioLinks template.
  *
  * @return bool
  */
-function is_yoghbiolinks() {
-	return apply_filters( 'is_yoghbiolinks', is_page( yoghbl_get_page_id( 'biolinks' ) ) );
+if( !function_exists('yoghbl_is') ) {
+	function yoghbl_is() {
+		return apply_filters( 'yoghbl_is', is_page( yoghbl_get_page_id( 'biolinks' ) ) );
+	}
 }

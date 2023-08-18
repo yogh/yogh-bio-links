@@ -1,8 +1,10 @@
 <?php
 
-class YoghBL_Customizer_Control_Links extends WP_Customize_Control {
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	public $type = 'yoghbiolinks_links';
+class YoghBL_Customizer_Control_Links extends yoghbl_customize_Control {
+
+	public $type = 'yoghbl_links';
 
 	public function render_content() {}
 
@@ -19,21 +21,21 @@ class YoghBL_Customizer_Control_Links extends WP_Customize_Control {
 			?>
 		</p>
 		<div class="customize-control-nav_menu-buttons">
-			<button type="button" class="button add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
+			<button type="button" class="button add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items', 'yogh-bio-links' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
 				<?php echo esc_html( $add_items ); ?>
 			</button>
-			<button type="button" class="button-link reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder menu items' ); ?>" aria-describedby="reorder-items-desc-yoghbiolinks_links">
-				<span class="reorder"><?php _e( 'Reorder' ); ?></span>
-				<span class="reorder-done"><?php _e( 'Done' ); ?></span>
+			<button type="button" class="button-link reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder menu items', 'yogh-bio-links' ); ?>" aria-describedby="reorder-items-desc-yoghbl_links">
+				<span class="reorder"><?php _e( 'Reorder', 'yogh-bio-links' ); ?></span>
+				<span class="reorder-done"><?php _e( 'Done', 'yogh-bio-links' ); ?></span>
 			</button>
 		</div>
-		<p class="screen-reader-text" id="reorder-items-desc-yoghbiolinks_links"><?php _e( 'When in reorder mode, additional controls to reorder menu items will be available in the items list above.' ); ?></p>
+		<p class="screen-reader-text" id="reorder-items-desc-yoghbl_links"><?php _e( 'When in reorder mode, additional controls to reorder menu items will be available in the items list above.', 'yogh-bio-links' ); ?></p>
 		<?php
 	}
 
 	public function json() {
 		$exported            = parent::json();
-		$exported['menu_id'] = 'yoghbiolinks_links';
+		$exported['menu_id'] = 'yoghbl_links';
 
 		return $exported;
 	}

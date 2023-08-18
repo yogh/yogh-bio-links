@@ -1,6 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
- * Customize API: WP_Customize_Nav_Menu_Control class
+ * Customize API: yoghbl_customize_Nav_Menu_Control class
  *
  * @package WordPress
  * @subpackage Customize
@@ -12,9 +15,9 @@
  *
  * @since 4.3.0
  *
- * @see WP_Customize_Control
+ * @see yoghbl_customize_Control
  */
-class WP_Customize_Nav_Menu_Control2 extends WP_Customize_Control {
+class yoghbl_customize_Nav_Menu_Control2 extends yoghbl_customize_Control {
 
 	/**
 	 * Control type.
@@ -37,22 +40,22 @@ class WP_Customize_Nav_Menu_Control2 extends WP_Customize_Control {
 	 * @since 4.3.0
 	 */
 	public function content_template() {
-		$add_items = __( 'Add Items' );
+		$add_items = __( 'Add Items', 'yogh-bio-links' );
 		?>
 		<p class="new-menu-item-invitation">
 			<?php
 			printf(
 				/* translators: %s: "Add Items" button text. */
-				__( 'Time to add some links! Click &#8220;%s&#8221; to start putting pages, categories, and custom links in your menu. Add as many things as you would like.' ),
+				__( 'Time to add some links! Click &#8220;%s&#8221; to start putting pages, categories, and custom links in your menu. Add as many things as you would like.', 'yogh-bio-links' ),
 				$add_items
 			);
 			?>
 		</p>
 		<div class="customize-control-nav_menu-buttons">
-			<button type="button" class="button add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
+			<button type="button" class="button add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items', 'yogh-bio-links' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
 				<?php echo esc_html($add_items); ?>
 			</button>
-			<button type="button" class="button-link reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder menu items' ); ?>" aria-describedby="reorder-items-desc-{{ data.menu_id }}">
+			<button type="button" class="button-link reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder menu items', 'yogh-bio-links' ); ?>" aria-describedby="reorder-items-desc-{{ data.menu_id }}">
 				<span class="reorder"><?php _e( 'Reorder' ); ?></span>
 				<span class="reorder-done"><?php _e( 'Done' ); ?></span>
 			</button>

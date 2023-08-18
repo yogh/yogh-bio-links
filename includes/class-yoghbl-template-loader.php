@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
  * Template Loader
  *
@@ -23,7 +26,7 @@ class YoghBL_Template_Loader {
 	 * Hook in methods.
 	 */
 	public static function init() {
-		self::$biolinks_page_id = yoghbl_get_page_id( 'biolinks' );
+		self::$biolinks_page_id = intval(yoghbl_get_page_id( 'biolinks' ));
 
 		add_filter( 'template_include', array( __CLASS__, 'template_loader' ) );
 	}
@@ -34,10 +37,10 @@ class YoghBL_Template_Loader {
 	 * Handles template usage so that we can use our own templates instead of the theme's.
 	 *
 	 * Templates are in the 'templates' folder. YoghBioLinks looks for theme
-	 * overrides in /theme/yoghbiolinks/ by default.
+	 * overrides in /theme/yoghbl/ by default.
 	 *
-	 * For beginners, it also looks for a yoghbiolinks.php template first. If the user adds
-	 * this to the theme (containing a yoghbiolinks() inside) this will be used for all
+	 * For beginners, it also looks for a yoghbl.php template first. If the user adds
+	 * this to the theme (containing a yoghbl() inside) this will be used for all
 	 * YoghBioLinks templates.
 	 *
 	 * @param string $template Template to load.
@@ -74,8 +77,8 @@ class YoghBL_Template_Loader {
 	 * @return string
 	 */
 	private static function get_template_loader_default_file() {
-		if ( is_yoghbiolinks() ) {
-			$default_file = 'yoghbiolinks.php';
+		if ( yoghbl_is() ) {
+			$default_file = 'yoghbl.php';
 		} else {
 			$default_file = '';
 		}
@@ -89,8 +92,9 @@ class YoghBL_Template_Loader {
 	 * @return string[]
 	 */
 	private static function get_template_loader_files( $default_file ) {
-		$templates   = apply_filters( 'yoghbiolinks_template_loader_files', array(), $default_file );
-		$templates[] = 'yoghbiolinks.php';
+		$default_file = wp_strip_all_tags($default_file);
+		$templates   = apply_filters( 'yoghbl_template_loader_files', array(), $default_file );
+		$templates[] = 'yoghbl.php';
 
 		$templates[] = $default_file;
 		$templates[] = YoghBL()->template_path() . $default_file;

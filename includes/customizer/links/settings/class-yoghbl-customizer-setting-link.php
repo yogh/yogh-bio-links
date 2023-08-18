@@ -1,10 +1,12 @@
 <?php
 
-class YoghBL_Customizer_Setting_Link extends WP_Customize_Setting {
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	const ID_PATTERN = '/^yoghbiolinks_link\[(?P<ID>[\d+]+)\]$/';
+class YoghBL_Customizer_Setting_Link extends yoghbl_customize_Setting {
 
-	public $type = 'yoghbiolinks_link';
+	const ID_PATTERN = '/^yoghbl_link\[(?P<ID>[\d+]+)\]$/';
+
+	public $type = 'yoghbl_link';
 
 	public $default = array(
 		'link_id'  => '',
@@ -19,7 +21,7 @@ class YoghBL_Customizer_Setting_Link extends WP_Customize_Setting {
 
 	protected $value;
 
-	public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
+	public function __construct( yoghbl_customize_Manager $manager, $id, array $args = array() ) {
 		if ( ! preg_match( self::ID_PATTERN, $id, $matches ) ) {
 			throw new Exception( "Illegal widget setting ID: $id" );
 		}

@@ -1,6 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
- * Customize API: WP_Customize_Nav_Menu_Setting class
+ * Customize API: yoghbl_customize_Nav_Menu_Setting class
  *
  * @package WordPress
  * @subpackage Customize
@@ -10,17 +13,17 @@
 /**
  * Customize Setting to represent a nav_menu.
  *
- * Subclass of WP_Customize_Setting to represent a nav_menu taxonomy term, and
+ * Subclass of yoghbl_customize_Setting to represent a nav_menu taxonomy term, and
  * the IDs for the nav_menu_items associated with the nav menu.
  *
  * @since 4.3.0
  *
  * @see wp_get_nav_menu_object()
- * @see WP_Customize_Setting
+ * @see yoghbl_customize_Setting
  */
-class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
+class yoghbl_customize_Nav_Menu_Setting2 extends yoghbl_customize_Setting {
 
-	const ID_PATTERN = '/^yoghbiolinks_links$/';
+	const ID_PATTERN = '/^yoghbl_links$/';
 
 	const TAXONOMY = 'nav_menu2';
 
@@ -78,8 +81,8 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @var int
 	 *
-	 * @see WP_Customize_Nav_Menu_Setting::update()
-	 * @see WP_Customize_Nav_Menu_Setting::amend_customize_save_response()
+	 * @see yoghbl_customize_Nav_Menu_Setting::update()
+	 * @see yoghbl_customize_Nav_Menu_Setting::amend_customize_save_response()
 	 */
 	public $previous_term_id;
 
@@ -102,8 +105,8 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @var string updated|inserted|deleted|error
 	 *
-	 * @see WP_Customize_Nav_Menu_Setting::update()
-	 * @see WP_Customize_Nav_Menu_Setting::amend_customize_save_response()
+	 * @see yoghbl_customize_Nav_Menu_Setting::update()
+	 * @see yoghbl_customize_Nav_Menu_Setting::amend_customize_save_response()
 	 */
 	public $update_status;
 
@@ -113,8 +116,8 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @var WP_Error
 	 *
-	 * @see WP_Customize_Nav_Menu_Setting::update()
-	 * @see WP_Customize_Nav_Menu_Setting::amend_customize_save_response()
+	 * @see yoghbl_customize_Nav_Menu_Setting::update()
+	 * @see yoghbl_customize_Nav_Menu_Setting::amend_customize_save_response()
 	 */
 	public $update_error;
 
@@ -127,14 +130,14 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 *
 	 * @throws Exception If $id is not valid for this setting type.
 	 *
-	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param yoghbl_customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      A specific ID of the setting.
 	 *                                      Can be a theme mod or option name.
 	 * @param array                $args    Optional. Setting arguments.
 	 */
-	public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
+	public function __construct( yoghbl_customize_Manager $manager, $id, array $args = array() ) {
 		if ( empty( $manager->nav_menus ) ) {
-			throw new Exception( 'Expected WP_Customize_Manager::$nav_menus to be set.' );
+			throw new Exception( 'Expected yoghbl_customize_Manager::$nav_menus to be set.' );
 		}
 
 		parent::__construct( $manager, $id, $args );
@@ -192,7 +195,7 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @since 4.4.0 Added boolean return value
 	 *
-	 * @see WP_Customize_Manager::post_value()
+	 * @see yoghbl_customize_Manager::post_value()
 	 *
 	 * @return bool False if method short-circuited due to no-op.
 	 */
@@ -291,8 +294,8 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @var string
 	 *
-	 * @see WP_Customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
-	 * @see WP_Customize_Nav_Menu_Setting::_sort_menus_by_orderby()
+	 * @see yoghbl_customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
+	 * @see yoghbl_customize_Nav_Menu_Setting::_sort_menus_by_orderby()
 	 */
 	protected $_current_menus_sort_orderby;
 
@@ -308,7 +311,7 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 * @param object $menu2
 	 * @return int
 	 *
-	 * @see WP_Customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
+	 * @see yoghbl_customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
 	 */
 	protected function _sort_menus_by_orderby( $menu1, $menu2 ) {
 		_deprecated_function( __METHOD__, '4.7.0', 'wp_list_sort' );
@@ -446,7 +449,7 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @var array
 	 *
-	 * @see WP_Customize_Nav_Menu_Setting::amend_customize_save_response()
+	 * @see yoghbl_customize_Nav_Menu_Setting::amend_customize_save_response()
 	 */
 	protected $_widget_nav_menu_updates = array();
 
@@ -563,7 +566,7 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 					continue;
 				}
 
-				$widget_instance = $nav_menu_widget_setting->post_value(); // Note that this calls WP_Customize_Widgets::sanitize_widget_instance().
+				$widget_instance = $nav_menu_widget_setting->post_value(); // Note that this calls yoghbl_customize_Widgets::sanitize_widget_instance().
 				if ( empty( $widget_instance['nav_menu2'] ) || (int) $widget_instance['nav_menu2'] !== $this->previous_term_id ) {
 					continue;
 				}
@@ -583,8 +586,8 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @see WP_Customize_Nav_Menu_Setting::filter_nav_menu_options()
-	 * @see WP_Customize_Nav_Menu_Setting::update()
+	 * @see yoghbl_customize_Nav_Menu_Setting::filter_nav_menu_options()
+	 * @see yoghbl_customize_Nav_Menu_Setting::update()
 	 *
 	 * @param array $nav_menu_options Array as returned by get_option( 'nav_menu_options' ).
 	 * @param int   $menu_id          The term ID for the given menu.
@@ -613,7 +616,7 @@ class WP_Customize_Nav_Menu_Setting2 extends WP_Customize_Setting {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @see WP_Customize_Nav_Menu_Setting::update()
+	 * @see yoghbl_customize_Nav_Menu_Setting::update()
 	 *
 	 * @param array $data Additional information passed back to the 'saved' event on `wp.customize`.
 	 * @return array Export data.

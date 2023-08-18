@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
  * Installation related functions and actions.
  *
@@ -21,7 +24,7 @@ class YoghBL_Install {
 	 *
 	 * Database schema changes must be incorporated to the SQL returned by get_schema, which is applied
 	 * via dbDelta at both install and update time. If any other kind of database change is required
-	 * at install time (e.g. populating tables), use the 'yoghbiolinks_installed' hook.
+	 * at install time (e.g. populating tables), use the 'yoghbl_installed' hook.
 	 *
 	 * @var array
 	 */
@@ -40,9 +43,11 @@ class YoghBL_Install {
 	 * This check is done on all requests and runs if the versions do not match.
 	 */
 	public static function check_version() {
-		$yoghbl_version      = get_option( 'yoghbiolinks_version' );
-		$yoghbl_code_version = YoghBL()->version;
+		$yoghbl_version      = sanitize_text_field(get_option( 'yoghbl_version', '1.0.0' ));
+		
+		$yoghbl_code_version = wp_strip_all_tags(YoghBL()->version);
 		$requires_update     = version_compare( $yoghbl_version, $yoghbl_code_version, '<' );
+		
 		if ( ! defined( 'IFRAME_REQUEST' ) && $requires_update ) {
 			self::install();
 			do_action( 'yoghbl_updated' );
@@ -78,12 +83,12 @@ class YoghBL_Install {
 
 		// Use add_option() here to avoid overwriting this value with each
 		// plugin version update. We base plugin age off of this value.
-		add_option( 'yoghbiolinks_admin_install_timestamp', time() );
+		add_option( 'yoghbl_admin_install_timestamp', time() );
 
 		/**
 		 * Run after YoghBioLinks has been installed or updated.
 		 */
-		do_action( 'yoghbiolinks_installed' );
+		do_action( 'yoghbl_installed' );
 	}
 
 	/**
@@ -101,7 +106,7 @@ class YoghBL_Install {
 	 * @return boolean
 	 */
 	public static function needs_db_update() {
-		$current_db_version = get_option( 'yoghbiolinks_db_version', null );
+		$current_db_version = sanitize_text_field(get_option( 'yoghbl_db_version', null ));
 		$updates            = self::get_db_update_callbacks();
 		$update_versions    = array_keys( $updates );
 		usort( $update_versions, 'version_compare' );
@@ -124,7 +129,7 @@ class YoghBL_Install {
 	 * Update YoghBL version to current.
 	 */
 	private static function update_yoghbl_version() {
-		update_option( 'yoghbiolinks_version', YoghBL()->version );
+		update_option( 'yoghbl_version', sanitize_text_field(YoghBL()->version) );
 	}
 
 	/**
@@ -142,14 +147,14 @@ class YoghBL_Install {
 	 * @param string|null $version New YoghBioLinks DB version or null.
 	 */
 	public static function update_db_version( $version = null ) {
-		update_option( 'yoghbiolinks_db_version', is_null( $version ) ? YoghBL()->version : $version );
+		update_option( 'yoghbl_db_version', is_null( $version ) ? sanitize_text_field(YoghBL()->version) : sanitize_text_field($version) );
 	}
 
 	/**
 	 * Create pages on installation.
 	 */
 	public static function maybe_create_pages() {
-		if ( empty( get_option( 'yoghbiolinks_db_version' ) ) ) {
+		if ( empty( sanitize_text_field(get_option( 'yoghbl_db_version' )) ) ) {
 			self::create_pages();
 		}
 	}

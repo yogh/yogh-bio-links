@@ -127,7 +127,7 @@
 		initialize: function() {
 			var self = this;
 
-			if ( ! api.panel.has( 'yoghbiolinks' ) ) {
+			if ( ! api.panel.has( 'yoghbl' ) ) {
 				return;
 			}
 
@@ -151,7 +151,7 @@
 			} );
 
 			// Load available items if it looks like we'll need them.
-			api.panel( 'yoghbiolinks' ).container.on( 'expanded', function() {
+			api.panel( 'yoghbl' ).container.on( 'expanded', function() {
 				if ( ! self.rendered ) {
 					self.rendered = true;
 				}
@@ -619,7 +619,7 @@
 						wpNavMenu.initSortables();
 						section.deferred.initSortables.resolve( wpNavMenu.menuList );
 
-						api.control( 'yoghbiolinks_links' ).reflowMenuItems();
+						api.control( 'yoghbl_links' ).reflowMenuItems();
 					}
 					if ( _.isFunction( completeCallback ) ) {
 						completeCallback();
@@ -1022,7 +1022,7 @@
 					menuControl;
 
 				if ( false === to ) {
-					menuControl = api.section( 'yoghbiolinks_links' );
+					menuControl = api.section( 'yoghbl_links' );
 					control.container.remove();
 
 					_.each( menuControl.getMenuItemControls(), function( otherControl ) {
@@ -1272,7 +1272,7 @@
 		getMenuControl: function() {
 			var control = this, settingValue = control.setting();
 			if ( settingValue ) {
-				return api.control( 'yoghbiolinks_links' );
+				return api.control( 'yoghbl_links' );
 			} else {
 				return null;
 			}
@@ -1739,7 +1739,7 @@
 					completeCallback: function() {
 						removeSection();
 						wp.a11y.speak( api.YoghBL.data.l10n.menuDeleted );
-						api.panel( 'yoghbiolinks' ).focus();
+						api.panel( 'yoghbl' ).focus();
 					}
 				});
 			} else {

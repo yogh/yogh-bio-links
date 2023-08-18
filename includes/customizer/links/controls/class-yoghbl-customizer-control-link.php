@@ -1,8 +1,10 @@
 <?php
 
-class YoghBL_Customizer_Control_Link extends WP_Customize_Control {
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	public $type = 'yoghbiolinks_link';
+class YoghBL_Customizer_Control_Link extends yoghbl_customize_Control {
+
+	public $type = 'yoghbl_link';
 
 	public $setting;
 
@@ -62,7 +64,7 @@ class YoghBL_Customizer_Control_Link extends WP_Customize_Control {
 	 */
 	public function json() {
 		$exported              = parent::json();
-		$exported['link_id'] = $this->setting->link_id;
+		$exported['link_id'] = intval($this->setting->link_id);
 
 		return $exported;
 	}

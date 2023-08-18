@@ -1,5 +1,5 @@
 === Yogh Bio Links ===
-Contributors: yogh, camaleaun, andr3ribeiro
+Contributors: yogh, camaleaun, andr3ribeiro, danielsp
 Tags: links
 Requires at least: 5.8
 Tested up to: 6.3

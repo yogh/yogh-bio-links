@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
  * Custom Colors Class
  *
@@ -29,7 +32,7 @@ class YoghBL_Custom_Colors {
 	 * @return string (hex color)
 	 */
 	public function custom_get_readable_color( $background_color ) {
-		return 127 < self::get_relative_luminance_from_hex( $background_color ) ? 'var(--yoghbl--color-dark-gray)' : 'var(--yoghbl--color-light-gray)';
+		return 127 < self::get_relative_luminance_from_hex( sanitize_hex_color($background_color) ) ? 'var(--yoghbl--color-dark-gray)' : 'var(--yoghbl--color-light-gray)';
 	}
 
 	/**
@@ -44,11 +47,11 @@ class YoghBL_Custom_Colors {
 	 */
 	public function generate_custom_color_variables( $context = null ) {
 		$theme_css        = ':root{';
-		$background_color = get_option( 'yoghbiolinks_background_color', '#28303D' );
+		$background_color = get_option( 'yoghbl_background_color', '#28303D' );
 
 		if ( '#28303d' !== strtolower( $background_color ) ) {
-			$theme_css .= '--yoghbl--body-color: ' . $this->custom_get_readable_color( $background_color ) . ';';
-			$theme_css .= '--yoghbl--body-bg: ' . $background_color . ';';
+			$theme_css .= '--yoghbl--body-color: ' . sanitize_hex_color($this->custom_get_readable_color( $background_color )) . ';';
+			$theme_css .= '--yoghbl--body-bg: ' . sanitize_hex_color($background_color) . ';';
 		}
 
 		$theme_css .= '}';
@@ -62,8 +65,10 @@ class YoghBL_Custom_Colors {
 	 * @return void
 	 */
 	public function custom_color_variables() {
-		if ( '#28303d' !== strtolower( get_option( 'yoghbiolinks_background_color', '#28303D' ) ) ) {
-			wp_add_inline_style( 'yoghbiolinks-general', $this->generate_custom_color_variables() );
+		$background_color = get_option( 'yoghbl_background_color', '#28303D' );
+
+		if ( '#28303d' !== strtolower( sanitize_hex_color($background_color) ) ) {
+			wp_add_inline_style( 'yoghbl-general', $this->generate_custom_color_variables() );
 		}
 	}
 
@@ -102,8 +107,8 @@ class YoghBL_Custom_Colors {
 	 * @return array
 	 */
 	public function body_class( $classes ) {
-		$background_color = get_option( 'yoghbiolinks_background_color', '#28303D' );
-		$luminance        = self::get_relative_luminance_from_hex( $background_color );
+		$background_color = get_option( 'yoghbl_background_color', '#28303D' );
+		$luminance        = self::get_relative_luminance_from_hex( sanitize_hex_color($background_color) );
 
 		if ( 127 > $luminance ) {
 			$classes[] = 'is-dark-theme';
@@ -114,7 +119,6 @@ class YoghBL_Custom_Colors {
 		if ( 225 <= $luminance ) {
 			$classes[] = 'has-background-white';
 		}
-
 		return $classes;
 	}
 }

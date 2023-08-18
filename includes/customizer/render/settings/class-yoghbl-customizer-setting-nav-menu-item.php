@@ -1,6 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-class YoghBL_Customizer_Setting_Nav_Menu_Item extends WP_Customize_Setting {
+class YoghBL_Customizer_Setting_Nav_Menu_Item extends yoghbl_customize_Setting {
 
 	const ID_PATTERN = '/^yoghbl_nav_menu_item\[(?P<hash>-?[\da-z]+)\]$/';
 
@@ -40,8 +41,8 @@ class YoghBL_Customizer_Setting_Nav_Menu_Item extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @var string updated|inserted|deleted|error
 	 *
-	 * @see WP_Customize_Nav_Menu_Item_Setting::update()
-	 * @see WP_Customize_Nav_Menu_Item_Setting::amend_customize_save_response()
+	 * @see yoghbl_customize_Nav_Menu_Item_Setting::update()
+	 * @see yoghbl_customize_Nav_Menu_Item_Setting::amend_customize_save_response()
 	 */
 	public $update_status;
 
@@ -51,12 +52,12 @@ class YoghBL_Customizer_Setting_Nav_Menu_Item extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 * @var WP_Error
 	 *
-	 * @see WP_Customize_Nav_Menu_Item_Setting::update()
-	 * @see WP_Customize_Nav_Menu_Item_Setting::amend_customize_save_response()
+	 * @see yoghbl_customize_Nav_Menu_Item_Setting::update()
+	 * @see yoghbl_customize_Nav_Menu_Item_Setting::amend_customize_save_response()
 	 */
 	public $update_error;
 
-	public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
+	public function __construct( yoghbl_customize_Manager $manager, $id, array $args = array() ) {
 		if ( ! preg_match( self::ID_PATTERN, $id, $matches ) ) {
 			throw new Exception( "Illegal widget setting ID: $id" );
 		}
@@ -118,7 +119,7 @@ class YoghBL_Customizer_Setting_Nav_Menu_Item extends WP_Customize_Setting {
 	 * @see wp_update_nav_menu_item()
 	 *
 	 * @param array|false $value The menu item array to update. If false, then the menu item will be deleted
-	 *                           entirely. See WP_Customize_Nav_Menu_Item_Setting::$default for what the value
+	 *                           entirely. See yoghbl_customize_Nav_Menu_Item_Setting::$default for what the value
 	 *                           should consist of.
 	 * @return null|void
 	 */
@@ -155,8 +156,8 @@ class YoghBL_Customizer_Setting_Nav_Menu_Item extends WP_Customize_Setting {
 
 			// Insert or update menu.
 			$item_data = array(
-				'title'    => $value['title'],
-				'url'      => $value['url'],
+				'title'    => wp_strip_all_tags($value['title']),
+				'url'      => esc_url($value['url']),
 				'position' => $value['position'],
 			);
 
@@ -183,7 +184,7 @@ class YoghBL_Customizer_Setting_Nav_Menu_Item extends WP_Customize_Setting {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @see WP_Customize_Nav_Menu_Item_Setting::update()
+	 * @see yoghbl_customize_Nav_Menu_Item_Setting::update()
 	 *
 	 * @param array $data Additional information passed back to the 'saved' event on `wp.customize`.
 	 * @return array Save response data.

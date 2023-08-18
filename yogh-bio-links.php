@@ -16,6 +16,11 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+// $cd = '2000;';
+// $texto = "<p>teste de dados confronto-final $ text_dados</p>";
+// // echo sanitize_title($texto);
+// echo "teste-{$cd}";
+// die();
 
 if ( ! defined( 'YOGHBL_PLUGIN_FILE' ) ) {
 	define( 'YOGHBL_PLUGIN_FILE', __FILE__ );
@@ -23,7 +28,7 @@ if ( ! defined( 'YOGHBL_PLUGIN_FILE' ) ) {
 
 // Include the main YoghBioLinks class.
 if ( ! class_exists( 'YoghBioLinks', false ) ) {
-	include_once dirname( YOGHBL_PLUGIN_FILE ) . '/includes/class-yoghbiolinks.php';
+	include_once dirname( YOGHBL_PLUGIN_FILE ) . '/includes/class-yoghbl.php';
 }
 
 /**
@@ -32,8 +37,9 @@ if ( ! class_exists( 'YoghBioLinks', false ) ) {
  * @since  1.0
  * @return YoghBioLinks
  */
-function YoghBL() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-	return YoghBioLinks::instance();
+if( !function_exists('YoghBL') ) {
+	function YoghBL() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+		return YoghBioLinks::instance();
+	}
 }
-
 YoghBL();

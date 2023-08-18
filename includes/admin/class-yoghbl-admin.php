@@ -41,8 +41,8 @@ class YoghBL_Admin {
 	 * @param WP_Post $post        The current post object.
 	 */
 	public function add_display_post_states( $post_states, $post ) {
-		if ( yoghbl_get_page_id( 'biolinks' ) === $post->ID ) {
-			$post_states['yoghbl_page_for_biolinks'] = __( 'Yogh Bio Links Page', 'yogh-bio-links' );
+		if ( intval(yoghbl_get_page_id( 'biolinks' )) === $post->ID ) {
+			$post_states['yoghbl_page_for_biolinks'] = esc_html( 'Yogh Bio Links Page', 'yogh-bio-links' );
 		}
 
 		return $post_states;
@@ -56,7 +56,7 @@ class YoghBL_Admin {
 	 * @return array
 	 */
 	public function post_row_actions( $actions, $post ) {
-		if ( yoghbl_get_page_id( 'biolinks' ) === $post->ID ) {
+		if ( intval(yoghbl_get_page_id( 'biolinks' )) === $post->ID ) {
 			if ( isset( $actions['inline hide-if-no-js'] ) ) {
 				unset( $actions['inline hide-if-no-js'] );
 			}

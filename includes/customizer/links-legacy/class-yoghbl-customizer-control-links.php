@@ -13,12 +13,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * YoghBL_Customizer_Control_Links class.
  */
-class YoghBL_Customizer_Control_Links extends WP_Customize_Control {
+class YoghBL_Customizer_Control_Links extends yoghbl_customize_Control {
 
 	/**
-	 * WP_Customize_Manager instance.
+	 * yoghbl_customize_Manager instance.
 	 *
-	 * @var WP_Customize_Manager
+	 * @var yoghbl_customize_Manager
 	 */
 	public $manager;
 
@@ -36,7 +36,7 @@ class YoghBL_Customizer_Control_Links extends WP_Customize_Control {
 	 *
 	 * @throws Exception If $id is not valid for this setting type.
 	 *
-	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param yoghbl_customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      A specific ID of the setting.
 	 *                                      Can be a theme mod or option name.
 	 * @param array                $args    Optional. Setting arguments.
@@ -59,7 +59,7 @@ class YoghBL_Customizer_Control_Links extends WP_Customize_Control {
 		$temp_yoghbl_nav_menu_item_setting = new YoghBL_Customizer_Setting_Link( $this->manager, 'yoghbl_link[' . md5( '' ) . ']' );
 
 		wp_enqueue_script(
-			'yoghbiolinks-customize-links',
+			'yoghbl-customize-links',
 			YoghBL()->plugin_url() . '/assets/js/customize-links.js',
 			array( 'jquery', 'wp-backbone', 'customize-controls', 'accordion', 'nav-menu', 'wp-sanitize' ),
 			$version,
@@ -76,182 +76,30 @@ class YoghBL_Customizer_Control_Links extends WP_Customize_Control {
 		);
 
 		$data = sprintf( 'var _yoghblWpCustomizeNavMenusSettings = %s;', wp_json_encode( $settings ) );
-		wp_scripts()->add_data( 'yoghbiolinks-customize-links', 'data', $data );
+		wp_scripts()->add_data( 'yoghbl-customize-links', 'data', $data );
 	}
 
 	/**
 	 * CSS styles to improve our form.
 	 */
 	public function add_styles() {
-		?>
-
-		<style type="text/css">
-			#customize-theme-controls .customize-pane-child.control-panel-yoghbiolink_links {
-				padding: 12px;
-			}
-			#yoghbl-menu-item-name-wrap {
-				display: block;
-			}
-			.customize-control .customlinkdiv input[type=text] {
-				width: 215px;
-			}
-		</style>
-
-		<?php
+		// CSS em /assets/css/customize-control-links.css
 	}
 
 	/**
 	 * Scripts to improve our form.
 	 */
 	public function add_scripts() {
-		?>
+		$version = defined( 'YOGHBL_VERSION' ) ? YOGHBL_VERSION : null;
+		
+		wp_enqueue_script(
+			'yoghbl-customize-footer',
+			YoghBL()->plugin_url() . '/assets/js/customize-footer.js',
+			array( 'jquery' ),
+			$version,
+			true
+		);
 
-		<script type="text/javascript">
-			jQuery( function( $ ) {
-				// Submit handler for keydown and click on custom menu item.
-				function _yoghblSubmitLink( event ) {
-
-					// Only proceed with keydown if it is Enter.
-					if ( 'keydown' === event.type && 13 !== event.which ) {
-						return;
-					}
-
-					yoghblSubmitLink();
-				}
-
-				// Adds the custom menu item to the menu.
-				function yoghblSubmitLink() {
-					var menuItem,
-						itemName = $( '#yoghbl-custom-menu-item-name' ),
-						itemUrl = $( '#yoghbl-custom-menu-item-url' ),
-						url = itemUrl.val().trim(),
-						urlRegex;
-
-					/*
-					* Allow URLs including:
-					* - http://example.com/
-					* - //example.com
-					* - /directory/
-					* - ?query-param
-					* - #target
-					* - mailto:foo@example.com
-					*
-					* Any further validation will be handled on the server when the setting is attempted to be saved,
-					* so this pattern does not need to be complete.
-					*/
-					urlRegex = /^((\w+:)?\/\/\w.*|\w+:(?!\/\/$)|\/|\?|#)/;
-
-					if ( '' === itemName.val() ) {
-						itemName.addClass( 'invalid' );
-						return;
-					} else if ( ! urlRegex.test( url ) ) {
-						itemUrl.addClass( 'invalid' );
-						return;
-					}
-
-					menuItem = {
-						'title': itemName.val(),
-						'url': url,
-					};
-
-					yoghblAddItemToMenu( menuItem );
-
-					// Reset the custom link form.
-					itemUrl.val( '' ).attr( 'placeholder', 'https://' );
-					itemName.val( '' );
-				}
-
-				/**
-				 * @return
-				 */
-				function yoghblGetMenuItemControls() {
-					var menuControl = this,
-						menuItemControls = [],
-						menuTermId = menuControl.params.menu_id;
-
-					api.control.each(function( control ) {
-						if ( 'nav_menu_item' === control.params.type && control.setting() && menuTermId === control.setting().nav_menu_term_id ) {
-							menuItemControls.push( control );
-						}
-					});
-
-					return menuItemControls;
-				}
-
-				/**
-				 * Add a new item to link list.
-				 */
-				function yoghblAddItemToMenu( item ) {
-					var menuControl = this, customizeId, settingArgs, setting, menuItemControl, placeholderId, position = 0, priority = 10,
-						originalItemId = item.id || '';
-
-					_.each( menuControl.getMenuItemControls(), function( control ) {
-						if ( false === control.setting() ) {
-							return;
-						}
-						priority = Math.max( priority, control.priority() );
-						if ( 0 === control.setting().menu_item_parent ) {
-							position = Math.max( position, control.setting().position );
-						}
-					});
-					// position += 1;
-					// priority += 1;
-
-					// item = $.extend(
-					// 	{},
-					// 	api.Menus.data.defaultSettingValues.nav_menu_item,
-					// 	item,
-					// 	{
-					// 		nav_menu_term_id: menuControl.params.menu_id,
-					// 		original_title: item.title,
-					// 		position: position
-					// 	}
-					// );
-					// delete item.id; // Only used by Backbone.
-
-					// placeholderId = api.Menus.generatePlaceholderAutoIncrementId();
-					// customizeId = 'nav_menu_item[' + String( placeholderId ) + ']';
-					// settingArgs = {
-					// 	type: 'nav_menu_item',
-					// 	transport: api.Menus.data.settingTransport,
-					// 	previewer: api.previewer
-					// };
-					// setting = api.create( customizeId, customizeId, {}, settingArgs );
-					// setting.set( item ); // Change from initial empty object to actual item to mark as dirty.
-
-					// // Add the menu item control.
-					// menuItemControl = new api.controlConstructor.nav_menu_item( customizeId, {
-					// 	type: 'nav_menu_item',
-					// 	section: menuControl.id,
-					// 	priority: priority,
-					// 	settings: {
-					// 		'default': customizeId
-					// 	},
-					// 	menu_item_id: placeholderId,
-					// 	original_item_id: originalItemId
-					// } );
-
-					// api.control.add( menuItemControl );
-					// setting.preview();
-					// menuControl.debouncedReflowMenuItems();
-
-					// wp.a11y.speak( api.Menus.data.l10n.itemAdded );
-
-					// return menuItemControl;
-				}
-
-				$( document.body ).on( 'click', '#yoghbl-custom-menu-item-submit', function( event ) {
-					event.preventDefault();
-					_yoghblSubmitLink( event );
-				} );
-
-				$( document.body ).on( 'keydown', '#yoghbl-custom-menu-item-name', function( event ) {
-					_yoghblSubmitLink( event );
-				} );
-			} );
-		</script>
-
-		<?php
 	}
 
 	/**
@@ -308,7 +156,7 @@ class YoghBL_Customizer_Control_Links extends WP_Customize_Control {
 		$describedby_attr = ( ! empty( $this->description ) ) ? ' aria-describedby="' . esc_attr( $description_id ) . '" ' : '';
 		?>
 
-		<div class="yoghbiolinks-links-control">
+		<div class="yoghbl-links-control">
 
 			<div class="wp-clearfix">
 				<?php if ( ! empty( $this->label ) ) : ?>
@@ -329,16 +177,16 @@ class YoghBL_Customizer_Control_Links extends WP_Customize_Control {
 			<!--- <div class="customlinkdiv wp-clearfix">
 				<input type="hidden" value="custom" id="yoghbl-custom-menu-item-type" name="menu-item[-1][menu-item-type]" />
 				<p id="yoghbl-menu-item-url-wrap" class="wp-clearfix">
-					<label class="howto" for="yoghbl-custom-menu-item-url"><?php _e( 'URL' ); ?></label>
+					<label class="howto" for="yoghbl-custom-menu-item-url"><?php _e( 'URL', 'yogh-bio-links' ); ?></label>
 					<input id="yoghbl-custom-menu-item-url" name="menu-item[-1][menu-item-url]" type="text" class="code menu-item-textbox" placeholder="https://">
 				</p>
 				<p id="yoghbl-menu-item-name-wrap" class="wp-clearfix">
-					<label class="howto" for="yoghbl-custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
+					<label class="howto" for="yoghbl-custom-menu-item-name"><?php _e( 'Link Text', 'yogh-bio-links' ); ?></label>
 					<input id="yoghbl-custom-menu-item-name" name="menu-item[-1][menu-item-title]" type="text" class="regular-text menu-item-textbox">
 				</p>
 				<p class="button-controls">
 					<span class="add-to-menu">
-						<input type="submit" class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add' ); ?>" name="add-custom-menu-item" id="yoghbl-custom-menu-item-submit">
+						<input type="submit" class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add', 'yogh-bio-links' ); ?>" name="add-custom-menu-item" id="yoghbl-custom-menu-item-submit">
 						<span class="spinner"></span>
 					</span>
 				</p>

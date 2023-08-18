@@ -1,6 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
- * Customize API: WP_Customize_Nav_Menu_Section class
+ * Customize API: yoghbl_customize_Nav_Menu_Section class
  *
  * @package WordPress
  * @subpackage Customize
@@ -14,9 +17,9 @@
  *
  * @since 4.3.0
  *
- * @see WP_Customize_Section
+ * @see yoghbl_customize_Section
  */
-class WP_Customize_Nav_Menu_Section2 extends WP_Customize_Section {
+class yoghbl_customize_Nav_Menu_Section2 extends yoghbl_customize_Section {
 
 	/**
 	 * Control type.

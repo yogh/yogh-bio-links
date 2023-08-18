@@ -1,6 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-class WP_Customize_Nav_Menu_Item_Setting2 extends WP_Customize_Setting {
+class yoghbl_customize_Nav_Menu_Item_Setting2 extends yoghbl_customize_Setting {
 
 	const ID_PATTERN = '/^nav_menu_item2\[(?P<id>-?\d+)\]$/';
 
@@ -23,9 +24,9 @@ class WP_Customize_Nav_Menu_Item_Setting2 extends WP_Customize_Setting {
 
 	protected $value;
 
-	public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
+	public function __construct( yoghbl_customize_Manager $manager, $id, array $args = array() ) {
 		if ( empty( $manager->nav_menus ) ) {
-			throw new Exception( 'Expected WP_Customize_Manager::$nav_menus to be set.' );
+			throw new Exception( 'Expected yoghbl_customize_Manager::$nav_menus to be set.' );
 		}
 
 		if ( ! preg_match( self::ID_PATTERN, $id, $matches ) ) {

@@ -32,7 +32,7 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<!-- Value: replace the function, class, and variable prefixes used. Separate multiple prefixes with a comma. -->
-			<property name="prefixes" type="array" value="YoghBL,YOGHBL,yoghbiolinks,is_yoghbiolinks"/>
+			<property name="prefixes" type="array" value="YoghBL,YOGHBL,yoghbl,yoghbl_is"/>
 		</properties>
 	</rule>
 	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">

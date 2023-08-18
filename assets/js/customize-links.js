@@ -20,8 +20,8 @@
 			var section = this,
 				menuControl;
 
-			menuControl = new api.controlConstructor.yoghbiolinks_links( section.id, {
-				type: 'yoghbiolinks_links',
+			menuControl = new api.controlConstructor.yoghbl_links( section.id, {
+				type: 'yoghbl_links',
 				section: section.id,
 				priority: 998,
 				settings: {
@@ -38,7 +38,7 @@
 			api.Section.prototype.onChangeExpanded.call( section, expanded, args );
 			if ( expanded ) {
 				_.each( api.section( section.id ).controls(), function( control ) {
-					if ( 'yoghbiolinks_link' === control.params.type ) {
+					if ( 'yoghbl_link' === control.params.type ) {
 						control.actuallyEmbed();
 					}
 				} );
@@ -798,12 +798,12 @@
 	} );
 
 	$.extend( api.controlConstructor, {
-		yoghbiolinks_link: api.YoghbiolinkLinks.LinkControl,
-		yoghbiolinks_links: api.YoghbiolinkLinks.LinksControl
+		yoghbl_link: api.YoghbiolinkLinks.LinkControl,
+		yoghbl_links: api.YoghbiolinkLinks.LinksControl
 	} );
 
 	$.extend( api.sectionConstructor, {
-		yoghbiolinks_links: api.YoghbiolinkLinks.LinksSection
+		yoghbl_links: api.YoghbiolinkLinks.LinksSection
 	} );
 
 })( wp.customize, jQuery );

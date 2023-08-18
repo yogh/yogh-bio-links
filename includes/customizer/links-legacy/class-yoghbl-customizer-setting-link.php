@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * YoghBL_Customizer_Setting_Link class.
  */
-class YoghBL_Customizer_Setting_Link extends WP_Customize_Setting {
+class YoghBL_Customizer_Setting_Link extends yoghbl_customize_Setting {
 
 	const ID_PATTERN = '/^yoghbl_link\[(?P<hash>[\da-z]+)\]$/';
 
@@ -20,7 +20,7 @@ class YoghBL_Customizer_Setting_Link extends WP_Customize_Setting {
 	 *
 	 * @var string
 	 */
-	public $type = 'yoghbiolinks-link';
+	public $type = 'yoghbl-link';
 
 	/**
 	 * Default setting value.
@@ -64,12 +64,12 @@ class YoghBL_Customizer_Setting_Link extends WP_Customize_Setting {
 	 *
 	 * @throws Exception If $id is not valid for this setting type.
 	 *
-	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param yoghbl_customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      A specific ID of the setting.
 	 *                                      Can be a theme mod or option name.
 	 * @param array                $args    Optional. Setting arguments.
 	 */
-	public function __construct( WP_Customize_Manager $manager, $id, array $args = array() ) {
+	public function __construct( yoghbl_customize_Manager $manager, $id, array $args = array() ) {
 		if ( ! preg_match( self::ID_PATTERN, $id, $matches ) ) {
 			throw new Exception( "Illegal widget setting ID: $id" );
 		}

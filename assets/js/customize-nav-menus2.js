@@ -946,7 +946,7 @@
 
 						// @todo Note that wp.customize.reflowPaneContents() is debounced,
 						// so this immediate change will show a slight flicker while priorities get updated.
-						api.control( 'yoghbiolinks_links' ).reflowMenuItems();
+						api.control( 'yoghbl_links' ).reflowMenuItems();
 					}
 					if ( _.isFunction( completeCallback ) ) {
 						completeCallback();

@@ -1,0 +1,9 @@
+#customize-theme-controls .customize-pane-child.control-panel-yoghbiolink_links {
+    padding: 12px;
+}
+#yoghbl-menu-item-name-wrap {
+    display: block;
+}
+.customize-control .customlinkdiv input[type=text] {
+    width: 215px;
+}

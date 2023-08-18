@@ -2,7 +2,7 @@
 /**
  * The Template for displaying YoghBioLinks page
  *
- * This template can be overridden by copying it to yourtheme/yoghbiolinks/header-yoghbiolinks.php.
+ * This template can be overridden by copying it to yourtheme/yoghbl/header-yoghbl.php.
  *
  * HOWEVER, on occasion YoghBioLinks will need to update template files and you
  * (the theme developer) will need to copy the new files to your theme to
@@ -27,5 +27,5 @@ defined( 'ABSPATH' ) || exit;
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-	<main class="yoghbiolinks-main">
+	<main class="yoghbl-main">
 		<div class="container">

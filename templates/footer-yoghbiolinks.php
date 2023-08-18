@@ -2,7 +2,7 @@
 /**
  * The Template for displaying YoghBioLinks page
  *
- * This template can be overridden by copying it to yourtheme/yoghbiolinks/footer-yoghbiolinks.php.
+ * This template can be overridden by copying it to yourtheme/yoghbl/footer-yoghbl.php.
  *
  * HOWEVER, on occasion YoghBioLinks will need to update template files and you
  * (the theme developer) will need to copy the new files to your theme to
@@ -21,9 +21,9 @@ defined( 'ABSPATH' ) || exit;
 		</div><!-- /.container -->
 	</main>
 
-	<footer class="yoghbiolinks-footer">
+	<footer class="yoghbl-footer">
 		<div class="container">
-			<?php yoghbiolinks_credits(); ?>
+			<?php yoghbl_credits(); ?>
 		</div>
 	</footer>
 
