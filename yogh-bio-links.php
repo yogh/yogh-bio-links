@@ -10,7 +10,6 @@
  * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP: 7.0
- * Directory: https://yogh.github.io/yogh-bio-links/
  *
  * @package YoghBioLinks
  */
