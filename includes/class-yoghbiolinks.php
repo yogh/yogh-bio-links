@@ -182,6 +182,7 @@ final class YoghBioLinks {
 		add_action( 'after_setup_theme', array( $this, 'include_template_functions' ), 11 );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_filter( 'elementor/theme/need_override_location', array( $this, 'elementor_theme_need_override_location' ) );
+		add_action( 'customize_register', '__return_true' );
 	}
 
 	public function elementor_theme_need_override_location( $need_override_location ) {

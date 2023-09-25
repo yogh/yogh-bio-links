@@ -33,7 +33,7 @@ Foreground color dark or light color combination will be used to make it easy fo
 
 = Manual installation =
 
-Manual installation method requires [downloading the Yogh Bio Links](https://yogh.github.io/yogh-bio-links/dist/yogh-bio-links.latest.zip) plugin and uploading it to your WordPress via Dashboard Admin or other method. The WordPress codex contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
+Manual installation method requires [downloading the Yogh Bio Links](https://www.yogh.com.br/plugins/yogh-bio-links/) plugin and uploading it to your WordPress via Dashboard Admin or other method. The WordPress codex contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
 
 = Initial setup =
 
